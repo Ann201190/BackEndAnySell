@@ -26,7 +26,7 @@ namespace BackEndAnySell.Controllers
 
         [HttpGet] //тип запроса
         [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
-        public async Task<IEnumerable<Store>> GetByUserAsync()
+        public async Task<IEnumerable<Store>> GetByUserAsync()                    //использую
         {
             return await _storeService.GetAsync(_userName);
         }
@@ -35,6 +35,19 @@ namespace BackEndAnySell.Controllers
         public async Task<Store> GetByIdAsync(Guid id)
         {
             return await _storeService.GetByIdAsync(id);         
+        }
+
+
+        [HttpPost("addstorewithoutimage")]
+        [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог создать магазин
+        public async Task<IActionResult> AddAsync(Store store)                    //использую
+        {
+            var rezult = await _storeService.AddAsync(store);
+            if (rezult)
+            {
+                return Ok(true);
+            }
+            return BadRequest(false);
         }
     }
 }

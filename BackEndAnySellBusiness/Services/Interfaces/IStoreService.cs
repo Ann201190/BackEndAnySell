@@ -11,5 +11,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
     {
         Task<Store> GetByIdAsync(Guid id);
         Task<IEnumerable<Store>> GetAsync(string userName);
+        Task<bool> AddAsync(Store store);
     }
 }

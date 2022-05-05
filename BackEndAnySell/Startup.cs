@@ -49,8 +49,8 @@ namespace BackEndAnySell
                     };
                 });
 
-
-            services.AddCors(options =>
+            services.AddCors();
+           /* services.AddCors(options =>
             {
                 options.AddDefaultPolicy
                 (
@@ -60,7 +60,7 @@ namespace BackEndAnySell
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                     });
-            });
+            });*/
 
 
             //    services.Configure<AuthOptions>(authOptionsConfiguration);
@@ -88,12 +88,18 @@ namespace BackEndAnySell
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BackEndAnySell v1"));
             }
+            app.UseCors(options =>
+            {
+                options.AllowAnyMethod()
+                       .AllowAnyHeader()
+                        .AllowAnyOrigin();
+                    });
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseCors();
+           // app.UseCors();
 
             app.UseAuthentication();
 

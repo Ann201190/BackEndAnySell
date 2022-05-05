@@ -21,6 +21,16 @@ namespace BackEndAnySellDataAccess.Repositories
             var builder = new DbContextOptionsBuilder<CustomDbContext>();
         }
 
+        public async Task<bool> AddAsync(Store store)
+        {          
+            if (store != null )
+            {
+                await _dbContext.Stores.AddAsync(store);
+                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+            }
+            return false;
+        }
+
         public async Task<IEnumerable<Store>> GetAsync(string userName)
         {
             return await _dbContext.Stores

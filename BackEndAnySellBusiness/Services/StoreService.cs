@@ -16,6 +16,12 @@ namespace BackEndAnySellBusiness.Services
         {
             _storeRepository = storeRepository;
         }
+
+        public async Task<bool> AddAsync(Store store)
+        {
+            return await _storeRepository.AddAsync(store);
+        }
+
         public async Task<IEnumerable<Store>> GetAsync(string userName)
         {
             return await _storeRepository.GetAsync(userName);

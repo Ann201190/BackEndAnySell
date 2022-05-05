@@ -22,6 +22,5 @@ namespace BackEndAnySellDataAccess.Entities
         public Guid? DiscountId { get; set; }
         public Discount Discount { get; set; } 
         public ICollection<ReservationProduct> ReservationProducts { get; set; }
-        public ProductUnit Unit { get; internal set; }
     }
 }
