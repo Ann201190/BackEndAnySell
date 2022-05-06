@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BackEndAnySellBusiness\BackEndAnySellBusiness.csproj" />
     <ProjectReference Include="..\BackEndAnySellDataAccess\BackEndAnySellDataAccess.csproj" />
+    <ProjectReference Include="..\BackEndSellViewModels\BackEndSellViewModels.csproj" />
   </ItemGroup>
 
 </Project>

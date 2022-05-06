@@ -1,5 +1,7 @@
 ﻿using BackEndAnySellBusiness.Services.Interfaces;
 using BackEndAnySellDataAccess.Entities;
+using BackEndSellViewModels;
+using BackEndSellViewModels.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,18 +19,25 @@ namespace BackEndAnySell.Controllers
         public readonly IStoreService _storeService;
 
         //  private Guid _userId => Guid.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
-
-        private string _userName => User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
+        // private string _userName => User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
         public StoreController(IStoreService storeService)
         {
             _storeService = storeService;
         }
 
-        [HttpGet] //тип запроса
+        /*  [HttpGet ("{email}")] //тип запроса
+          [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
+          public async Task<IEnumerable<Store>> GetByUserAsync(string email)                    //использую
+          {
+              return await _storeService.GetAsync(email);
+          }*/
+
+
+        [HttpPost] //тип запроса
         [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
-        public async Task<IEnumerable<Store>> GetByUserAsync()                    //использую
+        public async Task<IEnumerable<Store>> GetByUserAsync(GetStoreByEmail email)                    //использую
         {
-            return await _storeService.GetAsync(_userName);
+            return await _storeService.GetAsync(email.Email);
         }
 
         [HttpGet("{id:guid}")]
@@ -37,10 +46,9 @@ namespace BackEndAnySell.Controllers
             return await _storeService.GetByIdAsync(id);         
         }
 
-
         [HttpPost("addstorewithoutimage")]
         [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог создать магазин
-        public async Task<IActionResult> AddAsync(Store store)                    //использую
+        public async Task<IActionResult> AddAsync(AddStoreViewModel store)                    //использую
         {
             var rezult = await _storeService.AddAsync(store);
             if (rezult)
