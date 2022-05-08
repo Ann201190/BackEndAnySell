@@ -48,24 +48,22 @@ namespace BackEndAnySell.Controllers
         [Authorize(Roles = "Manager")]  // только менеджер может создать скидку
         public async Task<IActionResult> AddAsync(Discount discount)
         {
-            var rezult = await _discountrService.AddAsync(discount);
-            if (rezult)
+            if (await _discountrService.AddAsync(discount))
             {
-                return Ok("ok");
+                return Ok(true);
             }
-            return BadRequest();
+            return BadRequest(false);
         }
 
         [HttpPost("updatediscont")]
         [Authorize(Roles = "Manager")]  // только менеджер может отредактировать скидку
         public async Task<IActionResult> UpdateAsync(Discount discount)
         {
-            var rezult = await _discountrService.UpdateAsync(discount);
-            if (rezult)
+            if (await _discountrService.UpdateAsync(discount))
             {
-                return Ok();
+                return Ok(true);
             }
-            return BadRequest();
+            return BadRequest(false);
         }
     }
 }

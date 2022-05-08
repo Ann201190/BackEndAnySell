@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BackEndAnySellDataAccess.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
 {
     public interface IEmployeeRepository
     {
+        Task<bool> AddAsync(Employee employee);
     }
 }

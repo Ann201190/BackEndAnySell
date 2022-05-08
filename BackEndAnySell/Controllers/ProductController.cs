@@ -1,16 +1,11 @@
 ﻿using BackEndAnySellBusiness.Services.Interfaces;
 using BackEndAnySellDataAccess.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http.Headers;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BackEndAnySell.Controllers
@@ -54,9 +49,7 @@ namespace BackEndAnySell.Controllers
         [HttpPost("addproduct")]
         public async Task<IActionResult> AddAsync([FromBody]Product product)       
         {
-           
-            var rezult = await _productService.AddAsync(product);
-            if (rezult)
+            if (await _productService.AddAsync(product))
             {
                 return Ok(true);
             }
@@ -100,8 +93,7 @@ namespace BackEndAnySell.Controllers
         [HttpPost("addproductwithoutimage")]
         public async Task<IActionResult> AddProductWithoutImageAsync([FromBody] Product product)                  //использую
         {
-            var rezult = await _productService.AddAsync(product);
-            if (rezult)
+            if (await _productService.AddAsync(product))
             {
                 return Ok(true);
             }
@@ -112,8 +104,7 @@ namespace BackEndAnySell.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateAsync(Product product)
         {
-            var rezult = await _productService.UpdateAsync(product);
-            if (rezult)
+            if (await _productService.UpdateAsync(product))
             {
                 return Ok();
             }
@@ -123,8 +114,7 @@ namespace BackEndAnySell.Controllers
         [HttpPost("{id:guid}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
-            var rezult = await _productService.DeleteAsync(id);
-            if (rezult)
+            if (await _productService.DeleteAsync(id))
             {
                 return Ok();
             }

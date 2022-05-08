@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BackEndAnySellDataAccess\BackEndAnySellDataAccess.csproj" />
+    <ProjectReference Include="..\BackEndSellViewModels\BackEndSellViewModels.csproj" />
   </ItemGroup>
 
 </Project>

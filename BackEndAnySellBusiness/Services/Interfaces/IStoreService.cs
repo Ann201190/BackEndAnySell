@@ -1,4 +1,5 @@
 ﻿using BackEndAnySellDataAccess.Entities;
+using BackEndSellViewModels.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
     {
         Task<Store> GetByIdAsync(Guid id);
         Task<IEnumerable<Store>> GetAsync(string userName);
-        Task<bool> AddAsync(Store store);
+        Task<bool> AddAsync(AddStoreViewModel storeModel);
     }
 }
