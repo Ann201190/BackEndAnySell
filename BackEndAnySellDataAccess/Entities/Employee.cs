@@ -1,5 +1,6 @@
 ﻿using BackEndAnySellDataAccess.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BackEndAnySellDataAccess.Entities
@@ -15,9 +16,7 @@ namespace BackEndAnySellDataAccess.Entities
         public string Email { get; set; }
         [Required]
         public Role Role { get; set; }
-        [Required]
-        public Guid StoreId { get; set; }
-        public Store Store { get; set; }
+        public ICollection<Store> Stores { get; set; } = new List<Store>();
         [Required]
         [Phone]
         public string Phone { get; set; }

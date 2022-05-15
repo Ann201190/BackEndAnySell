@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BackEndAnySellDataAccess\BackEndAnySellDataAccess.csproj" />
     <ProjectReference Include="..\BackEndSellViewModels\BackEndSellViewModels.csproj" />
   </ItemGroup>

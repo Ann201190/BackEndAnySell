@@ -23,12 +23,36 @@ namespace BackEndAnySellAccessDataAccess.Repositories
 
         public async Task<bool> AddAsync(Employee employee)
         {
-            if (employee != null)
+            if (employee == null)
+            {
+                return false;
+            }
+
+            var existingEmployee = await GetAsync(employee.Email);
+       
+            if (existingEmployee == null)
             {
                 await _dbContext.Employees.AddAsync(employee);
+                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+            }
+            return true;
+        }
+
+        public async Task<Employee> GetAsync(string userName)
+        {
+            return await _dbContext.Employees
+                .FirstOrDefaultAsync(e => e.Email == userName);
+        }
+
+        public async Task<bool> UpdateAsync(Employee employee)
+        {
+            if (employee != null)
+            {
+                _dbContext.Employees.Update(employee);
                 return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
             }
             return false;
         }
     }
 }
+

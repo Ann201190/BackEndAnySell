@@ -10,5 +10,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
     public interface IEmployeeRepository
     {
         Task<bool> AddAsync(Employee employee);
+        Task<Employee> GetAsync(string userName);
+        Task<bool> UpdateAsync(Employee employee);
     }
 }

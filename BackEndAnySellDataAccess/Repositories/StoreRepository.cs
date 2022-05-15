@@ -26,6 +26,21 @@ namespace BackEndAnySellDataAccess.Repositories
             if (store != null )
             {
                 await _dbContext.Stores.AddAsync(store);
+                 
+                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+            }
+            return false;
+        }
+
+        public async Task<bool> AddImageAsync(byte[] fileArrayBytes, Guid id)
+        {
+            if (fileArrayBytes != null)
+            {
+                var store = await GetByIdAsync(id);
+
+                store.LogoImage = fileArrayBytes;
+                 _dbContext.Stores.Update(store);
+
                 return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
             }
             return false;
@@ -44,7 +59,6 @@ namespace BackEndAnySellDataAccess.Repositories
         public async Task<Store> GetByIdAsync(Guid id)
         {
             return await _dbContext.Stores
-                .AsNoTracking()
                 .Include(s => s.Discounts)
                 .Include(s => s.Products)
                 .Include(s => s.Employees)

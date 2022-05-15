@@ -12,5 +12,6 @@ namespace BackEndAnySellDataAccess.Repositories.Interfaces
         Task<Store> GetByIdAsync(Guid id);
         Task<IEnumerable<Store>> GetAsync(string userName);
         Task<bool> AddAsync(Store store);
+        Task<bool> AddImageAsync(byte[] fileArrayBytes, Guid id);
     }
 }

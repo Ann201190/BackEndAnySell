@@ -30,7 +30,7 @@ namespace BackEndAnySellAccessDataAccess.Context
 
 
             modelBuilder.Entity<Employee>()
-                .HasOne(e => e.Store)
+                .HasMany(e => e.Stores)
                 .WithMany(s => s.Employees);
 
 
@@ -65,7 +65,7 @@ namespace BackEndAnySellAccessDataAccess.Context
                 Email = "ad669999@gmail.com",
                 Role = Role.Manager,
                 SurName = "Ivanov",
-                StoreId = new Guid("BFBC7481-FB3C-4192-A093-519F40F1B812"),
+              //  StoreId = new Guid("BFBC7481-FB3C-4192-A093-519F40F1B812"),
                 Phone = "0967636792"
             };
 
@@ -75,7 +75,7 @@ namespace BackEndAnySellAccessDataAccess.Context
                 Email = "litv@gmail.com",
                 Role = Role.Manager,
                 SurName = "Litvintceva",
-                StoreId = new Guid("BFBC7481-FB3C-4192-A093-519F40F2B822"),
+              //  StoreId = new Guid("BFBC7481-FB3C-4192-A093-519F40F2B822"),
                 Phone = "0666666989"
             };
 

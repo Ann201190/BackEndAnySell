@@ -3,6 +3,6 @@
     public enum Role
     {
         Cashier,
-        Manager
+        Manager,
     }
 }

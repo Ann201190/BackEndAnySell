@@ -1,5 +1,6 @@
 ﻿using BackEndAnySellDataAccess.Entities;
 using BackEndSellViewModels.ViewModel;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace BackEndAnySellBusiness.Services.Interfaces
     {
         Task<Store> GetByIdAsync(Guid id);
         Task<IEnumerable<Store>> GetAsync(string userName);
-        Task<bool> AddAsync(AddStoreViewModel storeModel);
+        Task<Guid> AddWithEmployeeAsync(AddStoreWithEmployeeViewModel storeModel, string userName);
+        Task<bool> AddImageAsync(IFormFile file, Guid id);
+        Task<Guid> AddWithoutEmployeeAsync(AddStoreWithoutEmployeeViewModel storeModel, string userName);
     }
 }
