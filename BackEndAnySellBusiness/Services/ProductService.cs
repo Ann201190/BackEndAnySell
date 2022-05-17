@@ -1,8 +1,11 @@
 ﻿using BackEndAnySellAccessDataAccess.Repositories.Interfaces;
 using BackEndAnySellBusiness.Services.Interfaces;
 using BackEndAnySellDataAccess.Entities;
+using BackEndSellViewModels.ViewModel;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace BackEndAnySellBusiness.Services
@@ -15,14 +18,49 @@ namespace BackEndAnySellBusiness.Services
             _productRepository = productRepository;
         }
 
-        public async Task<bool> AddAsync(Product product)
-        {          
-            if (product != null && product.Barcode!=null)
-            {            
-                return await _productRepository.AddAsync(product); // передаем уже готовый объект для сохранения в базу данных
+        public async Task<bool> AddImageAsync(IFormFile file, Guid id)
+        {
+            using (var ms = new MemoryStream())
+            {
+                file.CopyTo(ms);
+                return await _productRepository.AddImageAsync(ms.ToArray(), id);
+            }
+        }
+
+        public async Task<Guid> AddWithoutImgeAsync(AddProductWithoutImgeViewModel productModel)
+        {           
+            if (productModel != null && productModel.Barcode!=null)
+            {
+                var product = new Product()
+                {
+                    Name = productModel.Name,
+                    Barcode = productModel.Barcode,
+                    Count = productModel.Count,
+                    DiscountId = productModel.DiscountId,
+                    Price = productModel.Price,
+                    ProductUnit = productModel.ProductUnit,
+                    StoreId = productModel.StoreId,
+                };
+
+                var isAddedProduct = await AddProductAsync(product);// передаем уже готовый объект для сохранения в базу данных
+
+                if (isAddedProduct )
+                {
+                    return product.Id;
+                }
+            }
+            return Guid.Empty;
+        }
+
+        private async Task<bool> AddProductAsync(Product product)
+        {
+            if (product != null)
+            {
+                return await _productRepository.AddProductAsync(product);
             }
             return false;
         }
+
 
         public async Task<bool> DeleteAsync(Guid id)
         {
@@ -38,9 +76,9 @@ namespace BackEndAnySellBusiness.Services
             return await _productRepository.GetAsync();
         }
 
-        public async Task<Product> GetAsync(Guid id)
+        public async Task<Product> GetByIdAsync(Guid id)
         {
-            return await _productRepository.GetAsync(id);
+            return await _productRepository.GetByIdAsync(id);
         }
 
         public async Task<IEnumerable<Product>> GetByStoreIdAsync(Guid storeId)

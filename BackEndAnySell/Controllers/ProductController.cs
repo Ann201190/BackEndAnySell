@@ -1,11 +1,10 @@
 ﻿using BackEndAnySellBusiness.Services.Interfaces;
 using BackEndAnySellDataAccess.Entities;
+using BackEndSellViewModels.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace BackEndAnySell.Controllers
@@ -24,7 +23,7 @@ namespace BackEndAnySell.Controllers
 
         [HttpGet] //тип запроса
         [Authorize (Roles = "Manager")]
-        public async Task<IEnumerable<Product>> GetAsync()                                             //использую
+        public async Task<IEnumerable<Product>> GetAsync()                                                                        //использую
         {
             return await _productService.GetAsync();
         }
@@ -45,59 +44,37 @@ namespace BackEndAnySell.Controllers
         }
 
 
-       // http://localhost:80/api/product/addproduct     для ииса
-        [HttpPost("addproduct")]
-        public async Task<IActionResult> AddAsync([FromBody]Product product)       
+          [HttpPost("addproductimage/{id:guid}")]
+          public async Task<IActionResult> AddProductImageAsync(Guid id)                                                         //использую
         {
-            if (await _productService.AddAsync(product))
+            try
             {
-                return Ok(true);
+                var file = Request.Form.Files[0];
+
+                if (ModelState.IsValid)
+                {
+                    if (await _productService.AddImageAsync(file, id))
+                    {
+                        return Ok(true);
+                    }
+                }
+                return Ok(false);
             }
-            return BadRequest(false);     
+            catch
+            {
+                return Ok(false);
+            }
         }
 
-          [HttpPost("addproductimage")]
-          public async Task<IActionResult> AddProductImageAsync()                                         //использую
-        {
-              try
-              {
-                  var file = Request.Form.Files[0];
-                  string folderName = "Upload";
-                  //  string webRootPath = _hostingEnvironment.WebRootPath;
-                  string newPath = "G:\\Диплом";
-                  if (!Directory.Exists(newPath))
-                  {
-                      Directory.CreateDirectory(newPath);
-                  }
-                  string fileName = "";
-                  if (file.Length > 0)
-                  {
-                      fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                      string fullPath = Path.Combine(newPath, fileName);
-                      using (var stream = new FileStream(fullPath, FileMode.Create))
-                      {
-                          file.CopyTo(stream);
-                      }
-                  }
-
-                //   return Ok(fileName);
-                return Ok(true);
-            }
-              catch (System.Exception ex)
-              {
-                //  return BadRequest(ex.Message);
-                return BadRequest(false);
-            }
-          }
-
         [HttpPost("addproductwithoutimage")]
-        public async Task<IActionResult> AddProductWithoutImageAsync([FromBody] Product product)                  //использую
+        public async Task<IActionResult> AddProductWithoutImageAsync(AddProductWithoutImgeViewModel productModel)                  //использую
         {
-            if (await _productService.AddAsync(product))
+            var id = await _productService.AddWithoutImgeAsync(productModel);
+            if (id != Guid.Empty)
             {
-                return Ok(true);
+                return Ok(id);
             }
-            return BadRequest(false);
+            return BadRequest(Guid.Empty);
         }
 
 

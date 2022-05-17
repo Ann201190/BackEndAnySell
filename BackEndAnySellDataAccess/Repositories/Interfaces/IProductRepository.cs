@@ -10,10 +10,11 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
   public  interface IProductRepository
     {
        Task <IEnumerable<Product>> GetAsync();
-        Task<Product> GetAsync(Guid id);
+        Task<Product> GetByIdAsync(Guid id);
         Task<IEnumerable<Product>> GetByStoreIdAsync(Guid storeId);
-        Task<bool> AddAsync(Product product);
+        Task<bool> AddProductAsync(Product product);
         Task<bool> UpdateAsync(Product product);
         Task<bool> DeleteAsync(Guid id);
+        Task<bool> AddImageAsync(byte[] fileArrayBytes, Guid id);
     }
 }

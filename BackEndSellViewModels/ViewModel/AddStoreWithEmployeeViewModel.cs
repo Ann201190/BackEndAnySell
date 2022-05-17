@@ -11,7 +11,6 @@ namespace BackEndSellViewModels.ViewModel
    public class AddStoreWithEmployeeViewModel : BaseEntity
     {
         public string NameStore { get; set; } 
-        public byte[] LogoImage { get; set; }
         public string NameEmployee { get; set; }
         public string SurNameEmployee { get; set; }
         public string Email { get; set; }

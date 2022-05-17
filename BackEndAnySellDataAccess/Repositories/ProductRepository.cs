@@ -20,7 +20,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
             var builder = new DbContextOptionsBuilder<CustomDbContext>();
         }
 
-          public async Task<bool> AddAsync(Product product)
+          public async Task<bool> AddProductAsync(Product product)
         {
             var isUniqueBarcode = !await _dbContext.Products
                 .AnyAsync(p => 
@@ -36,12 +36,26 @@ namespace BackEndAnySellAccessDataAccess.Repositories
             return false;
         }
 
+        public async Task<bool> AddImageAsync(byte[] fileArrayBytes, Guid id)
+        {
+            if (fileArrayBytes != null)
+            {
+                var product = await GetByIdAsync(id);
+
+                product.Image = fileArrayBytes;
+                _dbContext.Products.Update(product);
+
+                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+            }
+            return false;
+        }
+
         public async Task<bool> DeleteAsync(Guid id)
         {
           var isReservation =  await _dbContext.Orders.AnyAsync(o => o.ReservationProducts.Any(r => r.ProductId == id));
             if (!isReservation)
             {
-                var product = await GetAsync(id);
+                var product = await GetByIdAsync(id);
                 _dbContext.Products.Remove(product);
 
                 return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
@@ -56,7 +70,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Product> GetAsync(Guid id)
+        public async Task<Product> GetByIdAsync(Guid id)
         {
             return await _dbContext.Products
                 .AsNoTracking()

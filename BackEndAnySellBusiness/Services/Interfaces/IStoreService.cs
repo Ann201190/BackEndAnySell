@@ -16,5 +16,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task<Guid> AddWithEmployeeAsync(AddStoreWithEmployeeViewModel storeModel, string userName);
         Task<bool> AddImageAsync(IFormFile file, Guid id);
         Task<Guid> AddWithoutEmployeeAsync(AddStoreWithoutEmployeeViewModel storeModel, string userName);
+        Task<bool> UpdateStoreAsync(UpdateStoreWithoutImgeViewModel storeModel);
     }
 }

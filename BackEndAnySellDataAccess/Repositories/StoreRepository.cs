@@ -56,6 +56,7 @@ namespace BackEndAnySellDataAccess.Repositories
                        .Where(s => s.Employees.Any(e => e.Email == userName))    //по почте, по конкретному юзеру только для Менеджера
                 .ToListAsync();
         }
+
         public async Task<Store> GetByIdAsync(Guid id)
         {
             return await _dbContext.Stores
@@ -63,6 +64,16 @@ namespace BackEndAnySellDataAccess.Repositories
                 .Include(s => s.Products)
                 .Include(s => s.Employees)
                 .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task<bool> UpdateAsync(Store store)
+        {
+            if (store != null)
+            {
+                _dbContext.Stores.Update(store);
+                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+            }
+            return false;
         }
     }
 }

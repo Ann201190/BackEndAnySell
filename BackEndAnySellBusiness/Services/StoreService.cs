@@ -86,7 +86,7 @@ namespace BackEndAnySellBusiness.Services
                 file.CopyTo(ms);              
                 return await _storeRepository.AddImageAsync(ms.ToArray(), id);
             }
-            return false; //если фолсе удалить магазин вместе с сотрудником
+          //  return false; //если фолсе удалить магазин вместе с сотрудником
         }
 
         public async Task<IEnumerable<Store>> GetAsync(string userName)
@@ -109,15 +109,6 @@ namespace BackEndAnySellBusiness.Services
 
             var employee = await _employeeRepository.GetAsync(userName);
 
-              //var employee = new Employee();
-           /*  {
-                Name = employeeModel.Name,
-                SurName = employeeModel.SurName,
-                Email = employeeModel.Email,
-                Phone = employeeModel.Phone,
-                Role = Role.Manager
-            };*/
-
             employee.Stores.Add(store);
 
             var isAddedStore = await AddStoreAsync(store);
@@ -128,6 +119,17 @@ namespace BackEndAnySellBusiness.Services
                 return store.Id;
             }
             return Guid.Empty;
+        }
+
+        public async Task<bool> UpdateStoreAsync(UpdateStoreWithoutImgeViewModel storeModel)
+        {
+            var store = new Store()
+            {
+                Id = storeModel.Id,
+                Name = storeModel.Name
+            };
+
+            return await _storeRepository.UpdateAsync(store);
         }
     }
 }
