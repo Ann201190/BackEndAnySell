@@ -46,6 +46,16 @@ namespace BackEndAnySellDataAccess.Repositories
             return false;
         }
 
+        public async Task<bool> DeleteAsync(Store store)
+        {
+            if (store != null)
+            {
+                _dbContext.Stores.Update(store);
+                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+            }
+            return false;
+        }
+
         public async Task<IEnumerable<Store>> GetAsync(string userName)
         {
             return await _dbContext.Stores
@@ -71,8 +81,7 @@ namespace BackEndAnySellDataAccess.Repositories
             if (store != null)
             {
                 _dbContext.Stores.Update(store);
-                var isupd = await _dbContext.SaveChangesAsync() >= 0 ? true : false;
-                return isupd;
+                return  await _dbContext.SaveChangesAsync() >= 0 ? true : false;
             }
             return false;
         }

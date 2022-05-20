@@ -135,5 +135,13 @@ namespace BackEndAnySellBusiness.Services
             }
             return Guid.Empty;
         }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var store = await _storeRepository.GetByIdAsync(id);
+
+            store.IsDeleted = true;
+            return await _storeRepository.DeleteAsync(store);
+        }
     }
 }

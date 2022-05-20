@@ -95,5 +95,16 @@ namespace BackEndAnySell.Controllers
             return Ok(Guid.Empty);
         }
 
+        [HttpGet("deletestore/{id:guid}")]
+        public async Task<IActionResult> DeleteAsync(Guid id)                                                                  //использую
+        {
+            if (await _storeService.DeleteAsync(id))
+            {
+                return Ok(true);
+            }
+            return Ok(false);
+        }
+
+
     }
 }
