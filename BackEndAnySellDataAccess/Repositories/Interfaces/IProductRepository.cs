@@ -9,7 +9,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
 {
   public  interface IProductRepository
     {
-       Task <IEnumerable<Product>> GetAsync();
         Task<Product> GetByIdAsync(Guid id);
         Task<IEnumerable<Product>> GetByStoreIdAsync(Guid storeId);
         Task<bool> AddProductAsync(Product product);

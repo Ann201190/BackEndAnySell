@@ -63,13 +63,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories
             return false;
         }
 
-        public async Task <IEnumerable<Product>> GetAsync()
-        {
-            return await _dbContext.Products
-                .AsNoTracking()
-                .ToListAsync();
-        }
-
         public async Task<Product> GetByIdAsync(Guid id)
         {
             return await _dbContext.Products

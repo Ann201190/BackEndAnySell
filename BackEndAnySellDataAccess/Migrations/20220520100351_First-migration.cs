@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AppartmentAppDataAccess.Migrations
+namespace BackEndAnySellDataAccess.Migrations
 {
-    public partial class First_migration : Migration
+    public partial class Firstmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace AppartmentAppDataAccess.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-  
+           
         }
     }
 }

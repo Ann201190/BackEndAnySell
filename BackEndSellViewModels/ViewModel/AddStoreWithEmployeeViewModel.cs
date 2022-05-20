@@ -13,7 +13,6 @@ namespace BackEndSellViewModels.ViewModel
         public string NameStore { get; set; } 
         public string NameEmployee { get; set; }
         public string SurNameEmployee { get; set; }
-        public string Email { get; set; }
         public string Phone { get; set; }
     }
 }

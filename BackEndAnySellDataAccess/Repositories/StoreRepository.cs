@@ -53,7 +53,7 @@ namespace BackEndAnySellDataAccess.Repositories
                 .Include(s => s.Discounts)
                 .Include(s => s.Products)
                 .Include(s => s.Employees)
-                       .Where(s => s.Employees.Any(e => e.Email == userName))    //по почте, по конкретному юзеру только для Менеджера
+                    .Where(s => s.Employees.Any(e => e.Email == userName) && !s.IsDeleted)  //по почте, по конкретному юзеру только для Менеджера и не удаленные
                 .ToListAsync();
         }
 
@@ -71,7 +71,8 @@ namespace BackEndAnySellDataAccess.Repositories
             if (store != null)
             {
                 _dbContext.Stores.Update(store);
-                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+                var isupd = await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+                return isupd;
             }
             return false;
         }

@@ -87,13 +87,12 @@ namespace BackEndAnySell.Controllers
         [HttpPost("updatestorewithouteimge")]
         public async Task<IActionResult> UpdateStoreIAsync(UpdateStoreWithoutImgeViewModel storeModel)                         //использую
         {
-            var isUpdate =  await _storeService.UpdateStoreAsync(storeModel);
-
-            if (isUpdate)
+            var id =  await _storeService.UpdateStoreAsync(storeModel);
+            if (id != Guid.Empty)
             {
-                return Ok(true);
+                return Ok(id);
             }
-            return Ok(false);
+            return Ok(Guid.Empty);
         }
 
     }

@@ -9,7 +9,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
 {
     public interface IProductService
     {
-        Task<IEnumerable<Product>> GetAsync();
         Task<IEnumerable<Product>> GetByStoreIdAsync(Guid storeId);
         Task<Guid> AddWithoutImgeAsync(AddProductWithoutImgeViewModel productModel);
         Task<bool> UpdateAsync(Product product);

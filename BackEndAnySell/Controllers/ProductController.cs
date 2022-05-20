@@ -23,10 +23,6 @@ namespace BackEndAnySell.Controllers
 
         [HttpGet] //тип запроса
         [Authorize (Roles = "Manager")]
-        public async Task<IEnumerable<Product>> GetAsync()                                                                        //использую
-        {
-            return await _productService.GetAsync();
-        }
 
 
         /*  [HttpGet("{id:guid}")] //тип запроса
@@ -36,8 +32,8 @@ namespace BackEndAnySell.Controllers
           }*/
 
 
-        //http://localhost:80/api/product/getstoreproduct/BFBC7481-FB3C-4192-A093-519F40F1B812                     для ииса
-        [HttpGet("getstoreproduct/{storeId:guid}")]
+        //http://localhost:80/api/product/getstoreproduct/BFBC7481-FB3C-4192-A093-519F40F1B812          для ииса
+        [HttpGet("getstoreproduct/{storeId:guid}")]                                                                              //использую
         public async Task<IEnumerable<Product>> GetByStoreIdAsync(Guid storeId)
         {
             return await _productService.GetByStoreIdAsync(storeId);
@@ -83,9 +79,9 @@ namespace BackEndAnySell.Controllers
         {
             if (await _productService.UpdateAsync(product))
             {
-                return Ok();
+                return Ok(true);
             }
-            return BadRequest();
+            return Ok(false);
         }
 
         [HttpPost("{id:guid}")]
@@ -93,9 +89,9 @@ namespace BackEndAnySell.Controllers
         {
             if (await _productService.DeleteAsync(id))
             {
-                return Ok();
+                return Ok(true);
             }
-            return BadRequest();
+            return Ok(false);
         }
 
     }

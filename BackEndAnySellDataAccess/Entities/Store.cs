@@ -12,5 +12,6 @@ namespace BackEndAnySellDataAccess.Entities
         public ICollection<Employee> Employees { get; set; }
         public ICollection<Order> Orders { get; set; }
         public byte[] LogoImage { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

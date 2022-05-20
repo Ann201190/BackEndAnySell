@@ -71,10 +71,6 @@ namespace BackEndAnySellBusiness.Services
             return false;
         }
 
-        public async Task<IEnumerable<Product>> GetAsync()
-        {
-            return await _productRepository.GetAsync();
-        }
 
         public async Task<Product> GetByIdAsync(Guid id)
         {

@@ -121,15 +121,19 @@ namespace BackEndAnySellBusiness.Services
             return Guid.Empty;
         }
 
-        public async Task<bool> UpdateStoreAsync(UpdateStoreWithoutImgeViewModel storeModel)
+        public async Task<Guid> UpdateStoreAsync(UpdateStoreWithoutImgeViewModel storeModel)
         {
-            var store = new Store()
-            {
-                Id = storeModel.Id,
-                Name = storeModel.Name
-            };
+           var store = await _storeRepository.GetByIdAsync(storeModel.Id);
 
-            return await _storeRepository.UpdateAsync(store);
+            store.Name = storeModel.Name;
+
+         var isUpdatedStore = await _storeRepository.UpdateAsync(store);
+
+            if (isUpdatedStore )
+            {
+                return store.Id;
+            }
+            return Guid.Empty;
         }
     }
 }
