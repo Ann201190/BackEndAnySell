@@ -1,4 +1,5 @@
 ﻿using BackEndAnySellDataAccess.Entities;
+using BackEndSellViewModels.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,8 +10,9 @@ namespace BackEndAnySellBusiness.Services.Interfaces
     {
     /*    Task<IEnumerable<Discount>> GetAsync();*/
         Task<Discount> GetByIdAsync(Guid id);
-        Task <bool> AddAsync(Discount discount);
+        Task <bool> AddAsync(AddDiscountViewModel discount);
         Task<IEnumerable<Discount>> GetByStoreIdAsync(Guid storeId);
-        Task<bool> UpdateAsync(Discount discount);
+        Task<bool> UpdateAsync(UpdateDiscountViewModel discountModel);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

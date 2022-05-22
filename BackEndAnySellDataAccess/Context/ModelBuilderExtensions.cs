@@ -50,12 +50,21 @@ namespace BackEndAnySellAccessDataAccess.Context
               .HasOne(o => o.Store)
               .WithMany(s => s.Orders);
 
+
+            //  уникальность наименования
+            modelBuilder.Entity<Discount>()
+                 .HasIndex(d => d.Name)
+                 .IsUnique()
+                .HasFilter(null);
+
+
+
+
             // уникальность штрих-кода
             /*     modelBuilder.Entity<Product>()
                    .HasIndex(p => p.Barcode)
                    .IsUnique()
                   .HasFilter(null); */
-
         }
         public static void Initialize(CustomDbContext dbContext)
         {

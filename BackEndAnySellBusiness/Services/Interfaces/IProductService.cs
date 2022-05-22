@@ -11,8 +11,9 @@ namespace BackEndAnySellBusiness.Services.Interfaces
     {
         Task<IEnumerable<Product>> GetByStoreIdAsync(Guid storeId);
         Task<Guid> AddWithoutImgeAsync(AddProductWithoutImgeViewModel productModel);
-        Task<bool> UpdateAsync(Product product);
+        Task<Guid> UpdateAsync(UpdateProductWithoutImgeViewModel productModel);
         Task<bool> DeleteAsync(Guid id);
         Task<bool> AddImageAsync(IFormFile file, Guid id);
+        Task<Product> GetByIdAsync(Guid id);
     }
 }

@@ -83,7 +83,6 @@ namespace BackEndAnySell.Controllers
             }
         }
 
-
         [HttpPost("updatestorewithouteimge")]
         public async Task<IActionResult> UpdateStoreIAsync(UpdateStoreWithoutImgeViewModel storeModel)                         //использую
         {
@@ -104,7 +103,5 @@ namespace BackEndAnySell.Controllers
             }
             return Ok(false);
         }
-
-
     }
 }

@@ -21,15 +21,12 @@ namespace BackEndAnySell.Controllers
             _productService = productService;
         }
 
-        [HttpGet] //тип запроса
         [Authorize (Roles = "Manager")]
-
-
-        /*  [HttpGet("{id:guid}")] //тип запроса
-          public async Task<Product> GetAsync(Guid id)
-          {
-              return await _productService.GetAsync(id);
-          }*/
+        [HttpGet("{id:guid}")] 
+        public async Task<Product> GetByIdAsync(Guid id)                                                                         //использую
+        {
+            return await _productService.GetByIdAsync(id);
+        }
 
 
         //http://localhost:80/api/product/getstoreproduct/BFBC7481-FB3C-4192-A093-519F40F1B812          для ииса
@@ -40,8 +37,8 @@ namespace BackEndAnySell.Controllers
         }
 
 
-          [HttpPost("addproductimage/{id:guid}")]
-          public async Task<IActionResult> AddProductImageAsync(Guid id)                                                         //использую
+        [HttpPost("addproductimage/{id:guid}")]
+        public async Task<IActionResult> AddProductImageAsync(Guid id)                                                           //использую
         {
             try
             {
@@ -70,21 +67,17 @@ namespace BackEndAnySell.Controllers
             {
                 return Ok(id);
             }
-            return BadRequest(Guid.Empty);
+            return Ok(Guid.Empty);
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateAsync(Product product)
+        [HttpPost ("updateproductwithouteimge")]                                                                                   //использую
+        public async Task<IActionResult> UpdateAsync(UpdateProductWithoutImgeViewModel productModel)
         {
-            if (await _productService.UpdateAsync(product))
-            {
-                return Ok(true);
-            }
-            return Ok(false);
+            return Ok(_productService.UpdateAsync(productModel));         
         }
 
-        [HttpPost("{id:guid}")]
+        [HttpGet("deleteproduct/{id:guid}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             if (await _productService.DeleteAsync(id))

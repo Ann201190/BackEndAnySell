@@ -1,8 +1,10 @@
 ﻿using BackEndAnySellAccessDataAccess.Repositories.Interfaces;
 using BackEndAnySellBusiness.Services.Interfaces;
 using BackEndAnySellDataAccess.Entities;
+using BackEndSellViewModels.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BackEndAnySellBusiness.Services
@@ -15,11 +17,24 @@ namespace BackEndAnySellBusiness.Services
             _discountRepository = discountRepository;
         }
 
-        public async Task<bool> AddAsync(Discount discount)
+        public async Task<bool> AddAsync(AddDiscountViewModel discountModel)
         {
-            return await _discountRepository.AddAsync(discount);
-        }
+            var isUnique = await _discountRepository.GetByNameAsync(discountModel.Name);
 
+            if (discountModel != null && isUnique == null)
+            {
+                var discount = new Discount()
+                {
+                    Name = discountModel.Name,
+                    Value = discountModel.Value,
+                    StoreId = discountModel.StoreId,
+                    DiscountType = discountModel.DiscountType,
+                };
+
+                return await _discountRepository.AddAsync(discount);                   // передаем уже готовый объект для сохранения в базу данных               
+            }
+            return false;
+        }
 
         public async Task<IEnumerable<Discount>> GetByStoreIdAsync(Guid storeId)
         {
@@ -37,9 +52,33 @@ namespace BackEndAnySellBusiness.Services
             return await _discountRepository.GetByIdAsync(id);
         }
 
-        public async Task<bool> UpdateAsync(Discount discount)
+        public async Task<bool> UpdateAsync(UpdateDiscountViewModel discountModel)
         {
-            return await _discountRepository.UpdateAsync(discount);
+            var isUnique = await _discountRepository.IsUniqueName(discountModel.Id, discountModel.Name);
+
+            if (isUnique==null)
+            {
+                var discount = await _discountRepository.GetByIdAsync(discountModel.Id);
+
+                discount.Name = discountModel.Name;
+                discount.StoreId = discountModel.StoreId;
+                discount.Value = discountModel.Value;
+                discount.DiscountType = discountModel.DiscountType;
+
+                return await _discountRepository.UpdateAsync(discount);
+            }
+            return false;
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var discount = await _discountRepository.GetByIdAsync(id);
+
+            if (discount.Products.Count == 0)
+            {
+                return await _discountRepository.DeleteAsync(id);
+            }
+            return false;
         }
     }
 }

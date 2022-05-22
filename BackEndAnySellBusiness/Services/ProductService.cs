@@ -36,13 +36,12 @@ namespace BackEndAnySellBusiness.Services
                     Name = productModel.Name,
                     Barcode = productModel.Barcode,
                     Count = productModel.Count,
-                    DiscountId = productModel.DiscountId,
                     Price = productModel.Price,
                     ProductUnit = productModel.ProductUnit,
                     StoreId = productModel.StoreId,
                 };
 
-                var isAddedProduct = await AddProductAsync(product);// передаем уже готовый объект для сохранения в базу данных
+                var isAddedProduct = await AddProductAsync(product);                   // передаем уже готовый объект для сохранения в базу данных
 
                 if (isAddedProduct )
                 {
@@ -61,7 +60,6 @@ namespace BackEndAnySellBusiness.Services
             return false;
         }
 
-
         public async Task<bool> DeleteAsync(Guid id)
         {
             if (id != Guid.Empty)
@@ -70,7 +68,6 @@ namespace BackEndAnySellBusiness.Services
             }
             return false;
         }
-
 
         public async Task<Product> GetByIdAsync(Guid id)
         {
@@ -82,13 +79,24 @@ namespace BackEndAnySellBusiness.Services
             return await _productRepository.GetByStoreIdAsync(storeId);
         }
 
-        public async Task<bool> UpdateAsync(Product product)
+        public async Task<Guid> UpdateAsync(UpdateProductWithoutImgeViewModel productModel)
         {
-            if (product != null)
-            {  
-                return await _productRepository.UpdateAsync(product); 
+            var product = await _productRepository.GetByIdAsync(productModel.Id);
+
+            product.Name = productModel.Name;
+            product.Price = productModel.Price;
+            product.Count = productModel.Count;
+            product.Barcode = productModel.Barcode;
+            product.StoreId = productModel.StoreId;
+            product.ProductUnit = productModel.ProductUnit;
+
+            var isUpdatedProduct = await _productRepository.UpdateAsync(product);
+
+            if (isUpdatedProduct)
+            {
+                return product.Id;
             }
-            return false;
+            return Guid.Empty;
         }
     }
 }

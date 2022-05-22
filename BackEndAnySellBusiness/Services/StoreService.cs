@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace BackEndAnySellBusiness.Services
 {
@@ -125,7 +124,7 @@ namespace BackEndAnySellBusiness.Services
         {
            var store = await _storeRepository.GetByIdAsync(storeModel.Id);
 
-            store.Name = storeModel.Name;
+            store.Name = storeModel.NameStore;
 
          var isUpdatedStore = await _storeRepository.UpdateAsync(store);
 

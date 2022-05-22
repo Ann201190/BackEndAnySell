@@ -11,8 +11,11 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
     {
         /*Task<IEnumerable<Discount>> GetAsync();*/
         Task<Discount> GetByIdAsync(Guid id);
+        Task<Discount> GetByNameAsync(string name);
         Task<bool> AddAsync(Discount discount);
         Task<IEnumerable<Discount>> GetByStoreIdAsync(Guid storeId);
         Task<bool> UpdateAsync(Discount discount);
+        Task<bool> DeleteAsync(Guid id);
+        Task<Discount> IsUniqueName(Guid id, string name);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BackEndAnySellBusiness.Services.Interfaces;
 using BackEndAnySellDataAccess.Entities;
+using BackEndSellViewModels.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -32,13 +33,13 @@ namespace BackEndAnySell.Controllers
         }*/
 
 
-        [HttpGet("{id:guid}")]
-        public async Task<Discount> GetByIdAsync(Guid id)
+        [HttpGet("{id:guid}")]                                                                                   //использую
+        public async Task<Discount> GetByIdAsync(Guid id)      
         {
             return await _discountrService.GetByIdAsync(id);
         }
 
-        [HttpGet("getstorediscount/{storeId:guid}")]
+        [HttpGet("getstorediscount/{storeId:guid}")]                                                              //использую
         public async Task<IEnumerable<Discount>> GetByStoreIdAsync(Guid storeId)
         {
             return await _discountrService.GetByStoreIdAsync(storeId);
@@ -46,24 +47,36 @@ namespace BackEndAnySell.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Manager")]  // только менеджер может создать скидку
-        public async Task<IActionResult> AddAsync(Discount discount)
+        public async Task<IActionResult> AddAsync(AddDiscountViewModel discountModel)
         {
-            if (await _discountrService.AddAsync(discount))
+            if (await _discountrService.AddAsync(discountModel))
             {
                 return Ok(true);
             }
-            return BadRequest(false);
+            return Ok(false);
         }
 
-        [HttpPost("updatediscont")]
+        [HttpPost("updatediscount")]                                                                               //использую
         [Authorize(Roles = "Manager")]  // только менеджер может отредактировать скидку
-        public async Task<IActionResult> UpdateAsync(Discount discount)
+        public async Task<IActionResult> UpdateAsync(UpdateDiscountViewModel discountModel)
         {
-            if (await _discountrService.UpdateAsync(discount))
+            if (await _discountrService.UpdateAsync(discountModel))
             {
                 return Ok(true);
             }
-            return BadRequest(false);
+            return Ok(false);
+        }
+
+
+        [HttpGet("deletediscount/{id:guid}")]                                                                      //использую
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> DeleteAsync(Guid id)
+        {
+          if (await _discountrService.DeleteAsync(id))
+            {
+                return Ok(true);
+            }
+            return Ok(false);
         }
     }
 }
