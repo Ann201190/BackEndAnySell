@@ -74,7 +74,12 @@ namespace BackEndAnySell.Controllers
         [HttpPost ("updateproductwithouteimge")]                                                                                   //использую
         public async Task<IActionResult> UpdateAsync(UpdateProductWithoutImgeViewModel productModel)
         {
-            return Ok(_productService.UpdateAsync(productModel));         
+            var id = await _productService.UpdateAsync(productModel);
+            if (id != Guid.Empty)
+            {
+                return Ok(id);
+            }
+            return Ok(Guid.Empty);
         }
 
         [HttpGet("deleteproduct/{id:guid}")]
