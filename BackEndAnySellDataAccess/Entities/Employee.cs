@@ -20,5 +20,6 @@ namespace BackEndAnySellDataAccess.Entities
         [Required]
         [Phone]
         public string Phone { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

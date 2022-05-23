@@ -76,7 +76,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                 .AsNoTracking()
                 .Include(p => p.Store)
                 .Include(p=> p.Discount)
-                .Where(s=>s.StoreId == storeId)
+                    .Where(s=>s.StoreId == storeId)
                 .ToListAsync();
         }
 

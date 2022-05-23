@@ -44,7 +44,33 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                 .FirstOrDefaultAsync(e => e.Email == userName);
         }
 
+        public async Task<IEnumerable<Employee>> GetByStoreAsync(Guid storeId)
+        {
+            return await _dbContext.Employees
+                 .AsNoTracking()               
+                   .Where(e => e.Stores.Any(s=>s.Id== storeId))
+                 .ToListAsync();
+        }
+
         public async Task<bool> UpdateAsync(Employee employee)
+        {
+            if (employee != null)
+            {
+                _dbContext.Employees.Update(employee);
+                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+            }
+            return false;
+        }
+
+
+        public async Task<Employee> GetByIdAsync(Guid id)
+        {
+            return await _dbContext.Employees
+                .Include(e => e.Stores)
+                     .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task<bool> DeleteAsync(Employee employee)
         {
             if (employee != null)
             {

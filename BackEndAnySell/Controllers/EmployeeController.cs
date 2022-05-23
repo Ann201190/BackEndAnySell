@@ -2,6 +2,8 @@
 using BackEndAnySellDataAccess.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,13 +22,31 @@ namespace BackEndAnySell.Controllers
             _employeeService = employeeService;
         }
 
-        [HttpGet] //тип запроса
+        [HttpGet] //тип запроса                                                                                      //использую
         [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
-        public async Task<IActionResult> GetByUserAsync()                                                            //использую
+        public async Task<IActionResult> GetByUserAsync()                                                            
         {       
               var employee = await _employeeService.GetAsync(_userName);
 
             if (employee!=null)
+            {
+                return Ok(true);
+            }
+            return Ok(false);
+        }
+
+        [HttpGet("getemployeestore/{storeId:guid}")]                                                                                  //использую
+        [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
+        public async Task<IEnumerable<Employee>> GetByStoreAsync(Guid storeId)                                                                            //использую
+        {
+            return await _employeeService.GetByStoreAsync(storeId);
+        }
+
+
+        [HttpGet("deleteemployee/{id:guid}")]
+        public async Task<IActionResult> DeleteAsync(Guid id)                                                                        //использую
+        {
+            if (await _employeeService.DeleteAsync(id))
             {
                 return Ok(true);
             }
