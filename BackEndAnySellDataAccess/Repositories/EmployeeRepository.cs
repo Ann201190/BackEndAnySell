@@ -35,7 +35,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                 await _dbContext.Employees.AddAsync(employee);
                 return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
             }
-            return true;
+            return false;
         }
 
         public async Task<Employee> GetAsync(string userName)
@@ -48,7 +48,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Employees
                  .AsNoTracking()               
-                   .Where(e => e.Stores.Any(s=>s.Id== storeId))
+                   .Where(e => e.Stores.Any(s=>s.Id== storeId)&& !e.IsDeleted)
                  .ToListAsync();
         }
 
@@ -61,7 +61,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories
             }
             return false;
         }
-
 
         public async Task<Employee> GetByIdAsync(Guid id)
         {
