@@ -24,7 +24,7 @@ namespace BackEndAnySell.Controllers
         }
 
         [HttpGet] //тип запроса                                                                                            //использую
-        [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
+      //  [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
         public async Task<IActionResult> GetByUserAsync()                                                            
         {       
               var employee = await _employeeService.GetAsync(_userName);
@@ -37,7 +37,7 @@ namespace BackEndAnySell.Controllers
         }
 
         [HttpGet("getemployeestore/{storeId:guid}")]                                                                       //использую
-        [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
+       // [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
         public async Task<IEnumerable<Employee>> GetByStoreAsync(Guid storeId)                                                                    
         {
             return await _employeeService.GetByStoreAsync(storeId);
