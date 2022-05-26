@@ -4,8 +4,10 @@ using BackEndAnySellDataAccess.Entities;
 using BackEndAnySellDataAccess.Enums;
 using BackEndAnySellDataAccess.Repositories.Interfaces;
 using BackEndSellViewModels.ViewModel;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace BackEndAnySellBusiness.Services
@@ -47,7 +49,7 @@ namespace BackEndAnySellBusiness.Services
             return false;
         }
 
-        public async Task<bool> AddAsync(AddEmployeeViewModel employeeModel, Guid storeId)
+        public async Task<Guid> AddAsync(AddEmployeeWithoutPhotoViewModel employeeModel, Guid storeId)
         {
             var employee = new Employee()
             {
@@ -56,25 +58,47 @@ namespace BackEndAnySellBusiness.Services
                 SurName = employeeModel.SurName,
                 Email = employeeModel.Email,
                 Phone = employeeModel.Phone,
-                Role=Role.Cashier
+                Address = employeeModel.Address,
+                Role =Role.Cashier
             };
         
             var store = await _storeRepository.GetByIdAsync(storeId);
             employee.Stores.Add(store);
+     
+            var isAddedEmployee = await _employeeRepository.AddAsync(employee);               
 
-            return await _employeeRepository.AddAsync(employee);         
+            if (isAddedEmployee)
+            {
+                return employee.Id;
+            }
+            return Guid.Empty;
         }
 
-        public async Task<bool> UpdateAsync(UpdateEmployeeViewModel employeeModel)
+         public async Task<Guid> UpdateAsync(UpdateEmployeeWithoutPhotoViewModel employeeModel)
+         {
+             var employee = await _employeeRepository.GetByIdAsync(employeeModel.Id);
+
+             employee.Name = employeeModel.Name;
+             employee.SurName = employeeModel.SurName;
+             employee.Phone = employeeModel.Phone;
+             employee.Address = employeeModel.Address;
+
+             var isUpdatedEmployee = await _employeeRepository.UpdateAsync(employee);
+
+             if (isUpdatedEmployee)
+             {
+                 return employee.Id;
+             }
+             return Guid.Empty;
+         }
+
+        public async Task<bool> AddPhotoAsync(IFormFile file, Guid id)
         {
-            var employee = await _employeeRepository.GetByIdAsync(employeeModel.Id);
-
-            employee.Name = employeeModel.Name;
-            employee.SurName = employeeModel.SurName;
-            employee.Phone = employeeModel.Phone;
-         //   employee.Email = employeeModel.DiscountType;
-
-            return await _employeeRepository.UpdateAsync(employee);
+            using (var ms = new MemoryStream())
+            {
+                file.CopyTo(ms);
+                return await _employeeRepository.AddPhotoAsync(ms.ToArray(), id);
+            }
         }
     }
 }

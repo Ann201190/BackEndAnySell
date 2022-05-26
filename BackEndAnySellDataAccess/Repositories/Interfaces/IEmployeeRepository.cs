@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using System.Threading.Tasks;
 
 namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
@@ -15,5 +16,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
         Task<IEnumerable<Employee>> GetByStoreAsync(Guid storeId);
         Task<Employee> GetByIdAsync(Guid id);
         Task<bool> DeleteAsync(Employee employee);
+        Task<bool> AddPhotoAsync(byte[] fileArrayBytes, Guid id);
     }
 }

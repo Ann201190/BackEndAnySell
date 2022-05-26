@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace BackEndSellViewModels.ViewModel
 {
-   public class AddEmployeeViewModel: BaseEntity
+   public class AddEmployeeWithoutPhotoViewModel: BaseEntity
     {
         public string Name { get; set; }
         public string SurName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public string Address { get; set; }
     }
 }

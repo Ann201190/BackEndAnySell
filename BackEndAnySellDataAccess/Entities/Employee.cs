@@ -20,6 +20,9 @@ namespace BackEndAnySellDataAccess.Entities
         [Required]
         [Phone]
         public string Phone { get; set; }
+        [Required]
+        public string Address { get; set; }
+        public byte[] Photo { get; set; }
         public bool IsDeleted { get; set; } = false;
     }
 }

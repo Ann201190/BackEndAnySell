@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BackEndAnySellAccessDataAccess.Repositories
@@ -38,6 +37,20 @@ namespace BackEndAnySellAccessDataAccess.Repositories
             return false;
         }
 
+        public async Task<bool> AddPhotoAsync(byte[] fileArrayBytes, Guid id)
+        {
+            if (fileArrayBytes != null)
+            {
+                var employees = await GetByIdAsync(id);
+
+                employees.Photo = fileArrayBytes;
+                _dbContext.Employees.Update(employees);
+
+                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+            }
+            return false;
+        }
+
         public async Task<Employee> GetAsync(string userName)
         {
             return await _dbContext.Employees
@@ -52,15 +65,16 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                  .ToListAsync();
         }
 
-        public async Task<bool> UpdateAsync(Employee employee)
-        {
-            if (employee != null)
-            {
-                _dbContext.Employees.Update(employee);
-                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+         public async Task<bool> UpdateAsync(Employee employee)
+         {
+             if (employee != null)
+             {
+                 _dbContext.Employees.Update(employee);
+                 return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
             }
-            return false;
-        }
+             return false;
+         }
+
 
         public async Task<Employee> GetByIdAsync(Guid id)
         {

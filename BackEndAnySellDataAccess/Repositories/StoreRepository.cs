@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BackEndAnySellDataAccess.Repositories
@@ -59,7 +58,7 @@ namespace BackEndAnySellDataAccess.Repositories
         public async Task<IEnumerable<Store>> GetAsync(string userName)
         {
             return await _dbContext.Stores
-                .AsNoTracking()
+                   .AsNoTracking()
                 .Include(s => s.Discounts)
                 .Include(s => s.Products)
                 .Include(s => s.Employees)

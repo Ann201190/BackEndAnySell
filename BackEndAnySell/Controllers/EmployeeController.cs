@@ -24,12 +24,12 @@ namespace BackEndAnySell.Controllers
         }
 
         [HttpGet] //тип запроса                                                                                            //использую
-      //  [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
-        public async Task<IActionResult> GetByUserAsync()                                                            
-        {       
-              var employee = await _employeeService.GetAsync(_userName);
+        //  [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
+        public async Task<IActionResult> GetByUserAsync()
+        {
+            var employee = await _employeeService.GetAsync(_userName);
 
-            if (employee!=null)
+            if (employee != null)
             {
                 return Ok(true);
             }
@@ -37,8 +37,8 @@ namespace BackEndAnySell.Controllers
         }
 
         [HttpGet("getemployeestore/{storeId:guid}")]                                                                       //использую
-       // [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
-        public async Task<IEnumerable<Employee>> GetByStoreAsync(Guid storeId)                                                                    
+        // [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
+        public async Task<IEnumerable<Employee>> GetByStoreAsync(Guid storeId)
         {
             return await _employeeService.GetByStoreAsync(storeId);
         }
@@ -54,15 +54,39 @@ namespace BackEndAnySell.Controllers
             return Ok(false);
         }
 
-        [HttpPost("addemployee/{storeId:guid}")]
+        [HttpPost("addemployeewithoutphoto/{storeId:guid}")]
         [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог создать магазин
-        public async Task<IActionResult> AddAsync(AddEmployeeViewModel employeeModel, Guid storeId)                         //использую
+        public async Task<IActionResult> AddEmployeeAsync(AddEmployeeWithoutPhotoViewModel employeeModel, Guid storeId)                         //использую
         {
-            if (await _employeeService.AddAsync(employeeModel, storeId))
+            var id = await _employeeService.AddAsync(employeeModel, storeId);
+
+            if (id != Guid.Empty)
             {
-                return Ok(true);
+                return Ok(id);
             }
-            return Ok(false);
+            return Ok(Guid.Empty);
+        }
+
+        [HttpPost("addemployeephoto/{id:guid}")]
+        public async Task<IActionResult> AddEmployeepPhotoAsync(Guid id)                                                         //использую
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+
+                if (ModelState.IsValid)
+                {
+                    if (await _employeeService.AddPhotoAsync(file, id))
+                    {
+                        return Ok(true);
+                    }
+                }
+                return Ok(false);
+            }
+            catch
+            {
+                return Ok(false);
+            }
         }
 
         [HttpGet("{id:guid}")]                                                                                               //использую
@@ -71,15 +95,16 @@ namespace BackEndAnySell.Controllers
             return await _employeeService.GetByIdAsync(id);
         }
 
-        [HttpPost("updateemploee")]                                                                                          //использую
+        [HttpPost("updateemploeewithoutphoto")]                                                                                          //использую
         [Authorize(Roles = "Manager")]  // только менеджер может отредактировать скидку
-        public async Task<IActionResult> UpdateAsync(UpdateEmployeeViewModel employeeModel)
-        {
-            if (await _employeeService.UpdateAsync(employeeModel))
+        public async Task<IActionResult> UpdateAsync(UpdateEmployeeWithoutPhotoViewModel employeeModel)
+        {         
+            var id = await _employeeService.UpdateAsync(employeeModel);
+            if (id != Guid.Empty)
             {
-                return Ok(true);
+                return Ok(id);
             }
-            return Ok(false);
+            return Ok(Guid.Empty);
         }
     }
 }

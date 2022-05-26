@@ -78,7 +78,7 @@ namespace BackEndAnySell.Controllers
         }
 
 
-        [HttpPost("updateproductwithouteimge")]                                                                             //использую
+        [HttpPost("updateproductwithoutimge")]                                                                             //использую
         public async Task<IActionResult> UpdateAsync(UpdateProductWithoutImgeViewModel productModel)
         {
             var id = await _productService.UpdateAsync(productModel);
