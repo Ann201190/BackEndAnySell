@@ -41,24 +41,19 @@ namespace BackEndAnySell.Controllers
         [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог создать магазин
         public async Task<IActionResult> AddWithEmployeeAsync(AddStoreWithEmployeeViewModel storeModel)                    //использую
         {
-            var id = await _storeService.AddWithEmployeeAsync(storeModel, _userName);
-            if (id != Guid.Empty)
-            {
-                return Ok(id);
-            }
-            return Ok(Guid.Empty);
+            var ids = await _storeService.AddWithEmployeeAsync(storeModel, _userName);
+            
+                return Ok(new {
+                    storeId = ids.Item1,
+                    employeeId = ids.Item2,
+                });          
         }
 
         [HttpPost("addstorewithoutemployeewithoutimage")]
         [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог создать магазин
         public async Task<IActionResult> AddWithoutEmployeeAsync(AddStoreWithoutEmployeeViewModel storeModel)                 //использую
         {
-            var id = await _storeService.AddWithoutEmployeeAsync(storeModel, _userName);
-            if (id != Guid.Empty)
-            {
-                return Ok(id);
-            }
-            return Ok(Guid.Empty);
+            return Ok(await _storeService.AddWithoutEmployeeAsync(storeModel, _userName));
         }
 
         [HttpPost("addstoreimage/{id:guid}")]
@@ -86,12 +81,7 @@ namespace BackEndAnySell.Controllers
         [HttpPost("updatestorewithouteimge")]
         public async Task<IActionResult> UpdateStoreIAsync(UpdateStoreWithoutImgeViewModel storeModel)                         //использую
         {
-            var id =  await _storeService.UpdateStoreAsync(storeModel);
-            if (id != Guid.Empty)
-            {
-                return Ok(id);
-            }
-            return Ok(Guid.Empty);
+            return Ok(await _storeService.UpdateStoreAsync(storeModel));
         }
 
         [HttpGet("deletestore/{id:guid}")]

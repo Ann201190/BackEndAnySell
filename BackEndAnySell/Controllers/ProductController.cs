@@ -5,7 +5,6 @@ using BackEndSellViewModels.ViewModel;
 using ClosedXML.Excel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -69,24 +68,14 @@ namespace BackEndAnySell.Controllers
         [HttpPost("addproductwithoutimage")]
         public async Task<IActionResult> AddProductWithoutImageAsync(AddProductWithoutImgeViewModel productModel)             //использую
         {
-            var id = await _productService.AddWithoutImgeAsync(productModel);
-            if (id != Guid.Empty)
-            {
-                return Ok(id);
-            }
-            return Ok(Guid.Empty);
+            return Ok(await _productService.AddWithoutImgeAsync(productModel));
         }
 
 
         [HttpPost("updateproductwithoutimge")]                                                                             //использую
         public async Task<IActionResult> UpdateAsync(UpdateProductWithoutImgeViewModel productModel)
         {
-            var id = await _productService.UpdateAsync(productModel);
-            if (id != Guid.Empty)
-            {
-                return Ok(id);
-            }
-            return Ok(Guid.Empty);
+            return Ok(await _productService.UpdateAsync(productModel));
         }
 
         [HttpGet("deleteproduct/{id:guid}")]                                                                                  //использую
@@ -207,7 +196,7 @@ namespace BackEndAnySell.Controllers
                         worksheet.Cell(startRowTable, 4).Value = ConvertUnit(product.ProductUnit);
                     }                   
                     worksheet.Cell(startRowTable, 5).Value = product.Price;
-                    worksheet.Cell(startRowTable, 6).Value = product.Count;                 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!КОЛИЧЕСТВО С ПРИХОДОВ ДОЛЖНО БРАТЬСЯ
+                 //   worksheet.Cell(startRowTable, 6).Value = product.Count;                 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!КОЛИЧЕСТВО С ПРИХОДОВ ДОЛЖНО БРАТЬСЯ
                 }
 
                 using (var stream = new MemoryStream())

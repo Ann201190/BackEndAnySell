@@ -58,13 +58,7 @@ namespace BackEndAnySell.Controllers
         [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог создать магазин
         public async Task<IActionResult> AddEmployeeAsync(AddEmployeeWithoutPhotoViewModel employeeModel, Guid storeId)                         //использую
         {
-            var id = await _employeeService.AddAsync(employeeModel, storeId);
-
-            if (id != Guid.Empty)
-            {
-                return Ok(id);
-            }
-            return Ok(Guid.Empty);
+            return Ok(await _employeeService.AddAsync(employeeModel, storeId));
         }
 
         [HttpPost("addemployeephoto/{id:guid}")]
@@ -98,13 +92,8 @@ namespace BackEndAnySell.Controllers
         [HttpPost("updateemploeewithoutphoto")]                                                                                          //использую
         [Authorize(Roles = "Manager")]  // только менеджер может отредактировать скидку
         public async Task<IActionResult> UpdateAsync(UpdateEmployeeWithoutPhotoViewModel employeeModel)
-        {         
-            var id = await _employeeService.UpdateAsync(employeeModel);
-            if (id != Guid.Empty)
-            {
-                return Ok(id);
-            }
-            return Ok(Guid.Empty);
+        {
+            return Ok(await _employeeService.UpdateAsync(employeeModel));
         }
     }
 }

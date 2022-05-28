@@ -46,8 +46,8 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Discounts
                 .AsNoTracking()
-                .Include(d => d.Store)
-                .Include(d => d.Products)
+                //.Include(d => d.Store)
+               // .Include(d => d.Products)
                    .Where(s => s.Store.Id == storeId)
                 .ToListAsync();
         }
@@ -55,8 +55,8 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         public async Task<Discount> GetByIdAsync(Guid id)
         {
             return await _dbContext.Discounts           
-                .Include(d => d.Store)
-                .Include(d => d.Products)
+             //  .Include(d => d.Store)
+             //  .Include(d => d.Products)
                 .FirstOrDefaultAsync(d => d.Id == id);
         }
 
@@ -82,16 +82,16 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Discounts
                   .AsNoTracking()
-                .Include(d => d.Store)
-                .Include(d => d.Products)
+              //  .Include(d => d.Store)
+              //  .Include(d => d.Products)
                 .FirstOrDefaultAsync(d => d.Name == name);
         }
 
         public async Task<Discount> IsUniqueName(Guid id, string name)
         {
             return await _dbContext.Discounts
-               .Include(d => d.Store)
-               .Include(d => d.Products)
+            //   .Include(d => d.Store)
+            //  .Include(d => d.Products)
                .FirstOrDefaultAsync(d => d.Name == name && d.Id != id);
         }
         

@@ -10,7 +10,7 @@ namespace BackEndAnySellBusiness.Services.Interfaces
     {
     /*    Task<IEnumerable<Discount>> GetAsync();*/
         Task<Discount> GetByIdAsync(Guid id);
-        Task <bool> AddAsync(AddDiscountViewModel discount);
+        Task <bool> AddAsync(AddDiscountViewModel discountModel);
         Task<IEnumerable<Discount>> GetByStoreIdAsync(Guid storeId);
         Task<bool> UpdateAsync(UpdateDiscountViewModel discountModel);
         Task<bool> DeleteAsync(Guid id);

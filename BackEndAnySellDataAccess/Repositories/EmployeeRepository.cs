@@ -79,7 +79,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         public async Task<Employee> GetByIdAsync(Guid id)
         {
             return await _dbContext.Employees
-                .Include(e => e.Stores)
+           //     .Include(e => e.Stores)
                      .FirstOrDefaultAsync(s => s.Id == id);
         }
 

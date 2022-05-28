@@ -59,9 +59,9 @@ namespace BackEndAnySellDataAccess.Repositories
         {
             return await _dbContext.Stores
                    .AsNoTracking()
-                .Include(s => s.Discounts)
-                .Include(s => s.Products)
-                .Include(s => s.Employees)
+             //   .Include(s => s.Discounts)
+             //   .Include(s => s.Products)
+            //    .Include(s => s.Employees)
                     .Where(s => s.Employees.Any(e => e.Email == userName) && !s.IsDeleted)  //по почте, по конкретному юзеру только для Менеджера и не удаленные
                 .ToListAsync();
         }
@@ -69,9 +69,9 @@ namespace BackEndAnySellDataAccess.Repositories
         public async Task<Store> GetByIdAsync(Guid id)
         {
             return await _dbContext.Stores
-                .Include(s => s.Discounts)
-                .Include(s => s.Products)
-                .Include(s => s.Employees)
+             //   .Include(s => s.Discounts)
+             //   .Include(s => s.Products)
+            //    .Include(s => s.Employees)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 

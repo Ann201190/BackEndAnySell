@@ -25,5 +25,6 @@ namespace BackEndAnySellDataAccess.Entities
         public byte[] Photo { get; set; }
         public string Other { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public ICollection<Provider> Providers { get; set; } = new List<Provider>();
     }
 }

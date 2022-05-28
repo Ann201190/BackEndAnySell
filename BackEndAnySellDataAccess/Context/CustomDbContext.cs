@@ -11,7 +11,10 @@ namespace BackEndAnySellAccessDataAccess.Context
         public DbSet<Store> Stores { get; set; }
         public DbSet<ReservationProduct> ReservationProducts { get; set; }
         public DbSet<Order> Orders { get; set; }
-
+        public DbSet<Coming> Comings { get; set; }
+        public DbSet<BalanceProduct> BalanceProducts { get; set; }
+        public DbSet<Provider> Providers { get; set; }
+        
 
 
 

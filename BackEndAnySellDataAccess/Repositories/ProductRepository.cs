@@ -74,8 +74,8 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Products
                 .AsNoTracking()
-                .Include(p => p.Store)
-                .Include(p=> p.Discount)
+             //   .Include(p => p.Store)
+             //   .Include(p=> p.Discount)
                     .Where(s=>s.StoreId == storeId)
                 .ToListAsync();
         }

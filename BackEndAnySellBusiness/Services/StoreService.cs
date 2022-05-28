@@ -22,7 +22,7 @@ namespace BackEndAnySellBusiness.Services
             _employeeRepository = employeeRepository;
         }
 
-        public async Task<Guid> AddWithEmployeeAsync(AddStoreWithEmployeeViewModel storeModel, string userName)
+        public async Task<Tuple<Guid, Guid>> AddWithEmployeeAsync(AddStoreWithEmployeeViewModel storeModel, string userName)
         {
             var store = new Store()
             {
@@ -46,11 +46,14 @@ namespace BackEndAnySellBusiness.Services
             var isAddedStore = await AddStoreAsync(store);
             var isAddedEmployee = await AddEmployeeAsync(employee);
 
+            var employeeId = Guid.Empty;
+            var storeId = Guid.Empty;
             if (isAddedStore && isAddedEmployee)
             {
-                return store.Id;
+                employeeId = employee.Id;
+                storeId = store.Id;
             }
-            return Guid.Empty;
+            return Tuple.Create(storeId, employeeId);
         }
 
         private async Task<bool> AddStoreAsync(Store store)

@@ -25,7 +25,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Orders
                 .AsNoTracking()
-                .Include(o => o.ReservationProducts)
+             //   .Include(o => o.ReservationProducts)
                      .Where(o=>o.StoreId == storeId)
                 .ToListAsync();
         }
@@ -34,7 +34,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Orders
               .AsNoTracking()
-                .Include(o => o.ReservationProducts)
+            //    .Include(o => o.ReservationProducts)
               .FirstOrDefaultAsync(s => s.Id == id);
         }
     }

@@ -10,7 +10,6 @@ namespace BackEndSellViewModels.ViewModel
         public decimal Price { get; set; }
         public Guid StoreId { get; set; }
         public string Barcode { get; set; }
-        public double Count { get; set; } = 0;
         public ProductUnit ProductUnit { get; set; } = ProductUnit.Piece;
     }
 }

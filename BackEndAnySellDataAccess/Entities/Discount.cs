@@ -14,7 +14,7 @@ namespace BackEndAnySellDataAccess.Entities
         [Required]
         public Guid StoreId { get; set; }
         public Store Store { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Product> Products { get; set; } = new List<Product>();
         [Required]
         public DiscountType DiscountType { get; set; } = DiscountType.Percent;
     }

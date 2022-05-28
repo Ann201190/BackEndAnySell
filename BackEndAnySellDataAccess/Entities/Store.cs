@@ -7,10 +7,11 @@ namespace BackEndAnySellDataAccess.Entities
     {
         [Required]
         public string Name { get; set; }
-        public ICollection<Product> Products { get; set; }
-        public ICollection<Discount> Discounts { get; set; }
-        public ICollection<Employee> Employees { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<Product> Products { get; set; } = new List<Product>();
+        public ICollection<Discount> Discounts { get; set; } = new List<Discount>();
+        public ICollection<Employee> Employees { get; set; } = new List<Employee>();
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        public ICollection<Coming> Comings { get; set; } = new List<Coming>();
         public byte[] LogoImage { get; set; }
         public bool IsDeleted { get; set; } = false;
     }

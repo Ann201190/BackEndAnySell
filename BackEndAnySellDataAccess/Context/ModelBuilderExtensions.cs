@@ -37,8 +37,27 @@ namespace BackEndAnySellAccessDataAccess.Context
             modelBuilder.Entity<Product>()
               .HasOne(p => p.Store)
               .WithMany(s => s.Products);
-             
-     //            .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<Product>()
+              .HasMany(p => p.BalanceProducts)
+              .WithOne(bp => bp.Product);
+
+
+            modelBuilder.Entity<Coming>()
+                .HasMany(c => c.BalanceProducts)
+                .WithOne(bp => bp.Coming);
+
+
+            modelBuilder.Entity<Coming>()
+                .HasOne(c => c.Provider)
+                .WithMany(p => p.Comings);
+
+
+            modelBuilder.Entity<Coming>()
+                 .HasOne(c => c.Store)
+                 .WithMany(s => s.Comings);
+            //            .OnDelete(DeleteBehavior.Cascade);
 
 
             modelBuilder.Entity<ReservationProduct>()
@@ -49,6 +68,11 @@ namespace BackEndAnySellAccessDataAccess.Context
             modelBuilder.Entity<Order>()
               .HasOne(o => o.Store)
               .WithMany(s => s.Orders);
+
+
+            modelBuilder.Entity<Provider>()
+               .HasOne(p => p.Employee)
+               .WithMany(e => e.Providers);
 
 
             //  уникальность наименования
@@ -140,7 +164,6 @@ namespace BackEndAnySellAccessDataAccess.Context
                 Price = 30.50m,
                 Discount = discont1,
                 Barcode ="1236559565625",
-                Count = 4,
                 ProductUnit = ProductUnit.Piece, 
                 StoreId = new Guid("BFBC7481-FB3C-4192-A093-519F40F1B812"),
                 DiscountId = new Guid("BFBC7481-FB3C-4192-A093-519F40F1B811"),               

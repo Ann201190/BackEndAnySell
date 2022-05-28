@@ -35,7 +35,6 @@ namespace BackEndAnySellBusiness.Services
                 {
                     Name = productModel.Name,
                     Barcode = productModel.Barcode,
-                    Count = productModel.Count,
                     Price = productModel.Price,
                     ProductUnit = productModel.ProductUnit,
                     StoreId = productModel.StoreId,
@@ -85,7 +84,6 @@ namespace BackEndAnySellBusiness.Services
 
             product.Name = productModel.Name;
             product.Price = productModel.Price;
-            product.Count = productModel.Count;
             product.Barcode = productModel.Barcode;
             product.StoreId = productModel.StoreId;
             product.ProductUnit = productModel.ProductUnit;
