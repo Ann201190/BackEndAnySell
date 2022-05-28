@@ -23,6 +23,7 @@ namespace BackEndAnySellDataAccess.Entities
         [Required]
         public string Address { get; set; }
         public byte[] Photo { get; set; }
+        public string Other { get; set; }
         public bool IsDeleted { get; set; } = false;
     }
 }

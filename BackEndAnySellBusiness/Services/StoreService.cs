@@ -36,6 +36,8 @@ namespace BackEndAnySellBusiness.Services
                 SurName = storeModel.SurNameEmployee,
                 Email = userName,
                 Phone = storeModel.Phone,
+                Address = storeModel.Address,
+                Other = storeModel.Other,
                 Role = Role.Manager             
             };
 
@@ -73,7 +75,7 @@ namespace BackEndAnySellBusiness.Services
         {
             if (employee != null)
             {
-              //  return await _employeeRepository.UpdateAsync(employee);
+                return await _employeeRepository.UpdateAsync(employee);
             }
             return false;
         }

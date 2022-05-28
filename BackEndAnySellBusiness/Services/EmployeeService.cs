@@ -59,7 +59,8 @@ namespace BackEndAnySellBusiness.Services
                 Email = employeeModel.Email,
                 Phone = employeeModel.Phone,
                 Address = employeeModel.Address,
-                Role =Role.Cashier
+                Other = employeeModel.Other,
+                Role = Role.Cashier
             };
         
             var store = await _storeRepository.GetByIdAsync(storeId);
@@ -82,6 +83,7 @@ namespace BackEndAnySellBusiness.Services
              employee.SurName = employeeModel.SurName;
              employee.Phone = employeeModel.Phone;
              employee.Address = employeeModel.Address;
+             employee.Other = employeeModel.Other;
 
              var isUpdatedEmployee = await _employeeRepository.UpdateAsync(employee);
 
