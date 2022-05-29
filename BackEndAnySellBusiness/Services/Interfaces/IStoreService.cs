@@ -18,5 +18,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task<Guid> AddWithoutEmployeeAsync(AddStoreWithoutEmployeeViewModel storeModel, string userName);
         Task<Guid> UpdateStoreAsync(UpdateStoreWithoutImgeViewModel storeModel);
         Task<bool> DeleteAsync(Guid id);
+        Task<bool> DeleteImageAsync(Guid id);
     }
 }

@@ -4,6 +4,6 @@ namespace BackEndSellViewModels.ViewModel
 {
    public class AddStoreWithoutEmployeeViewModel : BaseEntity
     {
-        public string NameStore { get; set; }
+        public string Name { get; set; }
     }
 }

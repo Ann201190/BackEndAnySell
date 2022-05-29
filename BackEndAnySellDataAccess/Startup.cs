@@ -23,6 +23,7 @@ namespace AppartmentAppDataAccess
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IReservationProductRepository, ReservationProductRepository>();
             services.AddTransient<IStoreRepository, StoreRepository>();
+            services.AddTransient< IProviderRepository, ProviderRepository >();
 
 
             //  services.AddTransient<ICustomDbContext, CustomDbContext>();

@@ -15,6 +15,7 @@ namespace BackEndAnySellBusiness
             services.AddTransient<IDiscountService, DiscountService>();
             services.AddTransient<IReservationProductService, ReservationProductService>();
             services.AddTransient<IStoreService, StoreService>();
+            services.AddTransient<IProviderService, ProviderService>();
 
             //передаем в Startup DataAccess нужные параметры: service и строку подключения:
             AppartmentAppDataAccess.Startup.Start(services, connectStr);

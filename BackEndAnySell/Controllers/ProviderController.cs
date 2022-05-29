@@ -24,19 +24,19 @@ namespace BackEndAnySell.Controllers
         }
 
         [HttpGet("{id:guid}")]                                                                                            
-        public async Task<Provider> GetByIdAsync(Guid id)
+        public async Task<IActionResult> GetByIdAsync(Guid id)                            //использую
         {
-            return await _providerService.GetByIdAsync(id);
+            return Ok(await _providerService.GetByIdAsync(id));
         }
 
         [HttpGet]                                                                               
-        public async Task<IEnumerable<Provider>> GetAsync()      
+        public async Task<IActionResult> GetAsync()                                                        //использую
         {
-            return await _providerService.GetAsync(_userName);
+            return Ok(await _providerService.GetAsync(_userName));
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAsync(AddProviderViewModel providerModel)
+        public async Task<IActionResult> AddAsync(AddProviderViewModel providerModel)                       //использую
         {
             if (await _providerService.AddAsync(providerModel, _userName))
             {
@@ -46,7 +46,7 @@ namespace BackEndAnySell.Controllers
         }
 
         [HttpPost("updateprovider")]                                                                            
-        public async Task<IActionResult> UpdateAsync(UpdateProviderViewModel providerModel)
+        public async Task<IActionResult> UpdateAsync(UpdateProviderViewModel providerModel)              //использую
         {
             if (await _providerService.UpdateAsync(providerModel))
             {
@@ -56,7 +56,7 @@ namespace BackEndAnySell.Controllers
         }
 
 
-        [HttpGet("deleteprovider/{id:guid}")]                                                                     
+        [HttpGet("deleteprovider/{id:guid}")]                                                            //использую                                 
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
           if (await _providerService.DeleteAsync(id))

@@ -12,7 +12,7 @@ namespace BackEndAnySellDataAccess.Entities
     //    [Required]
         public Guid? ProductId { get; set; }
         public Product Product { get; set; }
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         public double Count { get; set; }
  //       [Required]
         public Guid OrderId { get; set; }

@@ -26,23 +26,16 @@ namespace BackEndAnySell.Controllers
         }
 
 
-       /*   [HttpGet] //тип запроса
-        public async Task<IEnumerable<Discount>> GetAsync()
-        {
-            return await _discountrService.GetAsync();
-        }*/
-
-
         [HttpGet("{id:guid}")]                                                                                   //использую
-        public async Task<Discount> GetByIdAsync(Guid id)      
+        public async Task<IActionResult> GetByIdAsync(Guid id)      
         {
-            return await _discountrService.GetByIdAsync(id);
+            return Ok(await _discountrService.GetByIdAsync(id));
         }
 
         [HttpGet("getstorediscount/{storeId:guid}")]                                                              //использую
-        public async Task<IEnumerable<Discount>> GetByStoreIdAsync(Guid storeId)
+        public async Task<IActionResult> GetByStoreIdAsync(Guid storeId)
         {
-            return await _discountrService.GetByStoreIdAsync(storeId);
+            return Ok(await _discountrService.GetByStoreIdAsync(storeId));
         }
 
         [HttpPost]

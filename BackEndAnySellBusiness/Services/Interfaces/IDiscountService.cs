@@ -8,7 +8,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
 {
     public interface IDiscountService
     {
-    /*    Task<IEnumerable<Discount>> GetAsync();*/
         Task<Discount> GetByIdAsync(Guid id);
         Task <bool> AddAsync(AddDiscountViewModel discountModel);
         Task<IEnumerable<Discount>> GetByStoreIdAsync(Guid storeId);

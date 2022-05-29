@@ -55,6 +55,18 @@ namespace BackEndAnySellDataAccess.Repositories
             return false;
         }
 
+        public async Task<bool> DeleteImageAsync(Guid id)
+        {
+            var store = await GetByIdAsync(id);
+            if (store != null)
+            {
+                store.LogoImage = null;
+                _dbContext.Stores.Update(store);
+                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+            }
+            return false;
+        }
+
         public async Task<IEnumerable<Store>> GetAsync(string userName)
         {
             return await _dbContext.Stores

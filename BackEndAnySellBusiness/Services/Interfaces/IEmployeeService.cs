@@ -16,5 +16,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task<Employee> GetByIdAsync(Guid id);
         Task<Guid> UpdateAsync(UpdateEmployeeWithoutPhotoViewModel employeeModel);
         Task<bool> AddPhotoAsync(IFormFile file, Guid id);
+        Task<bool> DeleteImageAsync(Guid id);
     }
 }

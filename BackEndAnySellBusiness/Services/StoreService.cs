@@ -108,7 +108,7 @@ namespace BackEndAnySellBusiness.Services
             var store = new Store()
             {
                 Id = storeModel.Id,
-                Name = storeModel.NameStore
+                Name = storeModel.Name
             };
 
             var employee = await _employeeRepository.GetAsync(userName);
@@ -129,7 +129,7 @@ namespace BackEndAnySellBusiness.Services
         {
            var store = await _storeRepository.GetByIdAsync(storeModel.Id);
 
-            store.Name = storeModel.NameStore;
+            store.Name = storeModel.Name;
 
          var isUpdatedStore = await _storeRepository.UpdateAsync(store);
 
@@ -146,6 +146,11 @@ namespace BackEndAnySellBusiness.Services
 
             store.IsDeleted = true;
             return await _storeRepository.DeleteAsync(store);
+        }
+
+        public async Task<bool> DeleteImageAsync(Guid id)
+        {
+            return await _storeRepository.DeleteImageAsync(id);
         }
     }
 }

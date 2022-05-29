@@ -29,19 +29,25 @@ namespace BackEndAnySell.Controllers
 
         [Authorize(Roles = "Manager")]
         [HttpGet("{id:guid}")]
-        public async Task<Product> GetByIdAsync(Guid id)                                                                      //использую
+        public async Task<IActionResult> GetByIdAsync(Guid id)                                                                      //использую
         {
-            return await _productService.GetByIdAsync(id);
+            return Ok(await _productService.GetByIdAsync(id));
         }
 
 
         //http://localhost:80/api/product/getstoreproduct/BFBC7481-FB3C-4192-A093-519F40F1B812          для ииса
         [HttpGet("getstoreproduct/{storeId:guid}")]                                                                           //использую
-        public async Task<IEnumerable<Product>> GetByStoreIdAsync(Guid storeId)
+        public async Task<IActionResult> GetByStoreIdAsync(Guid storeId)
         {
-            return await _productService.GetByStoreIdAsync(storeId);
+            return Ok(await _productService.GetByStoreIdAsync(storeId));
         }
 
+        [HttpGet("deleteimage/{id:guid}")]                                                                                            //использую
+        public async Task<IActionResult> DeleteImageAsync(Guid id)
+        {
+            var result = await _productService.DeleteImageAsync(id);
+            return Ok(result);
+        }
 
         [HttpPost("addproductimage/{id:guid}")]
         public async Task<IActionResult> AddProductImageAsync(Guid id)                                                         //использую

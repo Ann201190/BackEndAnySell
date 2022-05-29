@@ -15,5 +15,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
         Task<bool> UpdateAsync(Product product);
         Task<bool> DeleteAsync(Guid id);
         Task<bool> AddImageAsync(byte[] fileArrayBytes, Guid id);
+        Task<bool> DeleteImageAsync(Guid id);
     }
 }

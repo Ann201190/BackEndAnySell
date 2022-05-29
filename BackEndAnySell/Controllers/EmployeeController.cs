@@ -38,9 +38,9 @@ namespace BackEndAnySell.Controllers
 
         [HttpGet("getemployeestore/{storeId:guid}")]                                                                       //использую
         // [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
-        public async Task<IEnumerable<Employee>> GetByStoreAsync(Guid storeId)
+        public async Task<IActionResult> GetByStoreAsync(Guid storeId)
         {
-            return await _employeeService.GetByStoreAsync(storeId);
+            return Ok(await _employeeService.GetByStoreAsync(storeId));
         }
 
 
@@ -84,9 +84,9 @@ namespace BackEndAnySell.Controllers
         }
 
         [HttpGet("{id:guid}")]                                                                                               //использую
-        public async Task<Employee> GetByIdAsync(Guid id)
+        public async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            return await _employeeService.GetByIdAsync(id);
+            return Ok(await _employeeService.GetByIdAsync(id));
         }
 
         [HttpPost("updateemploeewithoutphoto")]                                                                                          //использую
@@ -94,6 +94,14 @@ namespace BackEndAnySell.Controllers
         public async Task<IActionResult> UpdateAsync(UpdateEmployeeWithoutPhotoViewModel employeeModel)
         {
             return Ok(await _employeeService.UpdateAsync(employeeModel));
+        }
+
+
+        [HttpGet("deleteimage/{id:guid}")]                                                                                            //использую
+        public async Task<IActionResult> DeleteImageAsync(Guid id)
+        {
+            var result = await _employeeService.DeleteImageAsync(id);
+            return Ok(result);
         }
     }
 }

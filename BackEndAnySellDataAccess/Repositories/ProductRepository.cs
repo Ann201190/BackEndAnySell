@@ -89,5 +89,17 @@ namespace BackEndAnySellAccessDataAccess.Repositories
             }
             return false;
         }
+
+        public async Task<bool> DeleteImageAsync(Guid id)
+        {
+            var product = await GetByIdAsync(id);
+            if (product != null)
+            {
+                product.Image = null;
+                _dbContext.Products.Update(product);
+                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+            }
+            return false;
+        }
     }
 }

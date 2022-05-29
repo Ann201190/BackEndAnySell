@@ -21,15 +21,15 @@ namespace BackEndAnySell.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<Order> GetByIdAsync(Guid id)
+        public async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            return await _orderService.GetByIdAsync(id);
+            return Ok(await _orderService.GetByIdAsync(id));
         }
 
         [HttpGet(("getstoreorder/{storeId:guid}"))]
-        public async Task<IEnumerable<Order>> GetByStoreIdAsync(Guid storeId)
+        public async Task<IActionResult> GetByStoreIdAsync(Guid storeId)
         {
-            return await _orderService.GetByStoreIdAsync(storeId);
+            return Ok(await _orderService.GetByStoreIdAsync(storeId));
         }
     }
 }

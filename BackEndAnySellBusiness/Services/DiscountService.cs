@@ -41,12 +41,6 @@ namespace BackEndAnySellBusiness.Services
             return await _discountRepository.GetByStoreIdAsync(storeId);
         }
 
-
-        /* public async Task<IEnumerable<Discount>> GetAsync()
-         {
-             return await _discountRepository.GetAsync();
-         }*/
-
         public async Task<Discount> GetByIdAsync(Guid id)
         {
             return await _discountRepository.GetByIdAsync(id);

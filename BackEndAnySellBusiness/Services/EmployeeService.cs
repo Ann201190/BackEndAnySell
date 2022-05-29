@@ -102,5 +102,10 @@ namespace BackEndAnySellBusiness.Services
                 return await _employeeRepository.AddPhotoAsync(ms.ToArray(), id);
             }
         }
+
+        public async Task<bool> DeleteImageAsync(Guid id)
+        {
+            return await _employeeRepository.DeleteImageAsync(id);
+        }
     }
 }

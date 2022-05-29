@@ -95,6 +95,11 @@ namespace BackEndAnySellBusiness.Services
                 return product.Id;
             }
             return Guid.Empty;
-        }       
+        }
+
+        public async Task<bool> DeleteImageAsync(Guid id)
+        {
+            return await _productRepository.DeleteImageAsync(id);
+        }
     }
 }

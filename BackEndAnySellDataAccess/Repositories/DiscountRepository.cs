@@ -32,16 +32,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories
             return false;
         }
 
-        /*  public async Task<IEnumerable<Discount>> GetAsync()
-          {
-              return await _dbContext.Discounts
-                  .AsNoTracking()
-                  .Include(d => d.Store)
-                  .Include(d => d.Products)
-                  .ToListAsync();
-          }*/
-
-
         public async Task<IEnumerable<Discount>> GetByStoreIdAsync(Guid storeId)
         {
             return await _dbContext.Discounts

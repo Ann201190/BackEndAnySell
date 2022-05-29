@@ -9,7 +9,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
 {
     public interface IDiscountRepository
     {
-        /*Task<IEnumerable<Discount>> GetAsync();*/
         Task<Discount> GetByIdAsync(Guid id);
         Task<Discount> GetByNameAsync(string name);
         Task<bool> AddAsync(Discount discount);

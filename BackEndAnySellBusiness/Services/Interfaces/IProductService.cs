@@ -15,5 +15,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task<bool> DeleteAsync(Guid id);
         Task<bool> AddImageAsync(IFormFile file, Guid id);
         Task<Product> GetByIdAsync(Guid id);
+        Task<bool> DeleteImageAsync(Guid id);
     }
 }
