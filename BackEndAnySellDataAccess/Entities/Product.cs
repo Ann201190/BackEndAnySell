@@ -10,7 +10,7 @@ namespace BackEndAnySellDataAccess.Entities
         [Required]
         public string Name { get; set; }
         [Range(0, double.MaxValue)]
-        public decimal Price { get; set; }
+        public decimal Price { get; set; } = 0;
         [Required]
         public Guid StoreId { get; set; } 
         public Store Store { get; set; }

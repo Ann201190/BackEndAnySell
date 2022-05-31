@@ -67,7 +67,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Products
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);                
         }
 
         public async Task<IEnumerable<Product>> GetByStoreIdAsync(Guid storeId)
@@ -77,6 +77,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
              //   .Include(p => p.Store)
              //   .Include(p=> p.Discount)
                     .Where(s=>s.StoreId == storeId)
+                    .OrderBy(p=>p.Name)
                 .ToListAsync();
         }
 

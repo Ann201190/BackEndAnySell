@@ -4,14 +4,16 @@ using BackEndAnySellAccessDataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BackEndAnySellDataAccess.Migrations
 {
     [DbContext(typeof(CustomDbContext))]
-    partial class CustomDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220531061302_price-decimal-ReservationProduct")]
+    partial class pricedecimalReservationProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,14 +27,11 @@ namespace BackEndAnySellDataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("BalanceCount")
+                    b.Property<double>("Balance")
                         .HasColumnType("float");
 
                     b.Property<Guid>("ComingId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("ComingPrice")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<double>("Count")
                         .HasColumnType("float");
