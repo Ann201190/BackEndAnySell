@@ -26,7 +26,7 @@ namespace BackEndAnySell.Controllers
             return Ok(await _orderService.GetByIdAsync(id));
         }
 
-        [HttpGet(("getstoreorder/{storeId:guid}"))]
+        [HttpGet(("getstoreorder/{storeId:guid}"))]                                      
         public async Task<IActionResult> GetByStoreIdAsync(Guid storeId)
         {
             return Ok(await _orderService.GetByStoreIdAsync(storeId));

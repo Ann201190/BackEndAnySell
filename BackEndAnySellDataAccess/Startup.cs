@@ -24,7 +24,8 @@ namespace AppartmentAppDataAccess
             services.AddTransient<IReservationProductRepository, ReservationProductRepository>();
             services.AddTransient<IStoreRepository, StoreRepository>();
             services.AddTransient< IProviderRepository, ProviderRepository >();
-
+            services.AddTransient<IComingRepository, ComingRepository>();
+            
 
             //  services.AddTransient<ICustomDbContext, CustomDbContext>();
             services.AddDbContext<CustomDbContext>(options => options.UseSqlServer(connectStr));
