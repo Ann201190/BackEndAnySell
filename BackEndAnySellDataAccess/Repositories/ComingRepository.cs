@@ -36,8 +36,9 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Comings
                 .AsNoTracking()
-                //.Include(d => d.Store)
-                   .Include(d => d.BalanceProducts)
+                   .Include(c => c.Provider)            
+                   .Include(c => c.BalanceProducts)
+                      .ThenInclude(b=>b.Product)
                    .Where(s => s.Store.Id == storeId)
                 .ToListAsync();
         }

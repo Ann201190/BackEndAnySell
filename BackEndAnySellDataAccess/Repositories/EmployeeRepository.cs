@@ -54,7 +54,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         public async Task<Employee> GetAsync(string userName)
         {
             return await _dbContext.Employees
-                .FirstOrDefaultAsync(e => e.Email == userName);
+                .FirstOrDefaultAsync(e => e.Email == userName && !e.IsDeleted);
         }
 
         public async Task<IEnumerable<Employee>> GetByStoreAsync(Guid storeId)
