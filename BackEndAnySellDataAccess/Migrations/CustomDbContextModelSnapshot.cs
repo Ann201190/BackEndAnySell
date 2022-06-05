@@ -37,7 +37,7 @@ namespace BackEndAnySellDataAccess.Migrations
                     b.Property<double>("Count")
                         .HasColumnType("float");
 
-                    b.Property<Guid?>("ProductId")
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -315,7 +315,9 @@ namespace BackEndAnySellDataAccess.Migrations
 
                     b.HasOne("BackEndAnySellDataAccess.Entities.Product", "Product")
                         .WithMany("BalanceProducts")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Coming");
 

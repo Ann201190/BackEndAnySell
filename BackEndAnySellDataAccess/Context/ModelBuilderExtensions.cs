@@ -98,7 +98,7 @@ namespace BackEndAnySellAccessDataAccess.Context
                 Email = "ad669999@gmail.com",
                 Role = Role.Manager,
                 SurName = "Ivanov",
-              //  StoreId = new Guid("BFBC7481-FB3C-4192-A093-519F40F1B812"),
+                Address = "адрес",
                 Phone = "0967636792"
             };
 
@@ -108,7 +108,7 @@ namespace BackEndAnySellAccessDataAccess.Context
                 Email = "litv@gmail.com",
                 Role = Role.Manager,
                 SurName = "Litvintceva",
-              //  StoreId = new Guid("BFBC7481-FB3C-4192-A093-519F40F2B822"),
+                Address = "адрес",               
                 Phone = "0666666989"
             };
 
@@ -134,7 +134,7 @@ namespace BackEndAnySellAccessDataAccess.Context
             var discont3 = new Discount
             {
                 Id = new Guid("BFBC7481-FB3C-4192-A093-519F40F1B777"),
-                Name = "Black Fride",
+                Name = "Black Fride_1",
                 Value = 10,
                 DiscountType = DiscountType.Fixed,
                 StoreId = new Guid("BFBC7481-FB3C-4192-A093-519F40F2B822")
