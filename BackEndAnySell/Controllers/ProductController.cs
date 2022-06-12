@@ -93,6 +93,14 @@ namespace BackEndAnySell.Controllers
             }
             return Ok(false);
         }
+
+        [HttpGet("discountproducts/{discountId:guid}")]                                                                      //использую
+   //     [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> DiscountProductsAsync(Guid discountId)
+        {
+            return Ok(await _productService.DiscountProductsAsync(discountId));
+        }
+
         private string ConvertUnit(ProductUnit productUnit)
         {
             switch (productUnit)

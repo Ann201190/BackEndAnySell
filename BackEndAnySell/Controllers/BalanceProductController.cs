@@ -13,43 +13,43 @@ namespace BackEndAnySell.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class DiscountController : Controller
+    public class BalanceProductController : Controller
     {
-        public readonly IDiscountService _discountrService;
+        public readonly IBalanceProductService _balanceProductService;
 
         //   private Guid _userId => Guid.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
        // private string _userName => User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
-        public DiscountController(IDiscountService discountrService)
+        public BalanceProductController(IBalanceProductService balanceProductService)
         {
-            _discountrService = discountrService;
+            _balanceProductService = balanceProductService;
         }
 
 
-        [HttpGet("{id:guid}")]                                                                                   //использую
+       /*  [HttpGet("{id:guid}")]                                                                                   //использую
         public async Task<IActionResult> GetByIdAsync(Guid id)      
         {
-            return Ok(await _discountrService.GetByIdAsync(id));
+            return Ok(await _balanceProductService.GetByIdAsync(id));
         }
 
         [HttpGet("getstorediscount/{storeId:guid}")]                                                              //использую
         public async Task<IActionResult> GetByStoreIdAsync(Guid storeId)
         {
-            return Ok(await _discountrService.GetByStoreIdAsync(storeId));
+            return Ok(await _balanceProductService.GetByStoreIdAsync(storeId));
         }
 
         [HttpPost]
         [Authorize(Roles = "Manager")]  // только менеджер может создать скидку
         public async Task<IActionResult> AddAsync(AddDiscountViewModel discountModel)
         {
-            if (await _discountrService.AddAsync(discountModel))
+            if (await _balanceProductService.AddAsync(discountModel))
             {
                 return Ok(true);
             }
             return Ok(false);
         }
 
-        [HttpPost("updatediscount")]                                                                               //использую
+       [HttpPost("updatediscount")]                                                                               //использую
         [Authorize(Roles = "Manager")]  // только менеджер может отредактировать скидку
         public async Task<IActionResult> UpdateAsync(UpdateDiscountViewModel discountModel)
         {
@@ -70,19 +70,6 @@ namespace BackEndAnySell.Controllers
                 return Ok(true);
             }
             return Ok(false);
-        }
-
-
-        [HttpPost("deleteproductdiscount/{id:guid}")]                                                                               //использую
-        [Authorize(Roles = "Manager")]  // только менеджер может отредактировать скидку
-        public async Task<IActionResult> DeleteProducDiscountAsync(List<Guid> productIds, Guid id)
-        {
-            if (await _discountrService.DeleteProducDiscountAsync(productIds, id))
-            {
-                return Ok(true);
-            }
-            return Ok(false);
-        }
-
+        }*/
     }
 }

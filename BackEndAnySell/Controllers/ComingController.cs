@@ -39,7 +39,7 @@ namespace BackEndAnySell.Controllers
         }
 
         [HttpPost]                                                                                                //использую
-        [Authorize(Roles = "Manager")]  // только менеджер может создать скидку
+      //  [Authorize(Roles = "Manager")]  // только менеджер может создать скидку
         public async Task<IActionResult> AddAsync(AddComingViewModel comingModel)
         {
             if (await _comingService.AddAsync(comingModel))
@@ -49,19 +49,19 @@ namespace BackEndAnySell.Controllers
             return Ok(false);
         }
 
-      /*  [HttpPost("updatediscount")]                                                                               //использую
-        [Authorize(Roles = "Manager")]  // только менеджер может отредактировать скидку
-        public async Task<IActionResult> UpdateAsync(UpdateDiscountViewModel discountModel)
+     /*  [HttpPost("updatecoming")]                                                                               //использую
+      //  [Authorize(Roles = "Manager")]  // только менеджер может отредактировать скидку
+        public async Task<IActionResult> UpdateAsync(UpdateComingViewModel comingModel)
         {
-            if (await _discountrService.UpdateAsync(discountModel))
+            if (await _comingService.UpdateAsync(comingModel))
             {
                 return Ok(true);
             }
             return Ok(false);
-        }
+        }*/
 
 
-        [HttpGet("deletediscount/{id:guid}")]                                                                      //использую
+       /*  [HttpGet("deletediscount/{id:guid}")]                                                                      //использую
         [Authorize(Roles = "Manager")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {

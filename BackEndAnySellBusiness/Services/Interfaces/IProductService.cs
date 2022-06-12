@@ -16,5 +16,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task<bool> AddImageAsync(IFormFile file, Guid id);
         Task<Product> GetByIdAsync(Guid id);
         Task<bool> DeleteImageAsync(Guid id);
+        Task<IEnumerable<GetProductWithDiscountViewModal>> DiscountProductsAsync(Guid discountId);
     }
 }

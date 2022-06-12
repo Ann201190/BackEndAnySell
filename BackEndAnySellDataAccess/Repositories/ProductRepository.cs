@@ -102,5 +102,15 @@ namespace BackEndAnySellAccessDataAccess.Repositories
             }
             return false;
         }
+
+        public async Task<IEnumerable<Product>> GetByDiscountIdAsync(Guid discountId)
+        {
+            return await _dbContext.Products
+                .AsNoTracking()
+                  .Include(p => p.Discount)
+                    .Where(p => p.DiscountId == discountId)
+                    .OrderBy(p => p.Name)
+                .ToListAsync();
+        }
     }
 }

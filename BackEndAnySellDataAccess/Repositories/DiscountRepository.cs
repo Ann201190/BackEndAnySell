@@ -84,6 +84,18 @@ namespace BackEndAnySellAccessDataAccess.Repositories
             //  .Include(d => d.Products)
                .FirstOrDefaultAsync(d => d.Name == name && d.Id != id);
         }
-        
+
+        public async Task<bool> DeleteProducDiscountAsync(List<Guid> productIds, Guid id)
+        {
+            var discount = await _dbContext.Discounts
+                .Include(d => d.Products)
+                .FirstOrDefaultAsync(d => d.Id == id);
+
+             discount.Products = discount.Products
+                .Where(p => !productIds.Contains(p.Id))
+                .ToList();
+
+           return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+        }
     }
 }

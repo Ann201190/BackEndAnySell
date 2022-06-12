@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace BackEndAnySellBusiness.Services.Interfaces
 {
-    public interface IDiscountService
+    public interface IBalanceProductService
     {
-        Task<Discount> GetByIdAsync(Guid id);
+    /*    Task<Discount> GetByIdAsync(Guid id);
         Task <bool> AddAsync(AddDiscountViewModel discountModel);
         Task<IEnumerable<Discount>> GetByStoreIdAsync(Guid storeId);
         Task<bool> UpdateAsync(UpdateDiscountViewModel discountModel);
-        Task<bool> DeleteAsync(Guid id);
-        Task<bool> DeleteProducDiscountAsync(List<Guid> productIds, Guid id);
+        Task<bool> DeleteAsync(Guid id);*/
     }
 }

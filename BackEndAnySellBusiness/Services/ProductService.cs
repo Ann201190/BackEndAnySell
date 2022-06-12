@@ -1,6 +1,7 @@
 ﻿using BackEndAnySellAccessDataAccess.Repositories.Interfaces;
 using BackEndAnySellBusiness.Services.Interfaces;
 using BackEndAnySellDataAccess.Entities;
+using BackEndAnySellDataAccess.Enums;
 using BackEndSellViewModels.ViewModel;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -100,6 +101,47 @@ namespace BackEndAnySellBusiness.Services
         public async Task<bool> DeleteImageAsync(Guid id)
         {
             return await _productRepository.DeleteImageAsync(id);
+        }
+
+        public async Task<IEnumerable<GetProductWithDiscountViewModal>> DiscountProductsAsync(Guid discountId)
+        {
+            var products = await _productRepository.GetByDiscountIdAsync(discountId);
+            var productsWithDiscount = new List<GetProductWithDiscountViewModal>();
+            var priceWithDiscount = 0m;
+            foreach (var product in products)
+            {
+                if (product.Discount.DiscountType == DiscountType.Fixed)
+                {
+                    priceWithDiscount = product.Price - (decimal)product.Discount.Value;
+                    if (priceWithDiscount < 0)
+                    {
+                        priceWithDiscount = 0;
+                    }
+                }
+                else
+                {
+                    priceWithDiscount = (decimal)((double)product.Price * (product.Discount.Value/100));
+                }
+
+                productsWithDiscount.Add(new GetProductWithDiscountViewModal()
+                {
+                     Id = product.Id,
+                     Barcode = product.Barcode,
+                     Name = product.Name,
+                     Image = product.Image,
+                     ProductUnit = product.ProductUnit,
+                     Price = product.Price,
+                     Discount = product.Discount,
+                     DiscountId = product.DiscountId,
+                     BalanceProducts = product.BalanceProducts,
+                     ReservationProducts = product.ReservationProducts,
+                     Store = product.Store,
+                     StoreId = product.StoreId,                     
+                     PriceWithDiscount = priceWithDiscount
+                });
+            }
+
+            return productsWithDiscount; 
         }
     }
 }

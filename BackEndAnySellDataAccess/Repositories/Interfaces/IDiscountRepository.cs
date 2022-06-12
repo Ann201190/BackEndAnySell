@@ -16,5 +16,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
         Task<bool> UpdateAsync(Discount discount);
         Task<bool> DeleteAsync(Guid id);
         Task<Discount> IsUniqueName(Guid id, string name);
+        Task<bool> DeleteProducDiscountAsync(List<Guid> productIds, Guid id);
     }
 }
