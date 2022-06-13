@@ -46,7 +46,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Discounts           
              //  .Include(d => d.Store)
-             //  .Include(d => d.Products)
+               // .Include(d => d.Products)
                 .FirstOrDefaultAsync(d => d.Id == id);
         }
 
@@ -96,6 +96,26 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                 .ToList();
 
            return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+        }
+
+        public async Task<bool> AddProducDiscountAsync(List<Guid> productIds, Guid id)
+        {
+            var products = await _dbContext.Products
+                .Where(p => productIds.Contains(p.Id))
+                .ToListAsync();
+       
+            var discount = await _dbContext.Discounts
+               .Include(d => d.Products)
+               .FirstOrDefaultAsync(d => d.Id == id);
+
+            foreach (var product in products)
+            {
+                discount.Products.Add(product);
+            }
+
+            _dbContext.Discounts.Update(discount);
+
+            return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
         }
     }
 }

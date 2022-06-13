@@ -9,7 +9,7 @@ namespace BackEndAnySellBusiness.Services.Interfaces
 {
     public interface IProductService
     {
-        Task<IEnumerable<Product>> GetByStoreIdAsync(Guid storeId);
+        Task<IEnumerable<GetProductWithDiscountViewModal>> GetByStoreIdAsync(Guid storeId);
         Task<Guid> AddWithoutImgeAsync(AddProductWithoutImgeViewModel productModel);
         Task<Guid> UpdateAsync(UpdateProductWithoutImgeViewModel productModel);
         Task<bool> DeleteAsync(Guid id);
@@ -17,5 +17,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task<Product> GetByIdAsync(Guid id);
         Task<bool> DeleteImageAsync(Guid id);
         Task<IEnumerable<GetProductWithDiscountViewModal>> DiscountProductsAsync(Guid discountId);
+        Task<IEnumerable<Product>> ProductsWithoutDiscountAsync(Guid discountId);
     }
 }

@@ -14,5 +14,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task<bool> UpdateAsync(UpdateDiscountViewModel discountModel);
         Task<bool> DeleteAsync(Guid id);
         Task<bool> DeleteProducDiscountAsync(List<Guid> productIds, Guid id);
+        Task<bool> AddProducDiscountAsync(List<Guid> productIds, Guid id);
     }
 }

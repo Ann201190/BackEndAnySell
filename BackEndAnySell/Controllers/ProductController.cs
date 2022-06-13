@@ -101,6 +101,12 @@ namespace BackEndAnySell.Controllers
             return Ok(await _productService.DiscountProductsAsync(discountId));
         }
 
+        [HttpGet("productswithoutdiscount/{discountId:guid}")]                                                                      //использую                                                                                                                     
+        public async Task<IActionResult> ProductsWithoutDiscountAsync(Guid discountId)
+        {
+            return Ok(await _productService.ProductsWithoutDiscountAsync(discountId));
+        }
+
         private string ConvertUnit(ProductUnit productUnit)
         {
             switch (productUnit)

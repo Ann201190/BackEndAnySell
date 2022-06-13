@@ -74,9 +74,31 @@ namespace BackEndAnySellBusiness.Services
             return await _productRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<Product>> GetByStoreIdAsync(Guid storeId)
+        public async Task<IEnumerable<GetProductWithDiscountViewModal>> GetByStoreIdAsync(Guid storeId)
         {
-            return await _productRepository.GetByStoreIdAsync(storeId);
+            var products = await _productRepository.GetByStoreIdAsync(storeId);
+            var listProductsWithDisconts = new List<GetProductWithDiscountViewModal>();
+            foreach (var product in products)
+            {
+                listProductsWithDisconts.Add(
+                 new GetProductWithDiscountViewModal
+                 {
+                     Id = product.Id,
+                     BalanceProducts = product.BalanceProducts,
+                     Barcode = product.Barcode,
+                     Discount = product.Discount,
+                     DiscountId = product.DiscountId,
+                     Image = product.Image,
+                     Name = product.Name,
+                     Price = product.Price,
+                     PriceWithDiscount = GetPriceWithDiscount(product),
+                     ProductUnit = product.ProductUnit,
+                     ReservationProducts = product.ReservationProducts,
+                     Store = product.Store,
+                     StoreId = product.StoreId
+                 });
+            }
+            return listProductsWithDisconts;
         }
 
         public async Task<Guid> UpdateAsync(UpdateProductWithoutImgeViewModel productModel)
@@ -103,26 +125,36 @@ namespace BackEndAnySellBusiness.Services
             return await _productRepository.DeleteImageAsync(id);
         }
 
+        private decimal GetPriceWithDiscount(Product product)
+        {
+            if (product.Discount == null)
+            {
+                return product.Price;
+            }
+
+            var priceWithDiscount = 0m;
+            if (product.Discount.DiscountType == DiscountType.Fixed)
+            {
+                priceWithDiscount = product.Price - (decimal)product.Discount.Value;
+                if (priceWithDiscount < 0)
+                {
+                    priceWithDiscount = 0;
+                }
+            }
+            else
+            {
+                priceWithDiscount = product.Price - (decimal)((double)product.Price * (product.Discount.Value / 100));
+            }
+            return priceWithDiscount;
+        }
+
         public async Task<IEnumerable<GetProductWithDiscountViewModal>> DiscountProductsAsync(Guid discountId)
         {
             var products = await _productRepository.GetByDiscountIdAsync(discountId);
             var productsWithDiscount = new List<GetProductWithDiscountViewModal>();
-            var priceWithDiscount = 0m;
+ 
             foreach (var product in products)
-            {
-                if (product.Discount.DiscountType == DiscountType.Fixed)
-                {
-                    priceWithDiscount = product.Price - (decimal)product.Discount.Value;
-                    if (priceWithDiscount < 0)
-                    {
-                        priceWithDiscount = 0;
-                    }
-                }
-                else
-                {
-                    priceWithDiscount = (decimal)((double)product.Price * (product.Discount.Value/100));
-                }
-
+            {             
                 productsWithDiscount.Add(new GetProductWithDiscountViewModal()
                 {
                      Id = product.Id,
@@ -137,11 +169,16 @@ namespace BackEndAnySellBusiness.Services
                      ReservationProducts = product.ReservationProducts,
                      Store = product.Store,
                      StoreId = product.StoreId,                     
-                     PriceWithDiscount = priceWithDiscount
+                     PriceWithDiscount = GetPriceWithDiscount(product)
                 });
             }
 
             return productsWithDiscount; 
+        }
+
+        public async Task<IEnumerable<Product>> ProductsWithoutDiscountAsync(Guid discountId)
+        {
+            return await _productRepository.ProductsWithoutDiscountAsync(discountId);
         }
     }
 }

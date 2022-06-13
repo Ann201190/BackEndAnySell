@@ -84,5 +84,17 @@ namespace BackEndAnySell.Controllers
             return Ok(false);
         }
 
+        [HttpPost("addproductdiscount/{id:guid}")]                                                                               //использую
+        [Authorize(Roles = "Manager")]  // только менеджер может отредактировать скидку
+        public async Task<IActionResult> AddProducDiscountAsync(List<Guid> productIds, Guid id)
+        {
+            if (await _discountrService.AddProducDiscountAsync(productIds, id))
+            {
+                return Ok(true);
+            }
+            return Ok(false);
+          
+        }
+
     }
 }

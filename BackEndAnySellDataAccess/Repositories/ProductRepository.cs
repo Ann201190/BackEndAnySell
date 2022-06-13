@@ -74,10 +74,9 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Products
                 .AsNoTracking()
-             //   .Include(p => p.Store)
-             //   .Include(p=> p.Discount)
-                    .Where(s=>s.StoreId == storeId)
-                    .OrderBy(p=>p.Name)
+                 .Include(p=> p.Discount)
+                   .Where(s=>s.StoreId == storeId)
+                  .OrderBy(p=>p.Name)
                 .ToListAsync();
         }
 
@@ -109,6 +108,16 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                 .AsNoTracking()
                   .Include(p => p.Discount)
                     .Where(p => p.DiscountId == discountId)
+                    .OrderBy(p => p.Name)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> ProductsWithoutDiscountAsync(Guid discountId)
+        {
+            return await _dbContext.Products
+                .AsNoTracking()
+                  .Include(p => p.Discount)
+                    .Where(p => p.DiscountId != discountId && p.Store.Discounts.Any(d => d.Id == discountId))
                     .OrderBy(p => p.Name)
                 .ToListAsync();
         }

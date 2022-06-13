@@ -79,6 +79,11 @@ namespace BackEndAnySellBusiness.Services
         {
             return await _discountRepository.DeleteProducDiscountAsync(productIds, id);
         }
+
+        public async Task<bool> AddProducDiscountAsync(List<Guid> productIds, Guid id)
+        {
+            return await _discountRepository.AddProducDiscountAsync(productIds, id);
+        }
     }
 }
 
