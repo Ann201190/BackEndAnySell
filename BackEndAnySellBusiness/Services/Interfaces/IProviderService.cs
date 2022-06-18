@@ -13,6 +13,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task <bool> AddAsync(AddProviderViewModel providerModel, string userName);
         Task<bool> UpdateAsync(UpdateProviderViewModel providerModel);
         Task<bool> DeleteAsync(Guid id);
-        Task<IEnumerable<Coming>> GetComingsAsync(Guid id);
+        Task<IEnumerable<Coming>> GetComingsAsync(Guid id, Guid storeId);
     }
 }

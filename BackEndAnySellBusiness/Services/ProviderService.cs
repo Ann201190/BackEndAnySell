@@ -71,9 +71,9 @@ namespace BackEndAnySellBusiness.Services
             return false;
         }
 
-        public async Task<IEnumerable<Coming>> GetComingsAsync(Guid id)
+        public async Task<IEnumerable<Coming>> GetComingsAsync(Guid id, Guid storeId)
         {
-            return await _providerRepository.GetComingsAsync(id);
+            return await _providerRepository.GetComingsAsync(id, storeId);
         }
     }
 }
