@@ -29,6 +29,12 @@ namespace BackEndAnySell.Controllers
             return Ok(await _providerService.GetByIdAsync(id));
         }
 
+        [HttpGet("comings/{id:guid}")]
+        public async Task<IActionResult> GetComingsAsync(Guid id)                            //использую
+        {
+            return Ok(await _providerService.GetComingsAsync(id));
+        }
+
         [HttpGet]                                                                               
         public async Task<IActionResult> GetAsync()                                                        //использую
         {

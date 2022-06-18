@@ -63,5 +63,16 @@ namespace BackEndAnySellAccessDataAccess.Repositories
 
              return await _dbContext.SaveChangesAsync() >= 0 ? true : false;    
         }
+
+        public async Task<IEnumerable<Coming>> GetComingsAsync(Guid id)
+        {
+            return await _dbContext.Comings
+              .AsNoTracking()
+                  .Include(c => c.BalanceProducts)
+               .Where(c => c.ProviderId == id)
+              .ToListAsync();
+        }
     }
-}
+
+ }
+

@@ -176,9 +176,32 @@ namespace BackEndAnySellBusiness.Services
             return productsWithDiscount; 
         }
 
-        public async Task<IEnumerable<Product>> ProductsWithoutDiscountAsync(Guid discountId)
+        public async Task<IEnumerable<GetProductWithDiscountViewModal>> ProductsWithoutDiscountAsync(Guid discountId)
         {
-            return await _productRepository.ProductsWithoutDiscountAsync(discountId);
+            var products = await _productRepository.ProductsWithoutDiscountAsync(discountId);
+            var productsWithDiscount = new List<GetProductWithDiscountViewModal>();
+
+            foreach (var product in products)
+            {
+                productsWithDiscount.Add(new GetProductWithDiscountViewModal()
+                {
+                    Id = product.Id,
+                    Barcode = product.Barcode,
+                    Name = product.Name,
+                    Image = product.Image,
+                    ProductUnit = product.ProductUnit,
+                    Price = product.Price,
+                    Discount = product.Discount,
+                    DiscountId = product.DiscountId,
+                    BalanceProducts = product.BalanceProducts,
+                    ReservationProducts = product.ReservationProducts,
+                    Store = product.Store,
+                    StoreId = product.StoreId,
+                    PriceWithDiscount = GetPriceWithDiscount(product)
+                });
+            }
+
+            return productsWithDiscount;             
         }
     }
 }

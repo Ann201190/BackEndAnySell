@@ -12,5 +12,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
         Task<IEnumerable<Provider>> GetAsync(string userName);
         Task<bool> UpdateAsync(Provider providerModel);
         Task<bool> DeleteAsync(Guid id);
+        Task<IEnumerable<Coming>> GetComingsAsync(Guid id);
     }
 }
