@@ -75,7 +75,8 @@ namespace BackEndAnySellDataAccess.Repositories
              //   .Include(s => s.Products)
             //    .Include(s => s.Employees)
                     .Where(s => s.Employees.Any(e => e.Email == userName && !e.IsDeleted) && !s.IsDeleted)  //по почте, по конкретному юзеру только для Менеджера и не удаленные
-                .ToListAsync();
+                    .OrderBy(p => p.Name)
+                   .ToListAsync();
         }
 
         public async Task<Store> GetByIdAsync(Guid id)
