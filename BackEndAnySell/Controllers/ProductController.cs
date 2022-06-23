@@ -150,7 +150,7 @@ namespace BackEndAnySell.Controllers
                 for (int i = 1; i <= finishColumTable; i++)
                 {
                     //цвет заголовка
-                    worksheet.Cell(startRowTable, i).Style.Fill.BackgroundColor = XLColor.FromArgb(59, 193, 160);
+                    worksheet.Cell(startRowTable, i).Style.Fill.BackgroundColor = XLColor.FromArgb(254, 161 ,22);
                 }
 
                 for (int i = startRowTable; i <= products.Count() + startRowTable; i++)
