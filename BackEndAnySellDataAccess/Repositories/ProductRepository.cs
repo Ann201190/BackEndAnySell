@@ -121,5 +121,15 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                     .OrderBy(p => p.Name)
                 .ToListAsync();
         }
+
+
+        public async Task<IEnumerable<Product>> GetByStoreIdDownloadNeedListAsync(Guid storeId)
+        {        
+            return  await _dbContext.Products
+                .AsNoTracking()
+                    .Include(p => p.BalanceProducts)
+                   .Where(p => p.StoreId == storeId && !p.BalanceProducts.Any(b => b.BalanceCount > 0 ))
+                .ToListAsync();
+        }
     }
 }

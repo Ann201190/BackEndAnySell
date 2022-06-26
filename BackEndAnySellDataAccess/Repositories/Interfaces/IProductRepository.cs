@@ -18,5 +18,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
         Task<bool> DeleteImageAsync(Guid id);
         Task<IEnumerable<Product>> GetByDiscountIdAsync(Guid discountId);
         Task<IEnumerable<Product>> ProductsWithoutDiscountAsync(Guid discountId);
+        Task<IEnumerable<Product>> GetByStoreIdDownloadNeedListAsync(Guid storeId);
     }
 }

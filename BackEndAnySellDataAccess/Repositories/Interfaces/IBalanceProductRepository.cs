@@ -1,13 +1,13 @@
 ﻿using BackEndAnySellDataAccess.Entities;
-using BackEndSellViewModels.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BackEndAnySellBusiness.Services.Interfaces
+namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
 {
-    public interface IBalanceProductService
-    {
+    public interface IBalanceProductRepository
+    {      
         Task<IEnumerable<BalanceProduct>> GetByStoreIdDownloadPriceListAsync(Guid storeId);
+        Task<IEnumerable<BalanceProduct>> GetByStoreIdAsync(Guid storeId);
     }
 }

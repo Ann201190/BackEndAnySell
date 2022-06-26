@@ -18,5 +18,7 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task<bool> DeleteImageAsync(Guid id);
         Task<IEnumerable<GetProductWithDiscountViewModal>> DiscountProductsAsync(Guid discountId);
         Task<IEnumerable<GetProductWithDiscountViewModal>> ProductsWithoutDiscountAsync(Guid discountId);
+        decimal GetPriceWithDiscount(Product product);
+        Task<IEnumerable<Product>> GetByStoreIdDownloadNeedListAsync(Guid storeId);
     }
 }

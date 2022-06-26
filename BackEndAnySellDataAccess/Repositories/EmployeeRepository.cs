@@ -61,7 +61,8 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Employees
                  .AsNoTracking()               
-                   .Where(e => e.Stores.Any(s=>s.Id== storeId)&& !e.IsDeleted)
+                   .Where(e => e.Stores.Any(s=>s.Id== storeId)&& !e.IsDeleted)                
+                     .OrderBy(p => p.SurName)
                  .ToListAsync();
         }
 

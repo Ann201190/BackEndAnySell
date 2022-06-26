@@ -125,7 +125,7 @@ namespace BackEndAnySellBusiness.Services
             return await _productRepository.DeleteImageAsync(id);
         }
 
-        private decimal GetPriceWithDiscount(Product product)
+        public decimal GetPriceWithDiscount(Product product)
         {
             if (product.Discount == null)
             {
@@ -202,6 +202,12 @@ namespace BackEndAnySellBusiness.Services
             }
 
             return productsWithDiscount;             
+        }
+
+
+        public async Task<IEnumerable<Product>> GetByStoreIdDownloadNeedListAsync(Guid storeId)
+        {
+            return await _productRepository.GetByStoreIdDownloadNeedListAsync(storeId);
         }
     }
 }

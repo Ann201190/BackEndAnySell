@@ -5,11 +5,6 @@ using BackEndAnySellDataAccess.Repositories;
 using BackEndAnySellDataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AppartmentAppDataAccess
 {
@@ -25,7 +20,8 @@ namespace AppartmentAppDataAccess
             services.AddTransient<IStoreRepository, StoreRepository>();
             services.AddTransient< IProviderRepository, ProviderRepository >();
             services.AddTransient<IComingRepository, ComingRepository>();
-            
+            services.AddTransient< IBalanceProductRepository, BalanceProductRepository >();
+
 
             //  services.AddTransient<ICustomDbContext, CustomDbContext>();
             services.AddDbContext<CustomDbContext>(options => options.UseSqlServer(connectStr));
