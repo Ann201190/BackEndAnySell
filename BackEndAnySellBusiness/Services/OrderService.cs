@@ -4,6 +4,7 @@ using BackEndAnySellDataAccess.Entities;
 using BackEndSellViewModels.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BackEndAnySellBusiness.Services
@@ -48,7 +49,9 @@ namespace BackEndAnySellBusiness.Services
                 });
             }
 
-            return cashBoxProduct;
+            return cashBoxProduct
+                .GroupBy(b => b.Barcode)
+                .Select(b => b.First());
         }
     }
 }
