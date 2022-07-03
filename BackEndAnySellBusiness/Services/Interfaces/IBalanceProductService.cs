@@ -8,6 +8,5 @@ namespace BackEndAnySellBusiness.Services.Interfaces
 {
     public interface IBalanceProductService
     {
-        Task<IEnumerable<BalanceProduct>> GetByStoreIdDownloadPriceListAsync(Guid storeId);
     }
 }

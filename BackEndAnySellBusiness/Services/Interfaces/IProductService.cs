@@ -20,6 +20,7 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task<IEnumerable<GetProductWithDiscountViewModal>> ProductsWithoutDiscountAsync(Guid discountId);
         decimal GetPriceWithDiscount(Product product);
         Task<IEnumerable<Product>> GetByStoreIdDownloadNeedListAsync(Guid storeId);
-        Task<IEnumerable<Product>> GetByStoreIdDownloadAllListAsync(Guid storeId);       
+        Task<IEnumerable<Product>> GetByStoreIdDownloadAllListAsync(Guid storeId);
+        Task<IEnumerable<Product>> GetByStoreIdDownloadPriceListAsync(Guid storeId);
     }
 }

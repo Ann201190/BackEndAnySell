@@ -16,12 +16,7 @@ namespace BackEndAnySellBusiness.Services
         public BalanceProductService(IBalanceProductRepository balanceProductRepository)
         {
             _balanceProductRepository = balanceProductRepository;       
-        }
-
-        public async Task<IEnumerable<BalanceProduct>> GetByStoreIdDownloadPriceListAsync(Guid storeId)
-        {
-            return await _balanceProductRepository.GetByStoreIdDownloadPriceListAsync(storeId);
-        }
+        }       
     }
 }
 

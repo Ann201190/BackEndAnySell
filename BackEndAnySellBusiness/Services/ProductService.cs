@@ -214,5 +214,10 @@ namespace BackEndAnySellBusiness.Services
         {
             return await _productRepository.GetByStoreIdDownloadAllListAsync(storeId);
         }
+
+        public async Task<IEnumerable<Product>> GetByStoreIdDownloadPriceListAsync(Guid storeId)
+        {
+            return await _productRepository.GetByStoreIdDownloadPriceListAsync(storeId);
+        }
     }
 }
