@@ -3,7 +3,7 @@ using System;
 
 namespace BackEndSellViewModels.ViewModel
 {
-    public class GetCashBoxProductViewModel
+    public class GetOrderProductViewModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

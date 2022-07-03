@@ -12,9 +12,11 @@ namespace BackEndAnySellBusiness.Services
     public class ComingService : IComingService
     {
         private readonly IComingRepository _comingRepository;
-        public ComingService(IComingRepository comingRepository)
+        private readonly IBalanceProductRepository _balanceProductRepository;
+        public ComingService(IComingRepository comingRepository, IBalanceProductRepository balanceProductRepository)
         {
             _comingRepository = comingRepository;
+            _balanceProductRepository = balanceProductRepository;
         }
 
         public async Task<bool> AddAsync(AddComingViewModel comingModel)
@@ -75,18 +77,29 @@ namespace BackEndAnySellBusiness.Services
                 return await _discountRepository.UpdateAsync(discount);
             }
             return false;
-        }
+        }*/
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var discount = await _discountRepository.GetByIdAsync(id);
+            var coming = await _comingRepository.GetByIdAsync(id);
+            var balanceProduct = await _balanceProductRepository.GetByStoreIdAsync(coming.StoreId);
+            var delete = false;
 
-            if (discount.Products.Count == 0)
+            foreach (var comingBalanceProducts in coming.BalanceProducts)
             {
-                return await _discountRepository.DeleteAsync(id);
+             //  balanceProduct.Any(bp => bp.Id == comingBalanceProducts.Id && bp.BalanceCount == comingBalanceProducts.BalanceCount);
+                if (balanceProduct.Any(bp => bp.Id == comingBalanceProducts.Id && bp.BalanceCount == comingBalanceProducts.BalanceCount))
+                {
+                    delete = true;
+                }
+            }
+
+            if (delete)
+            {
+                return await _comingRepository.DeleteAsync(id);
             }
             return false;
-        }*/
+        }
     }
 }
 

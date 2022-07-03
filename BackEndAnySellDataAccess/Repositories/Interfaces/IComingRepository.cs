@@ -10,11 +10,11 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
     public interface IComingRepository
     {
         Task<Coming> GetByIdAsync(Guid id);
-      //  Task<Coming> GetByNameAsync(string name);
         Task<bool> AddAsync(Coming discount);
         Task<IEnumerable<Coming>> GetByStoreIdAsync(Guid storeId);
-     /*   Task<bool> UpdateAsync(Discount discount);
-        Task<bool> DeleteAsync(Guid id);
-        Task<Discount> IsUniqueName(Guid id, string name);*/
+        Task<bool> DeleteAsync(Guid id);  
+        /* Task<bool> UpdateAsync(Discount discount);
+        Task<Coming> GetByNameAsync(string name);
+        Task<Discount> IsUniqueName(Guid id, string name); */
     }
 }

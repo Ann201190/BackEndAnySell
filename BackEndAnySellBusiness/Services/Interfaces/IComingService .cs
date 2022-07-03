@@ -12,6 +12,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task <bool> AddAsync(AddComingViewModel discountModel);
         Task<IEnumerable<Coming>> GetByStoreIdAsync(Guid storeId);
       //  Task<bool> UpdateAsync(UpdateDiscountViewModel discountModel);
-      //  Task<bool> DeleteAsync(Guid id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

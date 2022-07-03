@@ -59,15 +59,15 @@ namespace BackEndAnySell.Controllers
         }*/
 
 
-       /*  [HttpGet("deletediscount/{id:guid}")]                                                                      //использую
-        [Authorize(Roles = "Manager")]
+         [HttpGet("deletecoming/{id:guid}")]                                                       //использую
+    //    [Authorize(Roles = "Manager")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
-          if (await _discountrService.DeleteAsync(id))
+          if (await _comingService.DeleteAsync(id))
             {
                 return Ok(true);
             }
             return Ok(false);
-        }*/
+        }
     }
 }

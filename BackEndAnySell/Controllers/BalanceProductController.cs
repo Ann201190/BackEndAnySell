@@ -108,8 +108,8 @@ namespace BackEndAnySell.Controllers
                     worksheet.Cell(startRowTable, 5).Value = "Price";
                     worksheet.Cell(startRowTable, 6).Value = "Count";
                     //заголовой в объединенной строке
-                    worksheet.Cell(1, 1).Value = $"Zero balances store {nameStore.Name} on {DateTime.Now.ToShortDateString()}";
-                    fileName = $"Zero balances_{nameStore.Name}_{DateTime.Now.ToShortDateString()}.xlsx";
+                    worksheet.Cell(1, 1).Value = $" Price-list store {nameStore.Name} on {DateTime.Now.ToShortDateString()}";
+                    fileName = $"Price-list_{nameStore.Name}_{DateTime.Now.ToShortDateString()}.xlsx";
                 }
                 else
                 {
@@ -119,8 +119,8 @@ namespace BackEndAnySell.Controllers
                     worksheet.Cell(startRowTable, 5).Value = "Цена";
                     worksheet.Cell(startRowTable, 6).Value = "Количество";
                     //заголовой в объединенной строке
-                    worksheet.Cell(1, 1).Value = $"Нулевые остатки товаров магазина {nameStore.Name} по состоянию на {DateTime.Now.ToShortDateString()}";
-                    fileName = $"Нулевые остатки товаров_{nameStore.Name}_{DateTime.Now.ToShortDateString()}.xlsx";
+                    worksheet.Cell(1, 1).Value = $"Прайс-лист магазина {nameStore.Name} по состоянию на {DateTime.Now.ToShortDateString()}";
+                    fileName = $"Прайс-лист_{nameStore.Name}_{DateTime.Now.ToShortDateString()}.xlsx";
                 }
 
                 int n = 0; //порядковый номер продукта

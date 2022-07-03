@@ -19,5 +19,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
         Task<IEnumerable<Product>> GetByDiscountIdAsync(Guid discountId);
         Task<IEnumerable<Product>> ProductsWithoutDiscountAsync(Guid discountId);
         Task<IEnumerable<Product>> GetByStoreIdDownloadNeedListAsync(Guid storeId);
+        Task<IEnumerable<Product>> GetByStoreIdDownloadAllListAsync(Guid storeId);
     }
 }
