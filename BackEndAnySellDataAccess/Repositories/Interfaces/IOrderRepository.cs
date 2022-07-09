@@ -11,5 +11,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
     {
         Task<IEnumerable<Order>> GetByStoreIdAsync(Guid storeId);
         Task<Order> GetByIdAsync(Guid id);
+        Task<Order> GetCheckAsync(string orderNumber);
+        Task<bool> AddAsync(Order order);
     }
 }

@@ -40,6 +40,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                    .Include(c => c.BalanceProducts)
                       .ThenInclude(b=>b.Product)
                    .Where(s => s.Store.Id == storeId)
+                   .OrderByDescending(c => c.Date)
                 .ToListAsync();
         }
 

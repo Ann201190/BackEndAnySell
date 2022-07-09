@@ -66,7 +66,8 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         public async Task<Product> GetByIdAsync(Guid id)
         {
             return await _dbContext.Products
-                .AsNoTracking()
+                  .Include(b=>b.BalanceProducts)
+                  .Include(r => r.ReservationProducts)
                 .FirstOrDefaultAsync(p => p.Id == id);                
         }
 

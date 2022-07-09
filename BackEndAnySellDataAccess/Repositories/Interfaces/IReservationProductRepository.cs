@@ -1,12 +1,11 @@
-﻿using System;
+﻿using BackEndAnySellDataAccess.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BackEndAnySellDataAccess.Repositories.Interfaces
 {
     public interface IReservationProductRepository
     {
+        Task<bool> AddAsync(List<ReservationProduct> reservationProducts);
     }
 }

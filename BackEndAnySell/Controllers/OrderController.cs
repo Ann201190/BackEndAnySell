@@ -1,5 +1,6 @@
 ﻿using BackEndAnySellBusiness.Services.Interfaces;
 using BackEndAnySellDataAccess.Entities;
+using BackEndSellViewModels.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,20 @@ namespace BackEndAnySell.Controllers
         public async Task<IActionResult> GetProductByStoreIdAsync(Guid storeId)
         {
             return Ok(await _orderService.GetProductByStoreIdAsync(storeId));
+        }
+
+
+        [HttpGet("getcheck/{orderNumber}")]                                                                             //использую
+        public async Task<IActionResult> GetCheckAsync(string orderNumber)
+        {
+            return Ok(await _orderService.GetCheckAsync(orderNumber));
+        }
+
+
+        [HttpPost]                                                                                                //использую                                                                                                               
+        public async Task<IActionResult> AddAsync(AddOrderViewModel orderModel)
+        {
+            return Ok(await _orderService.AddAsync(orderModel));        
         }
     }
 }

@@ -12,7 +12,6 @@ namespace BackEndAnySellDataAccess.Repositories
     public class StoreRepository: IStoreRepository
     {
         private readonly CustomDbContext _dbContext;
-
         public StoreRepository(CustomDbContext dbContext)
         {
             _dbContext = dbContext;
