@@ -49,26 +49,22 @@ namespace BackEndAnySellBusiness.Services
                         ProductId = orderProduct.ProductId,
                     });
                 }
-
                
-                    Order order = new Order()
-                    {
-                        Id = orderModel.Id,
-                        OrderDate = DateTime.Now,
-                        OrderNumber = orderNumber,
-                        StoreId = orderModel.StoreId,
-                        OrderStatus = OrderStatus.Paid,
-                        ReservationProducts = reservationProducts
-                    };
-
-                await _odrerRepository.AddAsync(order);
-
-                if (await _odrerRepository.AddAsync(order))
+                Order order = new Order()
                 {
-                    if (await _reservationProductRepository.AddAsync(reservationProducts))
-                    {
-                        return "http://localhost:5000/orderNumber/" + orderNumber;
-                    }
+                    Id = orderModel.Id,
+                    OrderDate = DateTime.Now,
+                    OrderNumber = orderNumber,
+                    StoreId = orderModel.StoreId,
+                    OrderStatus = OrderStatus.Paid,
+                    ReservationProducts = reservationProducts
+                };
+
+                var isAdd = await _odrerRepository.AddAsync(order);
+
+                if (isAdd)
+                {
+                    return "http://localhost:5000/orderNumber/" + orderNumber;
                 }
             }
             return "error";

@@ -24,8 +24,10 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Orders
                 .AsNoTracking()
-             //   .Include(o => o.ReservationProducts)
+                .Include(o => o.ReservationProducts)
+                   .ThenInclude(r => r.Product)
                      .Where(o=>o.StoreId == storeId)
+                .OrderByDescending(c => c.OrderDate)
                 .ToListAsync();
         }
 
