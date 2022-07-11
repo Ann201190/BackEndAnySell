@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BackEndAnySellBusiness.Services
@@ -29,8 +30,8 @@ namespace BackEndAnySellBusiness.Services
         }
 
         public async Task<Guid> AddWithoutImgeAsync(AddProductWithoutImgeViewModel productModel)
-        {           
-            if (productModel != null && productModel.Barcode!=null)
+        {
+            if (productModel != null && productModel.Barcode != null)
             {
                 var product = new Product()
                 {
@@ -43,7 +44,7 @@ namespace BackEndAnySellBusiness.Services
 
                 var isAddedProduct = await AddProductAsync(product);                   // передаем уже готовый объект для сохранения в базу данных
 
-                if (isAddedProduct )
+                if (isAddedProduct)
                 {
                     return product.Id;
                 }
@@ -152,28 +153,28 @@ namespace BackEndAnySellBusiness.Services
         {
             var products = await _productRepository.GetByDiscountIdAsync(discountId);
             var productsWithDiscount = new List<GetProductWithDiscountViewModal>();
- 
+
             foreach (var product in products)
-            {             
+            {
                 productsWithDiscount.Add(new GetProductWithDiscountViewModal()
                 {
-                     Id = product.Id,
-                     Barcode = product.Barcode,
-                     Name = product.Name,
-                     Image = product.Image,
-                     ProductUnit = product.ProductUnit,
-                     Price = product.Price,
-                     Discount = product.Discount,
-                     DiscountId = product.DiscountId,
-                     BalanceProducts = product.BalanceProducts,
-                     ReservationProducts = product.ReservationProducts,
-                     Store = product.Store,
-                     StoreId = product.StoreId,                     
-                     PriceWithDiscount = GetPriceWithDiscount(product)
+                    Id = product.Id,
+                    Barcode = product.Barcode,
+                    Name = product.Name,
+                    Image = product.Image,
+                    ProductUnit = product.ProductUnit,
+                    Price = product.Price,
+                    Discount = product.Discount,
+                    DiscountId = product.DiscountId,
+                    BalanceProducts = product.BalanceProducts,
+                    ReservationProducts = product.ReservationProducts,
+                    Store = product.Store,
+                    StoreId = product.StoreId,
+                    PriceWithDiscount = GetPriceWithDiscount(product)
                 });
             }
 
-            return productsWithDiscount; 
+            return productsWithDiscount;
         }
 
         public async Task<IEnumerable<GetProductWithDiscountViewModal>> ProductsWithoutDiscountAsync(Guid discountId)
@@ -201,9 +202,8 @@ namespace BackEndAnySellBusiness.Services
                 });
             }
 
-            return productsWithDiscount;             
+            return productsWithDiscount;
         }
-
 
         public async Task<IEnumerable<Product>> GetByStoreIdDownloadNeedListAsync(Guid storeId)
         {
@@ -218,6 +218,35 @@ namespace BackEndAnySellBusiness.Services
         public async Task<IEnumerable<Product>> GetByStoreIdDownloadPriceListAsync(Guid storeId)
         {
             return await _productRepository.GetByStoreIdDownloadPriceListAsync(storeId);
+        }
+
+        public async Task<IEnumerable<GetAwailableProductViewModel>> GetByStoreIdAwailableListAsync(Guid storeId)
+        {
+            var product = await _productRepository.GetByStoreIdDownloadPriceListAsync(storeId);
+
+            var awailableProducts = new List<GetAwailableProductViewModel>();
+
+            foreach (var awailableProduct in awailableProducts)
+            {
+                awailableProducts.Add(new GetAwailableProductViewModel()
+                {
+                    Id = awailableProduct.Id,
+                    Barcode = awailableProduct.Barcode,
+                    Name = awailableProduct.Name,
+                    Image = awailableProduct.Image,
+                    ProductUnit = awailableProduct.ProductUnit,
+                    Price = awailableProduct.Price,
+                    Discount = awailableProduct.Discount,
+                    DiscountId = awailableProduct.DiscountId,
+                    BalanceProducts = awailableProduct.BalanceProducts,
+                    ReservationProducts = awailableProduct.ReservationProducts,
+                    Store = awailableProduct.Store,
+                    StoreId = awailableProduct.StoreId,
+                    Count = awailableProduct.BalanceProducts.Sum(bp => bp.BalanceCount)
+                });
+            }
+
+            return awailableProducts;
         }
     }
 }

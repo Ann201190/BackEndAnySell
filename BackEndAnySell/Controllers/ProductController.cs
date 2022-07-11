@@ -93,7 +93,7 @@ namespace BackEndAnySell.Controllers
         }
 
         [HttpGet("discountproducts/{discountId:guid}")]                                                                      //использую
-   //     [Authorize(Roles = "Manager")]
+                                                                                                                             //     [Authorize(Roles = "Manager")]
         public async Task<IActionResult> DiscountProductsAsync(Guid discountId)
         {
             return Ok(await _productService.DiscountProductsAsync(discountId));
@@ -105,6 +105,17 @@ namespace BackEndAnySell.Controllers
             return Ok(await _productService.ProductsWithoutDiscountAsync(discountId));
         }
 
+        [HttpGet("needlist/{storeId:guid}")]                                                                     //использую 
+        public async Task<IActionResult> NeedList(Guid storeId)
+        {
+           return Ok(await _productService.GetByStoreIdDownloadNeedListAsync(storeId));
+        }
+
+        [HttpGet("awailablelist/{storeId:guid}")]
+        public async Task<IActionResult> AwailableList(Guid storeId)                                               //использую 
+        {
+            return Ok(await _productService.GetByStoreIdAwailableListAsync(storeId));
+        }
 
         [HttpGet("download/{storeId:guid}/{leng}")]                                                                  //использую 
         public async Task<IActionResult> DownloadFileNeedList(Guid storeId, string leng)
@@ -232,6 +243,8 @@ namespace BackEndAnySell.Controllers
                     return "";
             }
         }
+
+
 
 
         [HttpGet("downloadprice/{storeId:guid}/{leng}")]                                                               //использую
