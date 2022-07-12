@@ -10,5 +10,6 @@ namespace BackEndSellViewModels.ViewModel
         public decimal PriceWithDiscount { get; set; }
         public string Barcode { get; set; }
         public ProductUnit ProductUnit { get; set; } = ProductUnit.Piece;
+        public string Employee { get; set; }
     }
 }

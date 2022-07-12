@@ -222,27 +222,27 @@ namespace BackEndAnySellBusiness.Services
 
         public async Task<IEnumerable<GetAwailableProductViewModel>> GetByStoreIdAwailableListAsync(Guid storeId)
         {
-            var product = await _productRepository.GetByStoreIdDownloadPriceListAsync(storeId);
+            var products = await _productRepository.GetByStoreIdDownloadPriceListAsync(storeId);
 
             var awailableProducts = new List<GetAwailableProductViewModel>();
 
-            foreach (var awailableProduct in awailableProducts)
+            foreach (var product in products)
             {
                 awailableProducts.Add(new GetAwailableProductViewModel()
                 {
-                    Id = awailableProduct.Id,
-                    Barcode = awailableProduct.Barcode,
-                    Name = awailableProduct.Name,
-                    Image = awailableProduct.Image,
-                    ProductUnit = awailableProduct.ProductUnit,
-                    Price = awailableProduct.Price,
-                    Discount = awailableProduct.Discount,
-                    DiscountId = awailableProduct.DiscountId,
-                    BalanceProducts = awailableProduct.BalanceProducts,
-                    ReservationProducts = awailableProduct.ReservationProducts,
-                    Store = awailableProduct.Store,
-                    StoreId = awailableProduct.StoreId,
-                    Count = awailableProduct.BalanceProducts.Sum(bp => bp.BalanceCount)
+                    Id = product.Id,
+                    Barcode = product.Barcode,
+                    Name = product.Name,
+                    Image = product.Image,
+                    ProductUnit = product.ProductUnit,
+                    Price = product.Price,
+                    Discount = product.Discount,
+                    DiscountId = product.DiscountId,
+                    BalanceProducts = product.BalanceProducts,
+                    ReservationProducts = product.ReservationProducts,
+                    Store = product.Store,
+                    StoreId = product.StoreId,
+                    Count = product.BalanceProducts.Sum(bp => bp.BalanceCount)
                 });
             }
 

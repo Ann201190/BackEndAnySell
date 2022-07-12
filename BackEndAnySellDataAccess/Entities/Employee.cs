@@ -25,5 +25,6 @@ namespace BackEndAnySellDataAccess.Entities
         public string Other { get; set; }
         public bool IsDeleted { get; set; } = false;
         public ICollection<Provider> Providers { get; set; } = new List<Provider>();
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

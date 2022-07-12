@@ -69,6 +69,10 @@ namespace BackEndAnySellAccessDataAccess.Context
               .HasOne(o => o.Store)
               .WithMany(s => s.Orders);
 
+            modelBuilder.Entity<Employee>()
+              .HasMany(e => e.Orders)
+              .WithOne(o => o.Employee)
+              .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Provider>()
                .HasOne(p => p.Employee)
@@ -146,7 +150,8 @@ namespace BackEndAnySellAccessDataAccess.Context
                 Id = new Guid("BFBC7481-FB3C-4192-A093-519F40F1B812"),
                 Name = "FIRST",
                 Employees  = new List<Employee> { employees1 },
-                Discounts = new List<Discount> { discont1 }
+                Discounts = new List<Discount> { discont1 },
+                IsDeleted = false
              };
 
             var store2 = new Store
@@ -154,7 +159,8 @@ namespace BackEndAnySellAccessDataAccess.Context
                 Id = new Guid("BFBC7481-FB3C-4192-A093-519F40F2B822"),
                 Name = "SECOND",
                 Employees = new List<Employee> { employees2 },
-                Discounts = new List<Discount> { discont1 }
+                Discounts = new List<Discount> { discont1 },
+                IsDeleted = false
             };
 
             var product1 = new Product

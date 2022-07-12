@@ -56,6 +56,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
               .Include(o => o.ReservationProducts)
                   .ThenInclude(r => r.Product)
                  .Include(o => o.Store)
+                 .Include(e=>e.Employee)
              .FirstOrDefaultAsync(s => s.OrderNumber == orderNumber);
         }
     }

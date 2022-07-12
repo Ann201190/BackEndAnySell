@@ -14,5 +14,6 @@ namespace BackEndAnySellDataAccess.Entities
         public ICollection<Coming> Comings { get; set; } = new List<Coming>();
         public byte[] LogoImage { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public string Address { get; set; }
     }
 }

@@ -16,20 +16,17 @@ namespace BackEndAnySellBusiness.Services
     {
         private readonly IOrderRepository _odrerRepository;
         private readonly IProductService _productService;
-        private readonly IReservationProductRepository _reservationProductRepository;
         private readonly IBalanceProductRepository _balanceProductRepository;
         public OrderService(IOrderRepository odrerRepository,
             IProductService productService,
-            IReservationProductRepository reservationProductRepository,
             IBalanceProductRepository balanceProductRepository)
         {
             _odrerRepository = odrerRepository;
-            _productService = productService;
-            _reservationProductRepository = reservationProductRepository;
+            _productService = productService;         
             _balanceProductRepository = balanceProductRepository;
         }
 
-        public async Task<string> AddAsync(AddOrderViewModel orderModel)
+        public async Task<string> AddAsync(AddOrderViewModel orderModel, Guid userId)
         {
             if (orderModel != null)
             {
@@ -47,6 +44,7 @@ namespace BackEndAnySellBusiness.Services
                         Price = product.Price,
                         Product = product,
                         ProductId = orderProduct.ProductId,
+                        DiscountValue = _productService.GetPriceWithDiscount(product)
                     });
                 }
                
@@ -57,7 +55,8 @@ namespace BackEndAnySellBusiness.Services
                     OrderNumber = orderNumber,
                     StoreId = orderModel.StoreId,
                     OrderStatus = OrderStatus.Paid,
-                    ReservationProducts = reservationProducts
+                    ReservationProducts = reservationProducts,
+                    EmployeeId = userId
                 };
 
                 var isAdd = await _odrerRepository.AddAsync(order);
@@ -104,7 +103,6 @@ namespace BackEndAnySellBusiness.Services
         public async Task<IEnumerable<GetOrderProductViewModel>> GetProductByStoreIdAsync(Guid storeId)
         {
             var balanceProducts = await _balanceProductRepository.GetByStoreIdAsync(storeId);
-
             var cashBoxProduct = new List<GetOrderProductViewModel>();
 
             foreach (var balanceProduct in balanceProducts)
@@ -115,7 +113,7 @@ namespace BackEndAnySellBusiness.Services
                     Barcode = balanceProduct.Product.Barcode,
                     Name = balanceProduct.Product.Name,
                     ProductUnit = balanceProduct.Product.ProductUnit,
-                    PriceWithDiscount = _productService.GetPriceWithDiscount(balanceProduct.Product)
+                    PriceWithDiscount = _productService.GetPriceWithDiscount(balanceProduct.Product),
                 });
             }
 

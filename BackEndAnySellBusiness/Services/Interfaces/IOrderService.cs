@@ -11,7 +11,7 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task<Order> GetByIdAsync(Guid id);     
         Task<Order> GetCheckAsync(string orderNumber);
         Task<IEnumerable<Order>> GetByStoreIdAsync(Guid storeId);
-        Task<string> AddAsync(AddOrderViewModel orderModel);
+        Task<string> AddAsync(AddOrderViewModel orderModel, Guid userId);
         Task<IEnumerable<GetOrderProductViewModel>> GetProductByStoreIdAsync(Guid storeId);
     }
 }

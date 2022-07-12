@@ -2,6 +2,8 @@
 using BackEndSellViewModels.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BackEndAnySell.Controllers
@@ -11,7 +13,8 @@ namespace BackEndAnySell.Controllers
     public class OrderController : Controller
     {
         public readonly IOrderService _orderService;
-       
+        private Guid _userId => Guid.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
+
         public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
@@ -45,9 +48,9 @@ namespace BackEndAnySell.Controllers
 
 
         [HttpPost]                                                                                                   //использую                                                                                                               
-        public async Task<IActionResult> AddAsync(AddOrderViewModel orderModel)
+        public async Task<IActionResult> AddAsync(AddOrderViewModel orderModel,Guid _userId)
         {
-            return Ok(await _orderService.AddAsync(orderModel));        
+            return Ok(await _orderService.AddAsync(orderModel, _userId));        
         }
     }
 }

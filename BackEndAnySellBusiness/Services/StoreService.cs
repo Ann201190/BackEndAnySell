@@ -27,7 +27,8 @@ namespace BackEndAnySellBusiness.Services
             var store = new Store()
             {
                 Id = storeModel.Id,
-                Name = storeModel.NameStore
+                Name = storeModel.NameStore,
+                Address = storeModel.AddressStore
             };
 
             var employee = new Employee()
@@ -108,7 +109,8 @@ namespace BackEndAnySellBusiness.Services
             var store = new Store()
             {
                 Id = storeModel.Id,
-                Name = storeModel.Name
+                Name = storeModel.Name,
+                Address= storeModel.Address
             };
 
             var employee = await _employeeRepository.GetAsync(userName);
@@ -130,6 +132,7 @@ namespace BackEndAnySellBusiness.Services
            var store = await _storeRepository.GetByIdAsync(storeModel.Id);
 
             store.Name = storeModel.Name;
+            store.Address = storeModel.Address;
 
          var isUpdatedStore = await _storeRepository.UpdateAsync(store);
 
