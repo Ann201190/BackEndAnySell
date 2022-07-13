@@ -149,6 +149,21 @@ namespace BackEndAnySellBusiness.Services
             return priceWithDiscount;
         }
 
+
+        public decimal GetDiscount(Product product) {
+
+            if (product.Discount == null)
+            {
+                return 0;
+            }
+
+            var discount = 0m;
+
+            discount = product.Price - GetPriceWithDiscount(product);
+
+            return discount;
+        }
+
         public async Task<IEnumerable<GetProductWithDiscountViewModal>> DiscountProductsAsync(Guid discountId)
         {
             var products = await _productRepository.GetByDiscountIdAsync(discountId);

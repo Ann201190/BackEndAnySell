@@ -68,6 +68,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
             return await _dbContext.Products
                   .Include(b=>b.BalanceProducts)
                   .Include(r => r.ReservationProducts)
+                  .Include(p => p.Discount)
                 .FirstOrDefaultAsync(p => p.Id == id);                
         }
 

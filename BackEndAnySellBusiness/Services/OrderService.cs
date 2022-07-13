@@ -17,22 +17,26 @@ namespace BackEndAnySellBusiness.Services
         private readonly IOrderRepository _odrerRepository;
         private readonly IProductService _productService;
         private readonly IBalanceProductRepository _balanceProductRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         public OrderService(IOrderRepository odrerRepository,
             IProductService productService,
+            IEmployeeRepository employeeRepository,
             IBalanceProductRepository balanceProductRepository)
         {
             _odrerRepository = odrerRepository;
-            _productService = productService;         
+            _productService = productService;
+            _employeeRepository = employeeRepository;
             _balanceProductRepository = balanceProductRepository;
         }
 
-        public async Task<string> AddAsync(AddOrderViewModel orderModel, Guid userId)
+        public async Task<string> AddAsync(AddOrderViewModel orderModel, string userName)
         {
             if (orderModel != null)
-            {
+            {  
+                var user = await _employeeRepository.GetAsync(userName);
                 var orderNumber = GenerationRandomString(15);
                 var reservationProducts = new List<ReservationProduct>();
-
+        
                 foreach (var orderProduct in orderModel.Product)
                 {
                     var product = await _productService.GetByIdAsync(orderProduct.ProductId);
@@ -44,7 +48,7 @@ namespace BackEndAnySellBusiness.Services
                         Price = product.Price,
                         Product = product,
                         ProductId = orderProduct.ProductId,
-                        DiscountValue = _productService.GetPriceWithDiscount(product)
+                        DiscountValue = _productService.GetDiscount(product)
                     });
                 }
                
@@ -56,7 +60,7 @@ namespace BackEndAnySellBusiness.Services
                     StoreId = orderModel.StoreId,
                     OrderStatus = OrderStatus.Paid,
                     ReservationProducts = reservationProducts,
-                    EmployeeId = userId
+                    EmployeeId = user.Id
                 };
 
                 var isAdd = await _odrerRepository.AddAsync(order);

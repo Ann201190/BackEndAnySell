@@ -13,8 +13,7 @@ namespace BackEndAnySell.Controllers
     public class OrderController : Controller
     {
         public readonly IOrderService _orderService;
-        private Guid _userId => Guid.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
-
+        private string _userName => User.Claims.Single(c => c.Type == ClaimTypes.Email).Value;
         public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
@@ -48,9 +47,14 @@ namespace BackEndAnySell.Controllers
 
 
         [HttpPost]                                                                                                   //использую                                                                                                               
-        public async Task<IActionResult> AddAsync(AddOrderViewModel orderModel,Guid _userId)
+        public async Task<IActionResult> AddAsync(AddOrderViewModel orderModel)
         {
-            return Ok(await _orderService.AddAsync(orderModel, _userId));        
+          var request =  await _orderService.AddAsync(orderModel, _userName);
+      
+            return Ok(new
+            {
+                access_qrcode = request
+            }) ;         
         }
     }
 }
