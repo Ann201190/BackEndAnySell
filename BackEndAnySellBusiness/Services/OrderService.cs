@@ -2,7 +2,6 @@
 using BackEndAnySellBusiness.Services.Interfaces;
 using BackEndAnySellDataAccess.Entities;
 using BackEndAnySellDataAccess.Enums;
-using BackEndAnySellDataAccess.Repositories.Interfaces;
 using BackEndSellViewModels.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -32,11 +31,11 @@ namespace BackEndAnySellBusiness.Services
         public async Task<string> AddAsync(AddOrderViewModel orderModel, string userName)
         {
             if (orderModel != null)
-            {  
+            {
                 var user = await _employeeRepository.GetAsync(userName);
                 var orderNumber = GenerationRandomString(15);
                 var reservationProducts = new List<ReservationProduct>();
-        
+
                 foreach (var orderProduct in orderModel.Product)
                 {
                     var product = await _productService.GetByIdAsync(orderProduct.ProductId);
@@ -51,7 +50,7 @@ namespace BackEndAnySellBusiness.Services
                         DiscountValue = _productService.GetDiscount(product)
                     });
                 }
-               
+
                 Order order = new Order()
                 {
                     Id = orderModel.Id,
@@ -124,6 +123,34 @@ namespace BackEndAnySellBusiness.Services
             return cashBoxProduct
                 .GroupBy(b => b.Barcode)
                 .Select(b => b.First());
+        }
+
+        public async Task<IEnumerable<GetChecCashierAnaliticsViewModel>> GetChecCashierAsync(Guid storeId)
+        {
+            var orders = await _odrerRepository.GetByStoreIdAsync(storeId);
+
+            var ordersGroupBy = orders
+             .GroupBy(x => 
+             new {
+                 x.EmployeeId, 
+                 x.OrderDate.Date.Month , 
+                 x.OrderDate.Date.Year 
+             });
+
+            var cashiersOrders = new List<GetChecCashierAnaliticsViewModel>();
+
+            foreach (var orderGroupBy in ordersGroupBy)
+            {          
+                 cashiersOrders.Add(new GetChecCashierAnaliticsViewModel()
+                {
+                    Month = orderGroupBy.Key.Month,
+                    Year = orderGroupBy.Key.Year,
+                    CountOrders = orderGroupBy.Count(),
+                    Name = orderGroupBy.First().Employee.Name,
+                    SurName = orderGroupBy.First().Employee.SurName
+                 });
+            }
+            return cashiersOrders;
         }
     }
 }

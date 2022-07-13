@@ -24,6 +24,8 @@ namespace BackEndAnySellAccessDataAccess.Repositories
         {
             return await _dbContext.Orders
                 .AsNoTracking()
+               // .Include(o => o.Store)
+                .Include(o => o.Employee)
                 .Include(o => o.ReservationProducts)
                    .ThenInclude(r => r.Product)
                      .Where(o=>o.StoreId == storeId)
@@ -59,5 +61,19 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                  .Include(e=>e.Employee)
              .FirstOrDefaultAsync(s => s.OrderNumber == orderNumber);
         }
+
+
+
+      /*  public async Task<IEnumerable<Order>> GetChecCashierAsync(Guid storeId)
+        {
+            return await _dbContext.Orders
+                .AsNoTracking()
+                .Include(o => o.ReservationProducts)
+                   .ThenInclude(r => r.Product)
+                     .Where(o => o.StoreId == storeId)               
+                .OrderByDescending(c => c.OrderDate)
+
+                .ToListAsync();
+        }*/
     }
 }
