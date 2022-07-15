@@ -5,6 +5,7 @@ using BackEndAnySellDataAccess.Enums;
 using BackEndSellViewModels.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -125,7 +126,7 @@ namespace BackEndAnySellBusiness.Services
                 .Select(b => b.First());
         }
 
-        public async Task<IEnumerable<GetChecCashierAnaliticsViewModel>> GetChecCashierAsync(Guid storeId)
+     /*   public async Task<IEnumerable<GetChecCashierAnaliticsViewModel>> GetChecCashierAsync(Guid storeId)
         {
             var orders = await _odrerRepository.GetByStoreIdAsync(storeId);
 
@@ -151,6 +152,36 @@ namespace BackEndAnySellBusiness.Services
                  });
             }
             return cashiersOrders;
-        }
+        }*/
+
+
+
+         public async Task<GraphDataViewModel> GetChecCashierAsync(Guid storeId)
+        {
+            var orders = await _odrerRepository.GetByStoreIdAsync(storeId);
+
+            var ordersEmployees = orders
+                .Where(o => o.OrderDate.Year == DateTime.Now.Year)
+                .GroupBy(o => o.EmployeeId);
+
+            var graph = new GraphDataViewModel();
+            for (int i = 1; i <= 12; i++)
+            {
+                graph.Labels.Add($"{i}.{DateTime.Now.Year}");
+            }
+            
+            foreach (var ordersEmployee in ordersEmployees)
+            {
+                var months = new List<double> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                var nameEmployee = $"{ordersEmployee.First().Employee.SurName} {ordersEmployee.First().Employee.Name}";
+                foreach (var order in ordersEmployee)
+                {
+                    months[order.OrderDate.Month - 1]++;
+                }
+                graph.Datasets.Add(new DataSet { Label = nameEmployee, Data = months });
+            }
+  
+            return graph;
+         }     
     }
 }
