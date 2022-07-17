@@ -28,6 +28,24 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                          .ThenInclude(p => p.Discount)
                    .Where(b => b.Product.StoreId == storeId && b.BalanceCount > 0)
                    .ToListAsync();
-        }       
+        }
+
+
+        public async Task<bool> UpdateAsync(Guid balanceProductId, double count)
+        {
+            var balanceProducts = _dbContext.BalanceProducts.FirstOrDefault(bp => bp.Id == balanceProductId);
+            balanceProducts.BalanceCount = count;
+
+                _dbContext.BalanceProducts.Update(balanceProducts);
+                return await _dbContext.SaveChangesAsync() >= 0 ? true : false;          
+        }
+
+        public async Task<double> CountAsync(Guid productId)
+        {
+            return await _dbContext.BalanceProducts
+                   .AsNoTracking()                      
+                      .Where(br => br.Product.Id == productId)
+                   .SumAsync(br => (double)br.BalanceCount);
+        }
     }
 }

@@ -60,30 +60,14 @@ namespace BackEndAnySellAccessDataAccess.Repositories
             return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
         }
 
-        /*   public async Task<bool> UpdateAsync(Discount discount)
-           {
-               if (discount!=null)
-               {
-                   _dbContext.Discounts.Update(discount);
-                   return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
-               }
-            return false;
-           }
-           public async Task<Discount> GetByNameAsync(string name)
-           {
-               return await _dbContext.Discounts
-                     .AsNoTracking()
-                 //  .Include(d => d.Store)
-                 //  .Include(d => d.Products)
-                   .FirstOrDefaultAsync(d => d.Name == name);
-           }
-
-           public async Task<Discount> IsUniqueName(Guid id, string name)
-           {
-               return await _dbContext.Discounts
-               //   .Include(d => d.Store)
-               //  .Include(d => d.Products)
-                  .FirstOrDefaultAsync(d => d.Name == name && d.Id != id);
-           }*/
+        public async Task<IEnumerable<Coming>> GetByProductIdAsync(Guid productId)
+        {
+            return await _dbContext.Comings
+                .Include(c => c.BalanceProducts)
+                    .ThenInclude(bp => bp.Product)
+                .Where(c => c.BalanceProducts.Any(bp => bp.Product.Id == productId && bp.BalanceCount > 0))
+                .OrderBy(c => c.Date)
+                .ToListAsync();
+        }
     }
 }

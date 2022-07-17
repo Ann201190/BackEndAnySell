@@ -16,40 +16,84 @@ namespace BackEndAnySellBusiness.Services
     {
         private readonly IOrderRepository _odrerRepository;
         private readonly IProductService _productService;
+        private readonly IComingRepository _comingRepository;
         private readonly IBalanceProductRepository _balanceProductRepository;
         private readonly IEmployeeRepository _employeeRepository;
         public OrderService(IOrderRepository odrerRepository,
             IProductService productService,
+            IComingRepository comingRepository,
             IEmployeeRepository employeeRepository,
             IBalanceProductRepository balanceProductRepository)
         {
             _odrerRepository = odrerRepository;
+            _comingRepository = comingRepository;
             _productService = productService;
             _employeeRepository = employeeRepository;
             _balanceProductRepository = balanceProductRepository;
         }
 
         public async Task<string> AddAsync(AddOrderViewModel orderModel, string userName)
-        {
+        {       
             if (orderModel != null)
             {
+                foreach (var product in orderModel.Product)
+                {
+                    var countOnBalance = await _balanceProductRepository.CountAsync(product.ProductId);
+                    if (countOnBalance<product.Count)
+                    {
+                        return "error";
+                    }
+                }
+
                 var user = await _employeeRepository.GetAsync(userName);
                 var orderNumber = GenerationRandomString(15);
                 var reservationProducts = new List<ReservationProduct>();
 
+                var products = await _productService.GetByStoreIdAsync(orderModel.StoreId);
+
                 foreach (var orderProduct in orderModel.Product)
                 {
-                    var product = await _productService.GetByIdAsync(orderProduct.ProductId);
+                    var product = products.FirstOrDefault(p => p.Id == orderProduct.ProductId);//товар
+                    var comings = await _comingRepository.GetByProductIdAsync(orderProduct.ProductId); //все приходы
+                    var isSmallCount = false; //переменная сообщающая что не хватает товара
 
-                    reservationProducts.Add(new ReservationProduct()
+                    do
                     {
-                        OrderId = orderModel.Id,
-                        Count = orderProduct.Count,
-                        Price = product.Price,
-                        Product = product,
-                        ProductId = orderProduct.ProductId,
-                        DiscountValue = _productService.GetDiscount(product)
-                    });
+                        var count = 0.0;
+                        var coming = comings.FirstOrDefault(c => c.BalanceProducts.Any(bp => bp.ProductId == orderProduct.ProductId && bp.BalanceCount > 0));
+                        if (coming == null)
+                        {
+                            return "error";
+                        }
+                        var balanceProduct = coming.BalanceProducts.FirstOrDefault(bp => bp.ProductId == orderProduct.ProductId && bp.BalanceCount > 0);
+
+                        if (balanceProduct.BalanceCount < orderProduct.Count)
+                        {
+                            isSmallCount = true;
+                            count = balanceProduct.BalanceCount;
+                            balanceProduct.BalanceCount = 0;
+
+                            await _balanceProductRepository.UpdateAsync(balanceProduct.Id, balanceProduct.BalanceCount); // если false вернуть error
+                        }
+                        else
+                        {
+                            isSmallCount = false;
+                            count = orderProduct.Count;
+                            balanceProduct.BalanceCount -= count;
+
+                            await _balanceProductRepository.UpdateAsync(balanceProduct.Id, balanceProduct.BalanceCount); // если false вернуть error
+                        }
+
+                        reservationProducts.Add(new ReservationProduct()
+                        {
+                            OrderId = orderModel.Id,
+                            Count = count,
+                            Price = product.Price,
+                            ProductId = orderProduct.ProductId,
+                            DiscountValue = _productService.GetDiscount(product),
+                            PriceComing = balanceProduct.ComingPrice
+                        });
+                    } while (isSmallCount);
                 }
 
                 Order order = new Order()
@@ -101,7 +145,32 @@ namespace BackEndAnySellBusiness.Services
 
         public async Task<Order> GetCheckAsync(string orderNumber)
         {
-            return await _odrerRepository.GetCheckAsync(orderNumber);
+            var order = await _odrerRepository.GetCheckAsync(orderNumber);
+            if (order==null)
+            {
+                return order;
+            }
+            var resProdGrouped = order.ReservationProducts
+                .GroupBy(rp => rp.ProductId)
+                .ToList();
+
+            var reservationProducts = new List<ReservationProduct>();
+
+            foreach (var products in resProdGrouped)
+            {
+                var count = 0.0;
+                foreach (var product in products)
+                {
+                    count += product.Count;
+                }
+                var rp = products.First();
+                rp.Count = count;
+                reservationProducts.Add(rp);
+            }
+
+            order.ReservationProducts = reservationProducts;
+
+            return order;
         }
 
         public async Task<IEnumerable<GetOrderProductViewModel>> GetProductByStoreIdAsync(Guid storeId)
@@ -125,38 +194,7 @@ namespace BackEndAnySellBusiness.Services
                 .GroupBy(b => b.Barcode)
                 .Select(b => b.First());
         }
-
-     /*   public async Task<IEnumerable<GetChecCashierAnaliticsViewModel>> GetChecCashierAsync(Guid storeId)
-        {
-            var orders = await _odrerRepository.GetByStoreIdAsync(storeId);
-
-            var ordersGroupBy = orders
-             .GroupBy(x => 
-             new {
-                 x.EmployeeId, 
-                 x.OrderDate.Date.Month , 
-                 x.OrderDate.Date.Year 
-             });
-
-            var cashiersOrders = new List<GetChecCashierAnaliticsViewModel>();
-
-            foreach (var orderGroupBy in ordersGroupBy)
-            {          
-                 cashiersOrders.Add(new GetChecCashierAnaliticsViewModel()
-                {
-                    Month = orderGroupBy.Key.Month,
-                    Year = orderGroupBy.Key.Year,
-                    CountOrders = orderGroupBy.Count(),
-                    Name = orderGroupBy.First().Employee.Name,
-                    SurName = orderGroupBy.First().Employee.SurName
-                 });
-            }
-            return cashiersOrders;
-        }*/
-
-
-
-         public async Task<GraphDataViewModel> GetChecCashierAsync(Guid storeId)
+        public async Task<GraphBarDataViewModel> GetChecCashierAsync(Guid storeId)
         {
             var orders = await _odrerRepository.GetByStoreIdAsync(storeId);
 
@@ -164,12 +202,12 @@ namespace BackEndAnySellBusiness.Services
                 .Where(o => o.OrderDate.Year == DateTime.Now.Year)
                 .GroupBy(o => o.EmployeeId);
 
-            var graph = new GraphDataViewModel();
+            var graph = new GraphBarDataViewModel();
             for (int i = 1; i <= 12; i++)
             {
                 graph.Labels.Add($"{i}.{DateTime.Now.Year}");
             }
-            
+
             foreach (var ordersEmployee in ordersEmployees)
             {
                 var months = new List<double> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -178,10 +216,49 @@ namespace BackEndAnySellBusiness.Services
                 {
                     months[order.OrderDate.Month - 1]++;
                 }
-                graph.Datasets.Add(new DataSet { Label = nameEmployee, Data = months });
+                graph.Datasets.Add(new DataSetBar { Label = nameEmployee, Data = months });
             }
-  
+
             return graph;
-         }     
+        }
+
+        public async Task<GraphLineDataViewModel> GetProfitAsync(Guid storeId)
+        {
+            var orders = await _odrerRepository.GetByStoreIdAsync(storeId);
+
+            var ordersProfit = orders
+                .Where(o => o.OrderDate.Year == DateTime.Now.Year)
+                .GroupBy(o => o.OrderDate.Month);
+
+            var graph = new GraphLineDataViewModel();
+            for (int i = 1; i <= 12; i++)
+            {
+                graph.Labels.Add($"{i}.{DateTime.Now.Year}");
+            }
+
+            var name = "Прибыль"; 
+            var profitMonths = new List<double> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            foreach (var ordersEmployee in ordersProfit)
+            {
+              
+            
+                foreach (var order in ordersEmployee)
+                {
+                    var sum = 0.0;
+                    foreach (var product in order.ReservationProducts)
+                    {
+                        sum = sum + ((product.Count * (double) (product.Price-product.DiscountValue)) - (product.Count * (double)product.PriceComing));
+                    }
+
+                     profitMonths[order.OrderDate.Month - 1]= sum;
+                }
+               
+            }
+            
+            graph.Datasets.Add(new DataSetLine { Label = name, Data = profitMonths, Tension= 0.5 });
+
+            return graph;
+        }
     }
 }
+

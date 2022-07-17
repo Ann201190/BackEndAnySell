@@ -37,14 +37,11 @@ namespace BackEndAnySell.Controllers
             return Ok(await _orderService.GetChecCashierAsync(storeId));
         }
        
-
-
         [HttpGet("getcashboxproduct/{storeId:guid}")]                                                              //использую
         public async Task<IActionResult> GetProductByStoreIdAsync(Guid storeId)
         {
             return Ok(await _orderService.GetProductByStoreIdAsync(storeId));
         }
-
 
         [HttpGet("getcheck/{orderNumber}")]                                                                             //использую
         public async Task<IActionResult> GetCheckAsync(string orderNumber)
@@ -52,6 +49,11 @@ namespace BackEndAnySell.Controllers
             return Ok(await _orderService.GetCheckAsync(orderNumber));
         }
 
+        [HttpGet("getprofit/{storeId:guid}")]                                                                             //использую
+        public async Task<IActionResult> GetProfitAsync(Guid storeId)
+        {
+            return Ok(await _orderService.GetProfitAsync(storeId));
+        }
 
         [HttpPost]                                                                                                   //использую                                                                                                               
         public async Task<IActionResult> AddAsync(AddOrderViewModel orderModel)
