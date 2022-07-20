@@ -18,7 +18,10 @@ namespace BackEndAnySellBusiness
             services.AddTransient<IProviderService, ProviderService>();
             services.AddTransient<IComingService, ComingService>();     
             services.AddTransient<IBalanceProductService, BalanceProductService>();
-     
+            services.AddTransient<IPrintService, PrintService>();
+
+            services.AddHttpClient();
+
 
             //передаем в Startup DataAccess нужные параметры: service и строку подключения:
             AppartmentAppDataAccess.Startup.Start(services, connectStr);

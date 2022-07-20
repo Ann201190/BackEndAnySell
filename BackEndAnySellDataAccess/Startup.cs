@@ -21,6 +21,7 @@ namespace AppartmentAppDataAccess
             services.AddTransient< IProviderRepository, ProviderRepository >();
             services.AddTransient<IComingRepository, ComingRepository>();
             services.AddTransient< IBalanceProductRepository, BalanceProductRepository >();
+            services.AddTransient< ITicketRepository, TicketRepository >();
 
 
             //  services.AddTransient<ICustomDbContext, CustomDbContext>();

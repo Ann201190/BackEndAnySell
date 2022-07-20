@@ -66,16 +66,19 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                  .ToListAsync();
         }
 
-         public async Task<bool> UpdateAsync(Employee employee)
+        public async Task<bool> UpdateAsync(Employee employee)
          {
              if (employee != null)
              {
+                var entity = await GetAsync(employee.Email);
+                employee.PrinterDpi = entity.PrinterDpi;
+                employee.PrinterName = entity.PrinterName;
+
                  _dbContext.Employees.Update(employee);
                  return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
             }
              return false;
          }
-
 
         public async Task<Employee> GetByIdAsync(Guid id)
         {
@@ -104,6 +107,12 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                 return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
             }
             return false;
+        }
+
+        public async Task<bool> UpdateWithSettingsAsync(Employee employee)
+        {
+            _dbContext.Employees.Update(employee);
+            return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
         }
     }
 }

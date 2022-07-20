@@ -14,6 +14,7 @@ namespace BackEndAnySellAccessDataAccess.Context
         public DbSet<Coming> Comings { get; set; }
         public DbSet<BalanceProduct> BalanceProducts { get; set; }
         public DbSet<Provider> Providers { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
         
 
 

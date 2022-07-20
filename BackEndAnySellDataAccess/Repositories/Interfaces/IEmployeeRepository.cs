@@ -16,5 +16,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
         Task<bool> DeleteAsync(Employee employee);
         Task<bool> AddPhotoAsync(byte[] fileArrayBytes, Guid id);
         Task<bool> DeleteImageAsync(Guid id);
+        Task<bool> UpdateWithSettingsAsync(Employee employee);
     }
 }

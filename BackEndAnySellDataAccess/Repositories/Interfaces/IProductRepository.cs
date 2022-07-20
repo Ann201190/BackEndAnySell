@@ -9,6 +9,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
     {
         Task<Product> GetByIdAsync(Guid id);
         Task<IEnumerable<Product>> GetByStoreIdAsync(Guid storeId);
+        Task<IEnumerable<Product>> GetByStoreIdWithIncludesAsync(Guid storeId);
         Task<bool> AddProductAsync(Product product);
         Task<bool> UpdateAsync(Product product);
         Task<bool> DeleteAsync(Guid id);

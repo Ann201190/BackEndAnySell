@@ -69,6 +69,7 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                   .Include(b=>b.BalanceProducts)
                   .Include(r => r.ReservationProducts)
                   .Include(p => p.Discount)
+                  .Include(p =>p.Store)
                 .FirstOrDefaultAsync(p => p.Id == id);                
         }
 
@@ -79,6 +80,16 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                  .Include(p=> p.Discount)
                    .Where(s=>s.StoreId == storeId)
                   .OrderBy(p=>p.Name)
+                .ToListAsync();
+        }
+        public async Task<IEnumerable<Product>> GetByStoreIdWithIncludesAsync(Guid storeId)
+        {
+            return await _dbContext.Products
+                .AsNoTracking()
+                 .Include(p => p.Discount)
+                 .Include(p=> p.Store)
+                 .Where(s => s.StoreId == storeId)
+                 .OrderBy(p => p.Name)
                 .ToListAsync();
         }
 
