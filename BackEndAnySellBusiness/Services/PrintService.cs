@@ -17,7 +17,7 @@ namespace BackEndAnySellBusiness.Services
 {
     public class PrintService : IPrintService
     {
-        private const string LocalIP = "127.0.0.1";
+        private const string LocalIP = "::1";
         private readonly string DEFAULT_PRINTER_NAME = "Microsoft Print to PDF";
         private readonly IHttpClientFactory _clientFactory;
         private readonly IConfiguration _config;
