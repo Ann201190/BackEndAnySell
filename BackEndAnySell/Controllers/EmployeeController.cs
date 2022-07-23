@@ -34,6 +34,12 @@ namespace BackEndAnySell.Controllers
             return Ok(false);
         }
 
+        [HttpGet("getemployee")]
+        public async Task<IActionResult> GetUserPrintersInformationAsync()
+        {
+            return Ok(await _employeeService.GetAsync(_userName));
+        }
+
         [HttpGet("getemployeestore/{storeId:guid}")]                                                                       //использую
         // [Authorize(Roles = "Manager")] // запрос только для директора, чтобы он мог увидеть все свои магазины
         public async Task<IActionResult> GetByStoreAsync(Guid storeId)

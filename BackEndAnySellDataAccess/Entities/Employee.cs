@@ -27,6 +27,6 @@ namespace BackEndAnySellDataAccess.Entities
         public ICollection<Provider> Providers { get; set; } = new List<Provider>();
         public ICollection<Order> Orders { get; set; } = new List<Order>();
         public string PrinterName { get; set; }
-        public int PrinterDpi { get; set; } = 200;
+        public int PrinterDpi { get; set; } = 600;
     }
 }

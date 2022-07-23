@@ -99,7 +99,7 @@ namespace BackEndAnySell
 
             app.UseRouting();
 
-           // app.UseCors();
+            app.UseCors();
 
             app.UseAuthentication();
 
