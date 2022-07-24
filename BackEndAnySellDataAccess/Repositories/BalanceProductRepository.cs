@@ -30,6 +30,15 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                    .ToListAsync();
         }
 
+        public async Task<bool> AddCountAsync(Guid balanceProductId, double addingCount)
+        {
+            var balanceProducts = _dbContext.BalanceProducts.FirstOrDefault(bp => bp.Id == balanceProductId);
+            balanceProducts.BalanceCount += addingCount;
+
+            _dbContext.BalanceProducts.Update(balanceProducts);
+            return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+        }
+
 
         public async Task<bool> UpdateAsync(Guid balanceProductId, double count)
         {

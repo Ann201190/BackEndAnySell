@@ -15,8 +15,12 @@ namespace BackEndAnySellAccessDataAccess.Context
             modelBuilder.Entity<ReservationProduct>()
                 .HasOne(rp => rp.Product)
                 .WithMany(p => p.ReservationProducts);
-         
-              //  .OnDelete(DeleteBehavior.Cascade);
+
+            //  .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ReservationProduct>()
+                .HasOne(rp => rp.BalanceProduct)
+                .WithMany(bp => bp.ReservationProducts);
 
 
             modelBuilder.Entity<Product>()

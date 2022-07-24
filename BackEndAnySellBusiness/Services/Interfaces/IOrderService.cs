@@ -16,6 +16,6 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task<string> AddAsync(AddOrderViewModel orderModel, string userName);
         Task<GraphLineDataViewModel> GetProfitAsync(Guid storeId);
         Task<IEnumerable<GetOrderProductViewModel>> GetProductByStoreIdAsync(Guid storeId);
-        
+        Task<string> ProductsReturn(string orderNumber, List<Guid> reservationProductIds);
     }
 }

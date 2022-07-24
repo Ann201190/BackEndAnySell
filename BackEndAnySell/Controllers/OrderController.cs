@@ -71,5 +71,16 @@ namespace BackEndAnySell.Controllers
                 access_qrcode = request
             }) ;         
         }
+
+        [HttpPost("productsreturn")]                                                                                                 //использую                                                                                                               
+        public async Task<IActionResult> ProductsReturn(ProductsReturnViewModel request)
+        {
+            var response = await _orderService.ProductsReturn(request.OrderNumber, request.ReservationProductIds);
+
+            return Ok(new
+            {
+                access_qrcode = response
+            });
+        }
     }
 }
