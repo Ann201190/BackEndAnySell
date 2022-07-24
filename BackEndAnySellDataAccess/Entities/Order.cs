@@ -19,5 +19,5 @@ namespace BackEndAnySellDataAccess.Entities
         public Store Store { get; set; }
         public Guid EmployeeId { get; set; }
         public Employee Employee { get; set; }
-}
+    }
 }

@@ -49,6 +49,12 @@ namespace BackEndAnySell.Controllers
             return Ok(await _orderService.GetCheckAsync(orderNumber));
         }
 
+        [HttpGet("getstorecheck/{storeId:guid}/{orderNumber}")]                                                                             //использую
+        public async Task<IActionResult> GetCheckAsync(Guid storeId, string orderNumber)
+        {
+            return Ok(await _orderService.GetCheckAsync(storeId, orderNumber));
+        }
+
         [HttpGet("getprofit/{storeId:guid}")]                                                                             //использую
         public async Task<IActionResult> GetProfitAsync(Guid storeId)
         {

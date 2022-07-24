@@ -14,18 +14,18 @@ namespace BackEndAnySellBusiness.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrderRepository _odrerRepository;
+        private readonly IOrderRepository _orderRepository;
         private readonly IProductService _productService;
         private readonly IComingRepository _comingRepository;
         private readonly IBalanceProductRepository _balanceProductRepository;
         private readonly IEmployeeRepository _employeeRepository;
-        public OrderService(IOrderRepository odrerRepository,
+        public OrderService(IOrderRepository orderRepository,
             IProductService productService,
             IComingRepository comingRepository,
             IEmployeeRepository employeeRepository,
             IBalanceProductRepository balanceProductRepository)
         {
-            _odrerRepository = odrerRepository;
+            _orderRepository = orderRepository;
             _comingRepository = comingRepository;
             _productService = productService;
             _employeeRepository = employeeRepository;
@@ -96,7 +96,7 @@ namespace BackEndAnySellBusiness.Services
                     } while (isSmallCount);
                 }
 
-                Order order = new Order()
+                var order = new Order()
                 {
                     Id = orderModel.Id,
                     OrderDate = DateTime.Now,
@@ -107,7 +107,7 @@ namespace BackEndAnySellBusiness.Services
                     EmployeeId = user.Id
                 };
 
-                var isAdd = await _odrerRepository.AddAsync(order);
+                var isAdd = await _orderRepository.AddAsync(order);
 
                 if (isAdd)
                 {
@@ -135,18 +135,24 @@ namespace BackEndAnySellBusiness.Services
 
         public async Task<Order> GetByIdAsync(Guid id)
         {
-            return await _odrerRepository.GetByIdAsync(id);
+            return await _orderRepository.GetByIdAsync(id);
         }
 
         public async Task<IEnumerable<Order>> GetByStoreIdAsync(Guid storeId)
         {
-            return await _odrerRepository.GetByStoreIdAsync(storeId);
+            return await _orderRepository.GetByStoreIdAsync(storeId);
         }
 
         public async Task<Order> GetCheckAsync(string orderNumber)
         {
-            var order = await _odrerRepository.GetCheckAsync(orderNumber);
-            if (order==null)
+            var order = await _orderRepository.GetCheckAsync(orderNumber);
+
+            return FormattingOrder(order);
+        }
+
+        private Order FormattingOrder(Order order)
+        {
+            if (order == null)
             {
                 return order;
             }
@@ -173,6 +179,13 @@ namespace BackEndAnySellBusiness.Services
             return order;
         }
 
+        public async Task<Order> GetCheckAsync(Guid storeId, string orderNumber)
+        {
+            var order = await _orderRepository.GetStoreCheckAsync(storeId, orderNumber);
+
+            return FormattingOrder(order);
+        }
+
         public async Task<IEnumerable<GetOrderProductViewModel>> GetProductByStoreIdAsync(Guid storeId)
         {
             var balanceProducts = await _balanceProductRepository.GetByStoreIdAsync(storeId);
@@ -196,7 +209,7 @@ namespace BackEndAnySellBusiness.Services
         }
         public async Task<GraphBarDataViewModel> GetChecCashierAsync(Guid storeId)
         {
-            var orders = await _odrerRepository.GetByStoreIdAsync(storeId);
+            var orders = await _orderRepository.GetByStoreIdAsync(storeId);
 
             var ordersEmployees = orders
                 .Where(o => o.OrderDate.Year == DateTime.Now.Year)
@@ -224,7 +237,7 @@ namespace BackEndAnySellBusiness.Services
 
         public async Task<GraphLineDataViewModel> GetProfitAsync(Guid storeId)
         {
-            var orders = await _odrerRepository.GetByStoreIdAsync(storeId);
+            var orders = await _orderRepository.GetByStoreIdAsync(storeId);
 
             var ordersProfit = orders
                 .Where(o => o.OrderDate.Year == DateTime.Now.Year)
@@ -259,6 +272,54 @@ namespace BackEndAnySellBusiness.Services
 
             return graph;
         }
+    
+        public async Task<bool> ProductsReturn(string orderNumber, List<Guid> reservationProductIds)
+        {
+            var order = await _orderRepository.GetCheckAsync(orderNumber);
+            var newOrder = new Order()
+            {
+                OrderDate = order.OrderDate,
+                OrderNumber = GenerationRandomString(15),
+                StoreId = order.StoreId,
+                OrderStatus = OrderStatus.Paid,
+                EmployeeId = order.EmployeeId
+            };
+
+            var actualProducts = order.ReservationProducts
+                .Where(rp => !reservationProductIds.Contains(rp.Id))
+                .Select(rp => {
+                    return new ReservationProduct
+                    {
+                        ProductId = rp.ProductId,
+                        Count = rp.Count,
+                        OrderId = newOrder.Id,
+                        Price = rp.Price,
+                        PriceComing = rp.PriceComing,
+                        DiscountValue = rp.DiscountValue
+                    };
+                })
+                .ToList();
+
+            newOrder.ReservationProducts = actualProducts;
+
+            var returnedProduct = order.ReservationProducts
+                .Where(rp => reservationProductIds.Contains(rp.Id));
+            
+            /*var coming = new Coming
+            {
+                Number = "Returned",
+                Date = DateTime.MinValue,
+                Provider = new Provider
+            }*/
+
+            ///TODO////////////////////////////////////////////////////////////////////////////////////
+
+            var result = await _orderRepository.CancelCheck(order.Id);
+
+            return result;
+        }
+
+
     }
 }
 

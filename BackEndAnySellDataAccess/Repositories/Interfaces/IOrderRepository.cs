@@ -10,7 +10,8 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
         Task<IEnumerable<Order>> GetByStoreIdAsync(Guid storeId);
         Task<Order> GetByIdAsync(Guid id);
         Task<Order> GetCheckAsync(string orderNumber);
+        Task<Order> GetStoreCheckAsync(Guid storeId, string orderNumber);
         Task<bool> AddAsync(Order order);
-    //    Task<IEnumerable<Order>> GetChecCashierAsync (Guid storeId);
+        Task<bool> CancelCheck(Guid orderId);
     }
 }

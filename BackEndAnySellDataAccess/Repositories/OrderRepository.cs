@@ -62,18 +62,29 @@ namespace BackEndAnySellAccessDataAccess.Repositories
              .FirstOrDefaultAsync(s => s.OrderNumber == orderNumber);
         }
 
-
-
-      /*  public async Task<IEnumerable<Order>> GetChecCashierAsync(Guid storeId)
+        public async Task<Order> GetStoreCheckAsync(Guid storeId, string orderNumber)
         {
             return await _dbContext.Orders
-                .AsNoTracking()
-                .Include(o => o.ReservationProducts)
-                   .ThenInclude(r => r.Product)
-                     .Where(o => o.StoreId == storeId)               
-                .OrderByDescending(c => c.OrderDate)
+              .AsNoTracking()
+              .Include(o => o.ReservationProducts)
+                  .ThenInclude(r => r.Product)
+              .Include(o => o.Store)
+              .Include(e => e.Employee)
+              .FirstOrDefaultAsync(s => s.OrderNumber == orderNumber && s.StoreId == storeId);
+        }
 
-                .ToListAsync();
-        }*/
+        public async Task<bool> CancelCheck(Guid orderId)
+        {
+            var order = await _dbContext.Orders
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                return false;
+            }
+            order.OrderStatus = BackEndAnySellDataAccess.Enums.OrderStatus.Сanceled;
+
+            return await _dbContext.SaveChangesAsync() >= 0 ? true : false;
+        }
     }
 }
