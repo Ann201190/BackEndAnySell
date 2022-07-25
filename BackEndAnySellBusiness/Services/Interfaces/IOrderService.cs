@@ -15,7 +15,7 @@ namespace BackEndAnySellBusiness.Services.Interfaces
         Task<GraphBarDataViewModel> GetChecCashierAsync(Guid storeId);
         Task<string> AddAsync(AddOrderViewModel orderModel, string userName);
         Task<GraphLineDataViewModel> GetProfitAsync(Guid storeId);
-        Task<GraphBarDataViewModel> GetTopThreeProductAsync(Guid storeId);
+        Task<GraphBarDataViewModel> GetProductMontheAsync(Guid storeId);
         Task<IEnumerable<GetOrderProductViewModel>> GetProductByStoreIdAsync(Guid storeId);
         
     }

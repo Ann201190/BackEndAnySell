@@ -237,21 +237,63 @@ namespace BackEndAnySellBusiness.Services
 
 
 
+        public async Task<GraphBarDataViewModel> GetProductMontheAsync  (Guid storeId)
+        {
+            var orders = await _orderRepository.GetByStoreIdAsync(storeId);
 
-        public async Task<GraphBarDataViewModel> GetTopThreeProductAsync(Guid storeId)
+            var ordersProducts = orders
+                .Where(o => o.OrderDate.Year == DateTime.Now.Year && o.OrderDate.Month == DateTime.Now.Month);
+
+            var resProducts = new List<ReservationProduct>();
+            foreach (var orderProduct in ordersProducts)
+            {
+                foreach (var rp in orderProduct.ReservationProducts)
+                {
+                    resProducts.Add(rp);
+                }
+            }
+            var products = resProducts.GroupBy(rp => rp.Product.Id);
+
+            var productDataSets = new List<DataSetBar>();
+            foreach (var p in products)
+            {
+                var count = 0d;
+                var name = "";
+                foreach (var item in p)
+                {
+                    count += item.Count;
+                    name = item.Product.Name;
+                }
+                var listCount = new List<double> { count };
+                productDataSets.Add(new DataSetBar { Label = name, Data = listCount });
+            }
+
+            var graph = new GraphBarDataViewModel();
+            graph.Labels.Add($"{DateTime.Now.Month}.{DateTime.Now.Year}");
+            graph.Datasets = productDataSets;
+        
+            return graph;
+        }
+
+
+
+     /*   public async Task<GraphBarDataViewModel> GetTopThreeProductAsync(Guid storeId)
         {
             var orders = await _orderRepository.GetByStoreIdAsync(storeId);
 
             var ordersProducts = orders
                 .Where(o => o.OrderDate.Year == DateTime.Now.Year)
                 .GroupBy(o => o.ReservationProducts.Select(p => p.ProductId));
-              
+            
+            
 
             var graph = new GraphBarDataViewModel();
             for (int i = 1; i <= 12; i++)
             {
                 graph.Labels.Add($"{i}.{DateTime.Now.Year}");
             }
+
+            var products = new List<DataSetBar>();
 
             foreach (var ordersProduct in ordersProducts)
             {
@@ -261,23 +303,13 @@ namespace BackEndAnySellBusiness.Services
                 {
                     months[order.OrderDate.Month - 1]+= order.ReservationProducts.Sum(p=>p.Count);
                 }
+                products.Add(new DataSetBar { Label = nameProduct, Data = months });
                 graph.Datasets.Add(new DataSetBar { Label = nameProduct, Data = months });
             }
 
-         /*   for (int i = 0; i < 12; i++)
-            {
-                
-            }
-            var data = graph.Datasets
-                .OrderBy(d => d.Data)
-                .Take(3)
-                .ToList();
-
-            graph.Datasets = data;*/
-
             return graph;
         }
-       
+       */
         public async Task<GraphLineDataViewModel> GetProfitAsync(Guid storeId)
         {
             var orders = await _orderRepository.GetByStoreIdAsync(storeId);

@@ -62,9 +62,9 @@ namespace BackEndAnySell.Controllers
         }
 
         [HttpGet("gettopthreeproduct/{storeId:guid}")]                                                                             //использую
-        public async Task<IActionResult> GetTopThreeProductAsync(Guid storeId)
+        public async Task<IActionResult> GetProductMontheAsync(Guid storeId)
         {
-            return Ok(await _orderService.GetTopThreeProductAsync(storeId));
+            return Ok(await _orderService.GetProductMontheAsync(storeId));
         }
 
         [HttpPost]                                                                                                   //использую                                                                                                               
