@@ -61,6 +61,12 @@ namespace BackEndAnySell.Controllers
             return Ok(await _orderService.GetProfitAsync(storeId));
         }
 
+        [HttpGet("gettopthreeproduct/{storeId:guid}")]                                                                             //использую
+        public async Task<IActionResult> GetTopThreeProductAsync(Guid storeId)
+        {
+            return Ok(await _orderService.GetTopThreeProductAsync(storeId));
+        }
+
         [HttpPost]                                                                                                   //использую                                                                                                               
         public async Task<IActionResult> AddAsync(AddOrderViewModel orderModel)
         {

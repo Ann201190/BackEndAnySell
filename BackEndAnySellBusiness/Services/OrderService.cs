@@ -111,7 +111,7 @@ namespace BackEndAnySellBusiness.Services
 
                 if (isAdd)
                 {
-                    return "http://localhost:5000/orderNumber/" + orderNumber;
+                    return "http://localhost:4500/orderNumber/" + orderNumber;
                 }
             }
             return "error";
@@ -235,6 +235,49 @@ namespace BackEndAnySellBusiness.Services
             return graph;
         }
 
+
+
+
+        public async Task<GraphBarDataViewModel> GetTopThreeProductAsync(Guid storeId)
+        {
+            var orders = await _orderRepository.GetByStoreIdAsync(storeId);
+
+            var ordersProducts = orders
+                .Where(o => o.OrderDate.Year == DateTime.Now.Year)
+                .GroupBy(o => o.ReservationProducts.Select(p => p.ProductId));
+              
+
+            var graph = new GraphBarDataViewModel();
+            for (int i = 1; i <= 12; i++)
+            {
+                graph.Labels.Add($"{i}.{DateTime.Now.Year}");
+            }
+
+            foreach (var ordersProduct in ordersProducts)
+            {
+                var months = new List<double> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                var nameProduct = $"{ordersProduct.First().ReservationProducts.First().Product.Name}";
+                foreach (var order in ordersProduct)
+                {
+                    months[order.OrderDate.Month - 1]+= order.ReservationProducts.Sum(p=>p.Count);
+                }
+                graph.Datasets.Add(new DataSetBar { Label = nameProduct, Data = months });
+            }
+
+         /*   for (int i = 0; i < 12; i++)
+            {
+                
+            }
+            var data = graph.Datasets
+                .OrderBy(d => d.Data)
+                .Take(3)
+                .ToList();
+
+            graph.Datasets = data;*/
+
+            return graph;
+        }
+       
         public async Task<GraphLineDataViewModel> GetProfitAsync(Guid storeId)
         {
             var orders = await _orderRepository.GetByStoreIdAsync(storeId);

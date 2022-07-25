@@ -33,6 +33,20 @@ namespace BackEndAnySellAccessDataAccess.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Order>> GetTopThreeProductAsync(Guid storeId)
+        {
+            return await _dbContext.Orders
+                .AsNoTracking()
+                // .Include(o => o.Store)
+                .Include(o => o.Employee)
+                .Include(o => o.ReservationProducts)
+                   .ThenInclude(r => r.Product)
+                     .Where(o => o.StoreId == storeId)
+                .OrderByDescending(c => c.ReservationProducts.Select(p=>p.Id))
+                .ToListAsync();
+        }
+
+
         public async Task<Order> GetByIdAsync(Guid id)
         {
             return await _dbContext.Orders
