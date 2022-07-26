@@ -5,7 +5,6 @@ using BackEndAnySellDataAccess.Enums;
 using BackEndSellViewModels.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -91,7 +90,8 @@ namespace BackEndAnySellBusiness.Services
                             Price = product.Price,
                             ProductId = orderProduct.ProductId,
                             DiscountValue = _productService.GetDiscount(product),
-                            PriceComing = balanceProduct.ComingPrice
+                            PriceComing = balanceProduct.ComingPrice,
+                            BalanceProductId = balanceProduct.Id
                         });
                     } while (isSmallCount);
                 }
@@ -348,13 +348,14 @@ namespace BackEndAnySellBusiness.Services
             return graph;
         }
     
-        public async Task<bool> ProductsReturn(string orderNumber, List<Guid> reservationProductIds)
+        public async Task<string> ProductsReturn(string orderNumber, List<Guid> reservationProductIds)
         {
             var order = await _orderRepository.GetCheckAsync(orderNumber);
+            var newOrderNumber = GenerationRandomString(15);
             var newOrder = new Order()
             {
                 OrderDate = order.OrderDate,
-                OrderNumber = GenerationRandomString(15),
+                OrderNumber = newOrderNumber,
                 StoreId = order.StoreId,
                 OrderStatus = OrderStatus.Paid,
                 EmployeeId = order.EmployeeId
@@ -377,24 +378,27 @@ namespace BackEndAnySellBusiness.Services
 
             newOrder.ReservationProducts = actualProducts;
 
-            var returnedProduct = order.ReservationProducts
+            var returnedProducts = order.ReservationProducts
                 .Where(rp => reservationProductIds.Contains(rp.Id));
-            
-            /*var coming = new Coming
-            {
-                Number = "Returned",
-                Date = DateTime.MinValue,
-                Provider = new Provider
-            }*/
 
-            ///TODO////////////////////////////////////////////////////////////////////////////////////
+            foreach (var product in returnedProducts)
+            {
+                await _balanceProductRepository.AddCountAsync(product.BalanceProductId, product.Count);
+            }
 
             var result = await _orderRepository.CancelCheck(order.Id);
+            
+            if (result)
+            {
+                var addedResult = await _orderRepository.AddAsync(newOrder);
+                if (addedResult)
+                {
+                    return "http://localhost:5000/orderNumber/" + newOrderNumber;
+                }
+            }
 
-            return result;
+            return "error";
         }
-
-
     }
 }
 

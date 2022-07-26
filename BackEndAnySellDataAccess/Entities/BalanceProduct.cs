@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BackEndAnySellDataAccess.Entities
@@ -13,5 +14,6 @@ namespace BackEndAnySellDataAccess.Entities
         public Product Product { get; set; }
         public double Count { get; set; } = 0;  
         public double BalanceCount { get; set; } = 0;
+        public ICollection<ReservationProduct> ReservationProducts { get; set; } = new List<ReservationProduct>();
     }
 }

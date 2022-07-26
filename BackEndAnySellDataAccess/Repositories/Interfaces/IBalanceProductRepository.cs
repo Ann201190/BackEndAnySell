@@ -10,5 +10,6 @@ namespace BackEndAnySellAccessDataAccess.Repositories.Interfaces
         Task<IEnumerable<BalanceProduct>> GetByStoreIdAsync(Guid storeId);
         Task<bool> UpdateAsync(Guid balanceProductId, double count);
         Task<double> CountAsync(Guid productId);
+        Task<bool> AddCountAsync(Guid balanceProductId, double addingCount);
     }
 }
