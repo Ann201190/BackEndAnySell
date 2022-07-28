@@ -70,6 +70,7 @@ namespace BackEndAnySellBusiness.Services
                         {
                             isSmallCount = true;
                             count = balanceProduct.BalanceCount;
+                            orderProduct.Count -= count;
                             balanceProduct.BalanceCount = 0;
 
                             await _balanceProductRepository.UpdateAsync(balanceProduct.Id, balanceProduct.BalanceCount); // если false вернуть error
@@ -235,8 +236,6 @@ namespace BackEndAnySellBusiness.Services
             return graph;
         }
 
-
-
         public async Task<GraphBarDataViewModel> GetProductMontheAsync  (Guid storeId)
         {
             var orders = await _orderRepository.GetByStoreIdAsync(storeId);
@@ -371,7 +370,8 @@ namespace BackEndAnySellBusiness.Services
                         OrderId = newOrder.Id,
                         Price = rp.Price,
                         PriceComing = rp.PriceComing,
-                        DiscountValue = rp.DiscountValue
+                        DiscountValue = rp.DiscountValue,
+                        BalanceProductId =  rp.BalanceProductId
                     };
                 })
                 .ToList();
