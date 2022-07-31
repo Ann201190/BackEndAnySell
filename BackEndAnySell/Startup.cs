@@ -23,6 +23,7 @@ namespace BackEndAnySell
         {
 
             services.AddControllers();
+            services.AddCors();
 
             //передаем в Startup business нужные параметры: service и строку подключения:
             BackEndAnySellBusiness.Startup.Start(services, Configuration.GetConnectionString("Connection"));
@@ -49,7 +50,7 @@ namespace BackEndAnySell
                     };
                 });
 
-            services.AddCors();
+          
            /* services.AddCors(options =>
             {
                 options.AddDefaultPolicy
@@ -99,7 +100,7 @@ namespace BackEndAnySell
 
             app.UseRouting();
 
-            app.UseCors();
+         //   app.UseCors();
 
             app.UseAuthentication();
 
