@@ -11,6 +11,7 @@ namespace BackEndAnySell.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EmployeeController : Controller
     {
         public readonly IEmployeeService _employeeService;

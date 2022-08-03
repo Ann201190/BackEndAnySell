@@ -1,5 +1,6 @@
 ﻿using BackEndAnySellBusiness.Services.Interfaces;
 using BackEndSellViewModels.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -19,25 +20,30 @@ namespace BackEndAnySell.Controllers
             _orderService = orderService;
         }
 
+        [Authorize]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
             return Ok(await _orderService.GetByIdAsync(id));
         }
 
-        [HttpGet(("getstoreorder/{storeId:guid}"))]                                      
+        [Authorize]
+        [HttpGet(("getstoreorder/{storeId:guid}"))]
         public async Task<IActionResult> GetByStoreIdAsync(Guid storeId)
         {
             return Ok(await _orderService.GetByStoreIdAsync(storeId));
         }
 
+        [Authorize]
         [HttpGet("getcheccashier/{storeId:guid}")]
         public async Task<IActionResult> GetChecCashierAsync(Guid storeId)
         {
             return Ok(await _orderService.GetChecCashierAsync(storeId));
         }
-       
-        [HttpGet("getcashboxproduct/{storeId:guid}")]                                                              //использую
+
+        [Authorize]
+        [HttpGet("getcashboxproduct/{storeId:guid}")]
+                                                     //использую
         public async Task<IActionResult> GetProductByStoreIdAsync(Guid storeId)
         {
             return Ok(await _orderService.GetProductByStoreIdAsync(storeId));
@@ -49,24 +55,28 @@ namespace BackEndAnySell.Controllers
             return Ok(await _orderService.GetCheckAsync(orderNumber));
         }
 
+        [Authorize]
         [HttpGet("getstorecheck/{storeId:guid}/{orderNumber}")]                                                                             //использую
         public async Task<IActionResult> GetCheckAsync(Guid storeId, string orderNumber)
         {
             return Ok(await _orderService.GetCheckAsync(storeId, orderNumber));
         }
 
+        [Authorize]
         [HttpGet("getprofit/{storeId:guid}")]                                                                             //использую
         public async Task<IActionResult> GetProfitAsync(Guid storeId)
         {
             return Ok(await _orderService.GetProfitAsync(storeId));
         }
 
+        [Authorize]
         [HttpGet("gettopthreeproduct/{storeId:guid}")]                                                                             //использую
         public async Task<IActionResult> GetProductMontheAsync(Guid storeId)
         {
             return Ok(await _orderService.GetProductMontheAsync(storeId));
         }
 
+        [Authorize]
         [HttpPost]                                                                                                   //использую                                                                                                               
         public async Task<IActionResult> AddAsync(AddOrderViewModel orderModel)
         {
@@ -78,6 +88,7 @@ namespace BackEndAnySell.Controllers
             }) ;         
         }
 
+        [Authorize]
         [HttpPost("productsreturn")]                                                                                                 //использую                                                                                                               
         public async Task<IActionResult> ProductsReturn(ProductsReturnViewModel request)
         {

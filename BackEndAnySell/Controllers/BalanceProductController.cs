@@ -1,4 +1,5 @@
 ﻿using BackEndAnySellBusiness.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEndAnySell.Controllers
@@ -6,7 +7,7 @@ namespace BackEndAnySell.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize]
+    [Authorize]
     public class BalanceProductController : Controller
     {
         public readonly IBalanceProductService _balanceProductService;

@@ -14,6 +14,7 @@ namespace BackEndAnySell.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+ 
     public class ProductController : Controller
     {
         public readonly IProductService _productService;
@@ -34,12 +35,14 @@ namespace BackEndAnySell.Controllers
 
 
         //http://localhost:80/api/product/getstoreproduct/BFBC7481-FB3C-4192-A093-519F40F1B812          для ииса
+        [Authorize]
         [HttpGet("getstoreproduct/{storeId:guid}")]                                                                           //использую
         public async Task<IActionResult> GetByStoreIdAsync(Guid storeId)
         {
             return Ok(await _productService.GetByStoreIdAsync(storeId));
         }
 
+        [Authorize]
         [HttpGet("deleteimage/{id:guid}")]                                                                                            //использую
         public async Task<IActionResult> DeleteImageAsync(Guid id)
         {
@@ -47,6 +50,7 @@ namespace BackEndAnySell.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("addproductimage/{id:guid}")]
         public async Task<IActionResult> AddProductImageAsync(Guid id)                                                         //использую
         {
@@ -69,19 +73,21 @@ namespace BackEndAnySell.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("addproductwithoutimage")]
         public async Task<IActionResult> AddProductWithoutImageAsync(AddProductWithoutImgeViewModel productModel)             //использую
         {
             return Ok(await _productService.AddWithoutImgeAsync(productModel));
         }
 
-
+        [Authorize]
         [HttpPost("updateproductwithoutimge")]                                                                             //использую
         public async Task<IActionResult> UpdateAsync(UpdateProductWithoutImgeViewModel productModel)
         {
             return Ok(await _productService.UpdateAsync(productModel));
         }
 
+        [Authorize]
         [HttpGet("deleteproduct/{id:guid}")]                                                                                  //использую
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
@@ -92,6 +98,7 @@ namespace BackEndAnySell.Controllers
             return Ok(false);
         }
 
+        [Authorize]
         [HttpGet("discountproducts/{discountId:guid}")]                                                                      //использую
                                                                                                                              //     [Authorize(Roles = "Manager")]
         public async Task<IActionResult> DiscountProductsAsync(Guid discountId)
@@ -99,18 +106,21 @@ namespace BackEndAnySell.Controllers
             return Ok(await _productService.DiscountProductsAsync(discountId));
         }
 
+        [Authorize]
         [HttpGet("productswithoutdiscount/{discountId:guid}")]                                                                      //использую                                                                                                                     
         public async Task<IActionResult> ProductsWithoutDiscountAsync(Guid discountId)
         {
             return Ok(await _productService.ProductsWithoutDiscountAsync(discountId));
         }
 
+        [Authorize]
         [HttpGet("needlist/{storeId:guid}")]                                                                     //использую 
         public async Task<IActionResult> NeedList(Guid storeId)
         {
            return Ok(await _productService.GetByStoreIdDownloadNeedListAsync(storeId));
         }
 
+        [Authorize]
         [HttpGet("awailablelist/{storeId:guid}")]
         public async Task<IActionResult> AwailableList(Guid storeId)                                               //использую 
         {

@@ -11,6 +11,7 @@ namespace BackEndAnySell.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class StoreController : Controller
     {
         public readonly IStoreService _storeService;

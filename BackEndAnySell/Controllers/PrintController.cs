@@ -1,5 +1,6 @@
 ﻿using BackEndAnySellBusiness.Services.Interfaces;
 using BackEndSellViewModels.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace BackEndAnySell.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PrintController : ControllerBase
     {
         private readonly IPrintService _printService;
