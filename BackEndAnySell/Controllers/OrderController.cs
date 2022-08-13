@@ -42,8 +42,7 @@ namespace BackEndAnySell.Controllers
         }
 
         [Authorize]
-        [HttpGet("getcashboxproduct/{storeId:guid}")]
-                                                     //использую
+        [HttpGet("getcashboxproduct/{storeId:guid}")]                                            //использую
         public async Task<IActionResult> GetProductByStoreIdAsync(Guid storeId)
         {
             return Ok(await _orderService.GetProductByStoreIdAsync(storeId));

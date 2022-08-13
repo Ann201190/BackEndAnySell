@@ -319,7 +319,9 @@ namespace BackEndAnySellBusiness.Services
                 items.Add(totalPrice);
                 startY += nextLinePixels;
 
-                var disountItem = new TicketItemInfo { Name = "Скидка", PositionInfo = new PositionInfo { FontSize = fontSize, X = xStart, Y = startY } };
+                //var disountItem = new TicketItemInfo { Name = "Скидка", PositionInfo = new PositionInfo { FontSize = fontSize, X = xStart, Y = startY } };
+                var disountItem = new TicketItemInfo { Name = "Discount", PositionInfo = new PositionInfo { FontSize = fontSize, X = xStart, Y = startY } };
+
                 items.Add(disountItem);
 
                 var totalDiscountValue = (double)rProduct.DiscountValue * rProduct.Count;
@@ -330,7 +332,9 @@ namespace BackEndAnySellBusiness.Services
 
             }
 
-            var summ = new TicketItemInfo { Name = "Сумма", PositionInfo = new PositionInfo { FontSize = fontSize, X = xStart, Y = startY } };
+            //var summ = new TicketItemInfo { Name = "Сумма", PositionInfo = new PositionInfo { FontSize = fontSize, X = xStart, Y = startY } };
+            var summ = new TicketItemInfo { Name = "Amount", PositionInfo = new PositionInfo { FontSize = fontSize, X = xStart, Y = startY } };
+
             items.Add(summ);
 
             var summValue = CalculateTotalSumm(order);
@@ -339,11 +343,14 @@ namespace BackEndAnySellBusiness.Services
             items.Add(totalSummItem);
             startY += (nextLinePixels * 2);
 
-            var systemInfo = new TicketItemInfo { Name = "-------Служебная информация-------", PositionInfo = new PositionInfo { FontSize = fontSize, X = xStart, Y = startY } };
+            //var systemInfo = new TicketItemInfo { Name = "-------Служебная информация-------", PositionInfo = new PositionInfo { FontSize = fontSize, X = xStart, Y = startY } };
+            var systemInfo = new TicketItemInfo { Name = "-------Service info-------", PositionInfo = new PositionInfo { FontSize = fontSize, X = xStart, Y = startY } };
+
             items.Add(systemInfo);
             startY += (nextLinePixels * 2);
 
-            var discount = new TicketItemInfo { Name = "Скидка", PositionInfo = new PositionInfo { FontSize = fontSize, X = xStart, Y = startY } };
+            //var discount = new TicketItemInfo { Name = "Скидка", PositionInfo = new PositionInfo { FontSize = fontSize, X = xStart, Y = startY } };
+            var discount = new TicketItemInfo { Name = "Discount", PositionInfo = new PositionInfo { FontSize = fontSize, X = xStart, Y = startY } };
             items.Add(discount);
 
             var discountValue = CalculateTotalDiscount(order);

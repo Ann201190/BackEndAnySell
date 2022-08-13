@@ -11,7 +11,7 @@ namespace BackEndAnySell.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+  //  [Authorize]
     public class StoreController : Controller
     {
         public readonly IStoreService _storeService;
@@ -98,6 +98,14 @@ namespace BackEndAnySell.Controllers
                 return Ok(true);
             }
             return Ok(false);
+        }
+
+        [HttpGet("test")]
+        public async Task<IActionResult> Test()                                                                  //использую
+        {
+            
+          return Ok(true);
+           
         }
     }
 }
